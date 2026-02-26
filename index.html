@@ -534,7 +534,7 @@
     </div>
   </div>
   <div style="display:flex;align-items:center;gap:10px">
-    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.5</span>
+    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.6</span>
     <!-- Google auth area (hidden — login via AI panel only) -->
     <div id="google-auth-area" style="display:none">
       <div id="g-signin-wrap"></div>
@@ -698,6 +698,8 @@ const KW = new Set(['False','None','True','and','as','assert','break','class',
 // ─── Tokenizer ─────────────────────────────────────────────
 function tokenize(src) {
   const toks = [];
+  // Normalize Unicode line separators before tokenizing
+  src = src.replace(/\u2028|\u2029/g, '\n').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
   const lines = src.split('\n');
   const indStack = [0];
   let parenD = 0, lineNo = 0;
@@ -1839,8 +1841,9 @@ function sanitizeCode(code) {
     .replace(/\uff1a/g, ':')
     // Full-width parentheses → ASCII
     .replace(/\uff08/g, '(').replace(/\uff09/g, ')')
-    // Normalize line endings
-    .replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+    // Normalize line endings (including Unicode line/paragraph separators from iOS copy-paste)
+    .replace(/\r\n/g, '\n').replace(/\r/g, '\n')
+    .replace(/\u2028|\u2029/g, '\n');
 }
 
 // Better approach: Use pre-prompting
@@ -3355,7 +3358,7 @@ window.addEventListener('load', () => {
 //    → APIs & Services → Credentials → Create OAuth 2.0 Client ID
 //    → Application type: Web → Authorised origins: domain trường
 //
-const APP_VERSION = 'v4.9.5'; // tự động tăng mỗi lần cập nhật
+const APP_VERSION = 'v4.9.6'; // tự động tăng mỗi lần cập nhật
 // Cập nhật badge version từ APP_VERSION
 document.addEventListener('DOMContentLoaded', function() {
   const vb = document.getElementById('ver-badge');
