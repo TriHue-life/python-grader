@@ -18,12 +18,20 @@
   select{-webkit-tap-highlight-color:transparent;}
   select option{background:var(--surface2);color:var(--text);}
   header{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
-  .logo{display:flex;align-items:center;gap:12px;font-weight:800;font-size:18px}
-  .logo-title{line-height:1.2}
-  .logo-title .main{font-size:18px;font-weight:800;color:var(--text);letter-spacing:-0.3px}
-  .logo-title .sub{font-size:11px;font-weight:500;color:var(--text2);letter-spacing:0.2px;margin-top:1px}
+  .logo{display:flex;align-items:center;gap:14px;font-weight:800;font-size:26px}
+  .logo-title{line-height:1.25}
+  .logo-title .main{
+    font-size:26px;font-weight:800;
+    background:linear-gradient(90deg,#e6edf3 0%,#bc8cff 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    text-shadow:none;
+    filter:drop-shadow(0 0 8px rgba(188,140,255,0.55));
+    letter-spacing:-0.5px
+  }
+  .logo-title .sub{font-size:13px;font-weight:500;color:#c9a8ff;letter-spacing:0.15px;margin-top:2px;opacity:0.9}
   .logo-icon{width:30px;height:30px;background:linear-gradient(135deg,#58a6ff,#bc8cff);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px}
-  .badge{background:var(--surface3);border:1px solid var(--border);border-radius:6px;padding:3px 9px;font-size:11px;font-family:var(--mono);color:var(--accent2)}
+  .badge{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:3px 9px;font-size:11px;font-family:var(--mono);color:var(--text)}
+  .badge.offline-badge{color:var(--accent2)}
   .workspace{display:grid;grid-template-columns:1fr 370px;grid-template-rows:60vh 40vh;height:calc(100vh - 53px)}
   .panel{display:flex;flex-direction:column;border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
   .ph{display:flex;align-items:center;justify-content:space-between;padding:7px 14px;background:var(--surface);border-bottom:1px solid var(--border);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--text2);flex-shrink:0}
@@ -420,7 +428,7 @@
   </div>
   <div style="display:flex;align-items:center;gap:10px">
     <span class="badge offline-badge" style="font-size:10px">🟢 Offline</span>
-    <span class="badge" style="font-size:10px;color:var(--purple, #bc8cff)">v4.8</span>
+    <span class="badge" style="font-size:11px;color:#bc8cff;box-shadow:0 0 8px rgba(188,140,255,0.4);border-color:rgba(188,140,255,0.4)">v4.8</span>
     <!-- Google auth area (hidden — login via AI panel only) -->
     <div id="google-auth-area" style="display:none">
       <div id="g-signin-wrap"></div>
