@@ -7,6 +7,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="mobile-web-app-capable" content="yes">
 <title>Python Grader – THPT Thủ Thiêm</title>
+<meta name="author" content="Trí Huệ">
+<meta name="description" content="Công cụ chấm điểm bài tập Python cho học sinh THPT. Tác giả: Trí Huệ | trihue.life@gmail.com | github.com/TriHue-life/html_grader">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--surface3:#2d333b;--border:#30363d;--accent:#58a6ff;--accent2:#3fb950;--warn:#d29922;--error:#f85149;--text:#e6edf3;--text2:#8b949e;--text3:#6e7681;--purple:#bc8cff;--mono:'JetBrains Mono',monospace;--sans:'Be Vietnam Pro',sans-serif}
@@ -415,7 +417,7 @@
   </div>
   <div style="display:flex;align-items:center;gap:10px">
     <span class="badge offline-badge" style="font-size:10px">🟢 Offline</span>
-    <span class="badge" style="font-size:10px;color:var(--purple, #bc8cff)">v4.7</span>
+    <span class="badge" style="font-size:10px;color:var(--purple, #bc8cff)">v4.8</span>
     <!-- Google auth area (hidden — login via AI panel only) -->
     <div id="google-auth-area" style="display:none">
       <div id="g-signin-wrap"></div>
@@ -3085,7 +3087,7 @@ window.addEventListener('load', () => {
 //    → APIs & Services → Credentials → Create OAuth 2.0 Client ID
 //    → Application type: Web → Authorised origins: domain trường
 //
-const APP_VERSION = 'v4.7'; // tự động tăng mỗi lần cập nhật
+const APP_VERSION = 'v4.8'; // tự động tăng mỗi lần cập nhật
 const GEMINI_API_KEY   = 'AIzaSyCaBm7oMX5kOldlAZV5ebZTzIQlsC44xUU';
 // GOOGLE_CLIENT_ID: tạo tại console.cloud.google.com → APIs & Services
 // → Credentials → Create OAuth 2.0 Client ID (Web application)
@@ -3614,6 +3616,15 @@ setTimeout(initGoogleSignIn, 1500);
   window.addEventListener('load', bindGrade);
 })();
 </script>
+
+<!-- Footer tác giả -->
+<footer style="background:var(--surface);border-top:1px solid var(--border);padding:10px 20px;text-align:center;font-size:11px;color:var(--text3);flex-shrink:0">
+  Tác giả: <strong style="color:var(--text2)">Trí Huệ</strong>
+  &nbsp;·&nbsp;
+  <a href="mailto:trihue.life@gmail.com" style="color:var(--accent);text-decoration:none">trihue.life@gmail.com</a>
+  &nbsp;·&nbsp;
+  <a href="https://github.com/TriHue-life/html_grader" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">GitHub: html_grader</a>
+</footer>
 
 </body>
 </html>
