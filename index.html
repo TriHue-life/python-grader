@@ -534,7 +534,7 @@
     </div>
   </div>
   <div style="display:flex;align-items:center;gap:10px">
-    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.4</span>
+    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.5</span>
     <!-- Google auth area (hidden — login via AI panel only) -->
     <div id="google-auth-area" style="display:none">
       <div id="g-signin-wrap"></div>
@@ -1824,8 +1824,28 @@ async function runWithInputs(code) {
   await execute();
 }
 
+// ── Sanitize code: fix mobile keyboard issues ─────────────────────────
+function sanitizeCode(code) {
+  return code
+    // Smart/curly double quotes → straight quotes
+    .replace(/\u201c|\u201d|\u201e|\u201f|\u00ab|\u00bb/g, '"')
+    // Smart/curly single quotes → straight apostrophe
+    .replace(/\u2018|\u2019|\u201a|\u201b|\u2032|\u2035/g, "'")
+    // Zero-width spaces and other invisible Unicode
+    .replace(/[\u200b\u200c\u200d\u200e\u200f\ufeff\u00ad]/g, '')
+    // Non-breaking space → regular space
+    .replace(/\u00a0/g, ' ')
+    // Full-width colon → ASCII colon (common on some Asian keyboards)
+    .replace(/\uff1a/g, ':')
+    // Full-width parentheses → ASCII
+    .replace(/\uff08/g, '(').replace(/\uff09/g, ')')
+    // Normalize line endings
+    .replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+}
+
 // Better approach: Use pre-prompting
 async function runCode_v2(code) {
+  code = sanitizeCode(code);
   clearOut();
   // Count input() calls
   const inputMatches = (code.match(/\binput\s*\(/g) || []).length;
@@ -1867,6 +1887,7 @@ function extractInputPrompts(code) {
 }
 
 function runSync(code, inputs = []) {
+  code = sanitizeCode(code);
   let inputIdx = 0;
 
   try {
@@ -1908,6 +1929,7 @@ function runSync(code, inputs = []) {
 
 // ─── Run code silently (for test execution) ──────────────────────
 function runSilent(code, inputs = []) {
+  code = sanitizeCode(code);
   let output = '';
   let hasError = false;
   let inputIdx = 0;
@@ -2185,7 +2207,7 @@ function buildRubricHint(desc, missing, code) {
 // ── MAIN GRADE FUNCTION ──────────────────────────────────────
 function gradeCode() {
   if (!rubric.length) { toast('⚠ Chưa có tiêu chí. Vào tab "Tiêu chí" để thêm.'); switchTab('rubric'); return; }
-  const code  = ci.value;
+  const code  = sanitizeCode(ci.value);
   const lines = code.split('\n');
 
   let totalPts = 0, maxPts = 0, pass = 0, fail = 0, skip = 0;
@@ -3333,7 +3355,7 @@ window.addEventListener('load', () => {
 //    → APIs & Services → Credentials → Create OAuth 2.0 Client ID
 //    → Application type: Web → Authorised origins: domain trường
 //
-const APP_VERSION = 'v4.9.4'; // tự động tăng mỗi lần cập nhật
+const APP_VERSION = 'v4.9.5'; // tự động tăng mỗi lần cập nhật
 // Cập nhật badge version từ APP_VERSION
 document.addEventListener('DOMContentLoaded', function() {
   const vb = document.getElementById('ver-badge');
