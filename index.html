@@ -269,11 +269,98 @@
     .score-grade { font-size: 15px; }
   }
 
-  /* Landscape mobile */
+  /* ── LANDSCAPE MOBILE ─────────────────────────────────────────── */
   @media (max-width: 900px) and (orientation: landscape) {
-    .panel.mob-active { height: calc(100vh - 48px - var(--exbar-h, 0px)); }
-    .mobile-nav-inner { padding-bottom: 0; }
-    .mnav-btn { min-height: 44px; }
+    /* Header: ultra compact */
+    header { padding: 4px 12px; }
+    .logo-title .main { font-size: 18px; }
+    .logo-title .sub { display: none; }
+    .logo-icon { width: 22px; height: 22px; font-size: 11px; }
+
+    /* Ex bar: horizontal, compact */
+    .ex-bar {
+      flex-direction: row !important;
+      align-items: center !important;
+      padding: 5px 12px !important;
+      gap: 8px !important;
+    }
+    .ex-bar label { display: none; }
+    .ex-sel { font-size: 13px !important; padding: 6px 10px !important; min-height: 34px !important; }
+
+    /* Ex desc: compact */
+    .ex-desc-body { font-size: 12px; line-height: 1.6; }
+
+    /* Workspace: 2-column split in landscape */
+    .workspace {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      height: calc(100vh - var(--header-h, 48px) - var(--exbar-h, 0px)) !important;
+      overflow: hidden !important;
+      padding-bottom: 0 !important;
+    }
+
+    /* All panels visible in landscape (2-column) */
+    .panel {
+      display: flex !important;
+      height: 100% !important;
+      border-bottom: none !important;
+    }
+    .panel.mob-active { height: 100% !important; }
+
+    /* Editor panel: left column */
+    #editor-panel {
+      grid-column: 1;
+      grid-row: 1;
+      border-right: 1px solid var(--border);
+    }
+
+    /* Output + Grade panel: right column, stacked */
+    #output-panel {
+      grid-column: 2;
+      grid-row: 1;
+      height: 50% !important;
+      border-bottom: 1px solid var(--border);
+    }
+    #grade-panel {
+      grid-column: 2;
+      grid-row: 2;
+      height: 50% !important;
+    }
+
+    /* Override mob-active logic in landscape */
+    body.landscape-mode .panel { display: flex !important; }
+    body.landscape-mode #output-panel { height: 50% !important; }
+    body.landscape-mode #grade-panel { height: 50% !important; }
+
+    /* Code input: smaller font for landscape */
+    #code-input { font-size: 12px !important; line-height: 1.6 !important; padding: 8px 10px !important; }
+    .lnums { font-size: 11px !important; min-width: 32px !important; }
+
+    /* Toolbar: compact */
+    .toolbar { padding: 5px 8px !important; gap: 4px !important; }
+    .btn { font-size: 11px !important; padding: 5px 9px !important; }
+
+    /* Output: compact */
+    #out { font-size: 12px !important; line-height: 1.6 !important; padding: 8px 10px !important; }
+
+    /* Grade panel: compact */
+    .score-box { margin: 6px 10px !important; padding: 10px !important; }
+    .ring { width: 64px !important; height: 64px !important; }
+    .ring svg { width: 64px !important; height: 64px !important; }
+    .ring-val { font-size: 16px !important; }
+    .score-lbl { font-size: 10px !important; }
+    .score-grade { font-size: 14px !important; }
+    .stats { margin: 0 10px 8px !important; gap: 5px !important; }
+    .sn { font-size: 14px !important; }
+    .sl { font-size: 9px !important; }
+    .tab { font-size: 11px !important; padding: 5px 10px !important; }
+    .sec-t { font-size: 10px !important; }
+
+    /* Hide mobile nav in landscape (panels always visible) */
+    .mobile-nav { display: none !important; }
+
+    /* Toast: top in landscape */
+    .toast { bottom: 12px !important; }
   }
 
   /* Tablet: two-column but adjust proportions */
@@ -447,7 +534,7 @@
     </div>
   </div>
   <div style="display:flex;align-items:center;gap:10px">
-    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.0</span>
+    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.1</span>
     <!-- Google auth area (hidden — login via AI panel only) -->
     <div id="google-auth-area" style="display:none">
       <div id="g-signin-wrap"></div>
@@ -2011,13 +2098,14 @@ function analyzeCodeQuality(code) {
   return items;
 }
 
-// ── Normalize keyword for matching ─────────────────────────
+// ── Normalize keyword for matching ────────────────────────────────────
 function normKw(k) {
+  // NFC normalize to handle mobile Vietnamese input (NFD decomposed chars)
   // Remove all spaces for matching (e.g. 'A[i] > 4' matches 'A[i]>4')
-  return k.replace(/\s+/g, '').toLowerCase();
+  return k.normalize('NFC').replace(/\s+/g, '').toLowerCase();
 }
 
-// ── Rubric keyword analysis (smart) ─────────────────────────
+// ── Rubric keyword analysis (smart) ─────────────────────────────
 function analyzeRubricItem(cr, code, lines) {
   const pts = parseFloat(cr.pts) || 0;
   const kws = cr.kw.split(',').map(k => k.trim().toLowerCase()).filter(Boolean);
@@ -2028,8 +2116,9 @@ function analyzeRubricItem(cr, code, lines) {
 
   // Strip comment-only lines for structural checks
   const codeOnlyLines = checkLines.map(l => l.replace(/#.*$/, ''));
-  const checkTxt = codeOnlyLines.join('\n').toLowerCase();
-  const fullTxt  = checkLines.join('\n').toLowerCase();
+  // NFC normalize to fix mobile Vietnamese NFD input
+  const checkTxt = codeOnlyLines.join('\n').normalize('NFC').toLowerCase();
+  const fullTxt  = checkLines.join('\n').normalize('NFC').toLowerCase();
   // Normalize: xóa khoảng trắng để so sánh (học sinh có thể viết s = 0 hoặc s=0)
   const normCheckTxt = checkTxt.replace(/\s+/g, '');
   const normFullTxt  = fullTxt.replace(/\s+/g, '');
@@ -3145,12 +3234,37 @@ window.addEventListener('load', () => {
 
   // Recheck on resize / orientation change
   let resizeTimer;
+  window.addEventListener('orientationchange', () => {
+    setTimeout(() => {
+      applyLandscapeMode();
+      applyMobileLayout();
+    }, 300);
+  });
+
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(applyMobileLayout, 150);
+    resizeTimer = setTimeout(() => {
+      applyLandscapeMode();
+      applyMobileLayout();
+    }, 150);
   });
-  window.addEventListener('orientationchange', () => {
-    setTimeout(applyMobileLayout, 300);
+
+  function applyLandscapeMode() {
+    const isLandscape = window.innerWidth > window.innerHeight;
+    const isMob = window.innerWidth <= 900;
+    if (isLandscape && isMob) {
+      document.body.classList.add('landscape-mode');
+      // Measure and set header height CSS var
+      const hdr = document.querySelector('header');
+      if (hdr) document.documentElement.style.setProperty('--header-h', hdr.offsetHeight + 'px');
+    } else {
+      document.body.classList.remove('landscape-mode');
+    }
+  }
+
+  // Init landscape on load
+  window.addEventListener('DOMContentLoaded', () => {
+    applyLandscapeMode();
   });
 
   // Patch runCode to auto-switch to output on mobile
@@ -3187,7 +3301,7 @@ window.addEventListener('load', () => {
 //    → APIs & Services → Credentials → Create OAuth 2.0 Client ID
 //    → Application type: Web → Authorised origins: domain trường
 //
-const APP_VERSION = 'v4.9.0'; // tự động tăng mỗi lần cập nhật
+const APP_VERSION = 'v4.9.1'; // tự động tăng mỗi lần cập nhật
 // Cập nhật badge version từ APP_VERSION
 document.addEventListener('DOMContentLoaded', function() {
   const vb = document.getElementById('ver-badge');
