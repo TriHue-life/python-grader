@@ -95,9 +95,9 @@
   #grade-panel{grid-column:2;grid-row:1/span 2;border-right:none;overflow:hidden;display:flex;flex-direction:column}
   .tabs{display:flex;gap:0;padding:6px 10px;border-bottom:1px solid var(--border);overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none}
   .tabs::-webkit-scrollbar{display:none}
-  .tab{flex:1;padding:6px 8px;border-radius:7px;border:1px solid transparent;background:none;color:var(--text2);font-family:var(--sans);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;text-align:center;white-space:nowrap;min-width:0}
-  .tab.on{background:var(--surface3);border-color:var(--accent);color:var(--text);box-shadow:0 0 0 1px rgba(88,166,255,.2)}
-  .tab:hover:not(.on){color:var(--text);background:var(--surface2)}
+  .tab{flex:1;padding:6px 8px;border-radius:7px;border:1px solid var(--border);background:var(--surface2);color:var(--text2);font-family:var(--sans);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;text-align:center;white-space:nowrap;min-width:0}
+  .tab.on{background:var(--surface3);border-color:var(--accent);color:var(--text);box-shadow:inset 0 -2px 0 var(--accent)}
+  .tab:hover:not(.on){color:var(--text);background:var(--surface3)}
   .tc{display:none;flex-direction:column;flex:1;overflow-y:auto}.tc.on{display:flex}
   .score-box{margin:14px;background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:18px;text-align:center}
   .ring{position:relative;width:96px;height:96px;margin:0 auto 10px}
@@ -294,8 +294,8 @@
     .score-grade { font-size: 18px; }
     .stats { margin: 0 12px 12px; gap: 6px; }
     .sn { font-size: 17px; }
-    .tab { font-size: 11.5px; padding: 6px 6px; color: var(--text2); }
-    .tab.on { color: var(--text); background: var(--surface3); border-color: var(--accent); }
+    .tab { font-size: 11.5px; padding: 6px 6px; color: var(--text2); background: var(--surface2); border-color: var(--border); }
+    .tab.on { color: var(--text); background: var(--surface3); border-color: var(--accent); box-shadow: inset 0 -2px 0 var(--accent); }
     .tabs { gap: 0; padding: 5px 8px; }
     /* Ẩn resizer trên mobile */
     #rs-col, #rs-row { display: none !important; }
@@ -408,8 +408,8 @@
     .stats { margin: 0 10px 8px !important; gap: 5px !important; }
     .sn { font-size: 14px !important; }
     .sl { font-size: 9px !important; }
-    .tab { font-size: 11px !important; padding: 5px 6px !important; color: var(--text2) !important; }
-    .tab.on { color: var(--text) !important; background: var(--surface3) !important; border-color: var(--accent) !important; }
+    .tab { font-size: 11px !important; padding: 5px 6px !important; color: var(--text2) !important; background: var(--surface2) !important; border-color: var(--border) !important; }
+    .tab.on { color: var(--text) !important; background: var(--surface3) !important; border-color: var(--accent) !important; box-shadow: inset 0 -2px 0 var(--accent) !important; }
     .sec-t { font-size: 10px !important; }
     /* Hide mobile nav in landscape (panels always visible) */
     .mobile-nav { display: none !important; }
@@ -589,7 +589,7 @@
   </div>
   <div style="display:flex;align-items:center;gap:10px">
     <button onclick="window.location.reload(true)" title="Cập nhật phiên bản mới" style="background:none;border:none;cursor:pointer;font-size:14px;padding:4px;opacity:0.6;color:var(--text2);" id="reload-btn">🔄</button>
-    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.15</span>
+    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.16</span>
     <!-- Google auth area (hidden — login via AI panel only) -->
     <div id="google-auth-area" style="display:none">
       <div id="g-signin-wrap"></div>
@@ -3613,7 +3613,7 @@ window.addEventListener('load', () => {
 //    → APIs & Services → Credentials → Create OAuth 2.0 Client ID
 //    → Application type: Web → Authorised origins: domain trường
 //
-const APP_VERSION = 'v4.9.15'; // tự động tăng mỗi lần cập nhật
+const APP_VERSION = 'v4.9.16'; // tự động tăng mỗi lần cập nhật
 // Cập nhật badge version từ APP_VERSION
 document.addEventListener('DOMContentLoaded', function() {
   const vb = document.getElementById('ver-badge');
