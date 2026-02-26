@@ -554,7 +554,46 @@
     0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)}
   }
 
-  /* ── CRITERIA TAB (public rubric display) ─────────────────── */
+  /* ── ADVANCED ERROR ANALYSIS UI ───────────────────────────────── */
+  /* Priority fix box — hộp tóm tắt lỗi cần sửa ngay */
+  .fix-priority { margin:8px 14px 4px; border-radius:10px; overflow:hidden; border:1px solid rgba(248,81,73,.35); }
+  .fix-priority-hdr { background:rgba(248,81,73,.12); padding:7px 12px; font-size:10.5px; font-weight:800; text-transform:uppercase; letter-spacing:.6px; color:#f85149; display:flex; align-items:center; gap:6px; }
+  .fix-priority-body { padding:6px 10px 8px; display:flex; flex-direction:column; gap:5px; }
+  .fix-item { display:flex; align-items:flex-start; gap:8px; padding:6px 10px; background:var(--surface2); border-radius:7px; border-left:3px solid #f85149; font-size:12px; line-height:1.6; cursor:pointer; transition:background .15s; }
+  .fix-item:hover { background:var(--surface3); }
+  .fix-item.warn-lvl { border-left-color:#d29922; }
+  .fix-item.info-lvl { border-left-color:#58a6ff; }
+  .fix-num { font-family:var(--mono); font-size:10px; background:rgba(248,81,73,.15); color:#f85149; border-radius:4px; padding:1px 5px; flex-shrink:0; margin-top:2px; min-width:20px; text-align:center; }
+  .fix-num.warn-lvl { background:rgba(210,153,34,.15); color:#d29922; }
+  .fix-num.info-lvl { background:rgba(88,166,255,.15); color:#58a6ff; }
+  .fix-text { flex:1; color:var(--text2); }
+  .fix-text b { color:var(--text); }
+  .fix-text code { background:var(--surface3); border-radius:3px; padding:1px 5px; font-family:var(--mono); font-size:10.5px; color:#ce9178; }
+  .fix-goto { font-size:10px; color:var(--accent); background:rgba(88,166,255,.1); border:1px solid rgba(88,166,255,.25); border-radius:4px; padding:2px 7px; flex-shrink:0; cursor:pointer; margin-top:1px; white-space:nowrap; }
+  .fix-goto:hover { background:rgba(88,166,255,.2); }
+  /* Code snippet in hint */
+  .code-snippet { background:var(--surface3); border:1px solid var(--border); border-radius:6px; padding:6px 10px; margin-top:5px; font-family:var(--mono); font-size:11px; line-height:1.7; color:#d4d4d4; overflow-x:auto; white-space:pre; }
+  .code-snippet .cs-good { color:#3fb950; } .code-snippet .cs-bad { color:#f85149; text-decoration:line-through; }
+  /* Rubric fail detail */
+  .rubric-fail-detail { padding:5px 9px 8px 48px; }
+  .rubric-fail-detail.hidden { display:none; }
+  .rfd-section { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--text3); margin-bottom:4px; }
+  .rfd-code-found { background:var(--surface3); border-radius:6px; padding:5px 9px; font-family:var(--mono); font-size:11px; color:var(--text2); margin-bottom:5px; white-space:pre-wrap; word-break:break-all; }
+  .rfd-code-found .hl-match { background:rgba(63,185,80,.2); color:#3fb950; border-radius:2px; padding:0 2px; }
+  .rfd-code-found .hl-miss { background:rgba(248,81,73,.15); color:#f85149; border-radius:2px; padding:0 2px; }
+  /* Test case enhanced */
+  .tc-analysis { padding:5px 9px 8px 48px; }
+  .tc-analysis.hidden { display:none; }
+  .tca-row { display:flex; gap:6px; align-items:baseline; margin-bottom:3px; font-size:11.5px; }
+  .tca-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.4px; color:var(--text3); min-width:60px; flex-shrink:0; }
+  .tca-val { font-family:var(--mono); font-size:11px; background:var(--surface3); border-radius:4px; padding:2px 7px; color:var(--text2); flex:1; word-break:break-all; }
+  .tca-val.got { color:#f85149; } .tca-val.want { color:#3fb950; }
+  .tca-diff-char { display:flex; gap:4px; flex-wrap:wrap; margin-top:3px; }
+  .tca-char { font-family:var(--mono); font-size:11px; padding:1px 4px; border-radius:3px; }
+  .tca-char.match { background:rgba(63,185,80,.15); color:#3fb950; }
+  .tca-char.miss  { background:rgba(248,81,73,.15);  color:#f85149; }
+  .tca-char.extra { background:rgba(210,153,34,.15); color:#d29922; }
+  /* ── CRITERIA TAB (public rubric display) ───────────── */
   .criteria-empty { text-align:center; padding:32px 16px; color:var(--text3); font-size:12px; line-height:1.7; }
   .criteria-empty .ci-icon { font-size:32px; margin-bottom:10px; }
   .criteria-body { padding:12px 14px; display:flex; flex-direction:column; gap:10px; }
@@ -589,7 +628,7 @@
   </div>
   <div style="display:flex;align-items:center;gap:10px">
     <button onclick="window.location.reload(true)" title="Cập nhật phiên bản mới" style="background:none;border:none;cursor:pointer;font-size:14px;padding:4px;opacity:0.6;color:var(--text2);" id="reload-btn">🔄</button>
-    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.16</span>
+    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.17</span>
     <!-- Google auth area (hidden — login via AI panel only) -->
     <div id="google-auth-area" style="display:none">
       <div id="g-signin-wrap"></div>
@@ -2398,27 +2437,136 @@ function analyzeRubricItem(cr, code, lines) {
 function buildRubricHint(desc, missing, code) {
   const d = desc.toLowerCase();
   const m = missing[0] || '';
-  if (m === 'input')   return 'Dùng <code>input("Nhập ...")</code> để nhận dữ liệu từ người dùng';
-  if (m === 'int')     return 'Dùng <code>int(input(...))</code> để chuyển chuỗi nhập vào thành số nguyên';
-  if (m === 'float')   return 'Dùng <code>float(input(...))</code> để chuyển chuỗi nhập vào thành số thực';
-  if (m === 'print')   return 'Cần có lệnh <code>print(...)</code> để in kết quả ra màn hình';
-  if (m === 'if')      return 'Cần dùng câu lệnh <code>if điều kiện:</code>';
-  if (m === 'else')    return 'Cần thêm nhánh <code>else:</code> để xử lý trường hợp còn lại';
-  if (m === 'elif')    return 'Cần thêm <code>elif điều kiện:</code> cho các trường hợp khác';
-  if (m === 'for')     return 'Dùng vòng lặp <code>for i in range(...):</code>';
-  if (m === 'while')   return 'Dùng vòng lặp <code>while điều kiện:</code>';
-  if (m === 'range')   return 'Dùng <code>range(n)</code> hoặc <code>range(start, end)</code> trong vòng lặp for';
-  if (m === '%')       return 'Dùng toán tử chia lấy dư <code>%</code> để kiểm tra chia hết: <code>n % 2 == 0</code>';
-  if (m === 'def')     return 'Định nghĩa hàm: <code>def ten_ham(tham_so):</code>';
-  if (m === 'return')  return 'Dùng <code>return ket_qua</code> để trả về giá trị từ hàm';
-  if (m === 'append')  return 'Dùng <code>danh_sach.append(phan_tu)</code> để thêm phần tử vào list';
-  if (m === '#')       return 'Thêm chú thích bắt đầu bằng <code>#</code>, ví dụ: <code># Kiểm tra điều kiện</code>';
-  if (m === 'break')   return 'Dùng <code>break</code> để thoát vòng lặp khi đạt điều kiện';
-  if (m === 'not in' || m === 'in') return 'Dùng toán tử <code>in</code> để kiểm tra phần tử trong danh sách';
-  if (d.includes('sqrt') || m.includes('sqrt')) return 'Import và dùng: <code>import math</code> → <code>math.sqrt(n)</code>';
-  if (m.includes('**')) return 'Dùng <code>**</code> để lũy thừa. Ví dụ: <code>2 ** 10</code>';
-  if (d.includes('2 chiều') || d.includes('hai chiều')) return 'Tạo mảng 2D bằng list lồng nhau hoặc 2 vòng for lồng nhau';
+  // Extended hints with code examples
+  const hints = {
+    'input':  { text: 'Dùng <code>input("Nhập ...")</code> để nhận dữ liệu từ người dùng', example: 'ten = input("Nhập tên: ")' },
+    'int':    { text: 'Dùng <code>int(input(...))</code> để chuyển chuỗi nhập vào thành số nguyên', example: 'n = int(input("Nhập số: "))' },
+    'float':  { text: 'Dùng <code>float(input(...))</code> để chuyển chuỗi nhập vào thành số thực', example: 'x = float(input("Nhập số thực: "))' },
+    'print':  { text: 'Cần có lệnh <code>print(...)</code> để in kết quả ra màn hình', example: 'print("Kết quả:", ket_qua)' },
+    'if':     { text: 'Cần dùng câu lệnh điều kiện <code>if</code>', example: 'if dieu_kien:\n    # xử lý khi đúng' },
+    'else':   { text: 'Cần thêm nhánh <code>else:</code> để xử lý trường hợp còn lại', example: 'if dieu_kien:\n    ...\nelse:\n    # xử lý khi sai' },
+    'elif':   { text: 'Cần thêm <code>elif điều kiện:</code> cho các trường hợp khác', example: 'if a > 0:\n    ...\nelif a == 0:\n    ...\nelse:\n    ...' },
+    'for':    { text: 'Dùng vòng lặp <code>for</code> để lặp qua các phần tử', example: 'for i in range(n):\n    # xử lý từng bước' },
+    'while':  { text: 'Dùng vòng lặp <code>while điều kiện:</code>', example: 'while dieu_kien:\n    # lặp cho đến khi sai' },
+    'range':  { text: 'Dùng <code>range(n)</code> hoặc <code>range(start, end)</code> trong vòng lặp for', example: 'for i in range(1, n+1):  # từ 1 đến n' },
+    '%':      { text: 'Dùng toán tử chia lấy dư <code>%</code> để kiểm tra chia hết', example: 'if n % 2 == 0:  # n là số chẵn' },
+    'def':    { text: 'Định nghĩa hàm bằng từ khóa <code>def</code>', example: 'def tinh_tong(a, b):\n    return a + b' },
+    'return': { text: 'Dùng <code>return</code> để trả về giá trị từ hàm', example: 'def ham(x):\n    ket_qua = x * 2\n    return ket_qua' },
+    'append': { text: 'Dùng <code>danh_sach.append(phan_tu)</code> để thêm phần tử vào list', example: 'ds = []\nfor i in range(n):\n    ds.append(int(input()))' },
+    '#':      { text: 'Thêm chú thích bắt đầu bằng <code>#</code> để giải thích code', example: '# Tính tổng các số từ 1 đến n\ntong = 0' },
+    'break':  { text: 'Dùng <code>break</code> để thoát vòng lặp khi đạt điều kiện', example: 'for i in range(n):\n    if dieu_kien:\n        break' },
+    'in':     { text: 'Dùng toán tử <code>in</code> để kiểm tra phần tử trong danh sách', example: 'if x in danh_sach:\n    print("Có trong danh sách")' },
+  };
+  if (hints[m]) return hints[m].text + `<div class="code-snippet">${esc(hints[m].example)}</div>`;
+  if (d.includes('sqrt') || m.includes('sqrt')) return 'Import và dùng: <code>import math</code> → <code>math.sqrt(n)</code><div class="code-snippet">import math\nket_qua = math.sqrt(n)</div>';
+  if (m.includes('**')) return 'Dùng <code>**</code> để lũy thừa<div class="code-snippet">ket_qua = 2 ** 10  # = 1024</div>';
+  if (d.includes('2 chiều') || d.includes('hai chiều')) return 'Tạo mảng 2D bằng list lồng nhau hoặc 2 vòng for lồng nhau<div class="code-snippet">mang = []\nfor i in range(m):\n    hang = []\n    for j in range(n):\n        hang.append(int(input()))\n    mang.append(hang)</div>';
   return `Cần có: <code>${esc(missing.join(', '))}</code> trong code`;
+}
+
+// ── Phân tích chi tiết dòng code chứa/thiếu từ khóa ─────────────
+function analyzeCodeLines(code, kws, lineNum) {
+  const lines = code.split('\n');
+  const scope = lineNum && lineNum !== 'all' ? [parseInt(lineNum) - 1] : lines.map((_, i) => i);
+  const results = [];
+  scope.forEach(idx => {
+    const line = lines[idx];
+    if (!line || !line.trim()) return;
+    const lineNorm = line.normalize('NFC').replace(/#.*$/, '').replace(/\s+/g, '').toLowerCase();
+    const found = kws.filter(k => lineNorm.includes(k.normalize('NFC').replace(/\s+/g, '').toLowerCase()));
+    if (found.length || scope.length <= 3) {
+      results.push({ lineNum: idx + 1, text: line.trim(), found });
+    }
+  });
+  return results;
+}
+
+// ── So sánh output chi tiết (char-level diff) ────────────────────
+function buildOutputDiff(actual, expected) {
+  const a = (actual  || '').trim();
+  const e = (expected || '').trim();
+  if (!a) return { type: 'empty', html: '<span style="color:#f85149">⚠ Không có output — kiểm tra lệnh <code>print()</code></span>' };
+  // Số học: so sánh giá trị
+  const numA = parseFloat(a.replace(/[^\d.\-]/g, ''));
+  const numE = parseFloat(e.replace(/[^\d.\-]/g, ''));
+  if (!isNaN(numA) && !isNaN(numE) && numA !== numE) {
+    const diff = numA - numE;
+    let hint = '';
+    if (Math.abs(diff) === 1) hint = '→ Lệch 1 đơn vị: kiểm tra <code>range(n)</code> vs <code>range(n+1)</code> hoặc dấu <code>&lt;</code> vs <code>&lt;=</code>';
+    else if (numA === numE * 2 || numE === numA * 2) hint = '→ Kết quả gấp đôi/nửa: có thể đang tính 2 lần hoặc thiếu chia 2';
+    else if (numA === numE + numE) hint = '→ Kiểm tra lại công thức tính';
+    else hint = `→ Sai ${diff > 0 ? '+' : ''}${diff.toFixed(2)}: kiểm tra lại công thức`;
+    return { type: 'number', hint };
+  }
+  // Chuỗi: so sánh từng ký tự
+  const aNorm = a.toLowerCase().replace(/\s+/g, ' ');
+  const eNorm = e.toLowerCase().replace(/\s+/g, ' ');
+  if (aNorm === eNorm) return { type: 'case', hint: '→ Nội dung đúng nhưng sai chữ hoa/thường hoặc khoảng trắng' };
+  // Tìm phần khác nhau
+  const aWords = a.split(/\s+/);
+  const eWords = e.split(/\s+/);
+  const missingWords = eWords.filter(w => !aWords.some(aw => aw.toLowerCase() === w.toLowerCase()));
+  const extraWords   = aWords.filter(w => !eWords.some(ew => ew.toLowerCase() === w.toLowerCase()));
+  let hint = '';
+  if (missingWords.length) hint += `→ Thiếu từ/cụm: <code>${esc(missingWords.slice(0,3).join(', '))}</code> `;
+  if (extraWords.length)   hint += `→ Thừa từ/cụm: <code>${esc(extraWords.slice(0,3).join(', '))}</code>`;
+  if (!hint) hint = '→ Output không khớp, kiểm tra lại nội dung in ra';
+  return { type: 'string', hint };
+}
+
+// ── Tạo danh sách lỗi ưu tiên cần sửa ──────────────────────────
+function buildPriorityFixes(rubricResults, testRun, mistakes) {
+  const fixes = [];
+  // 1. Lỗi syntax/runtime từ test cases (ưu tiên cao nhất)
+  if (testRun) {
+    testRun.results.filter(t => !t.pass && t.error).forEach(t => {
+      const cat = categorizeTestFailure(t);
+      const errLine = (t.actual || '').match(/(?:dòng|line)\s*(\d+)/i);
+      fixes.push({
+        level: 'error',
+        lineNum: errLine ? parseInt(errLine[1]) : null,
+        title: cat ? cat.label : 'Lỗi thực thi',
+        detail: (t.actual || '').split('\n')[0].substring(0, 100),
+        hint: cat ? cat.hint : '',
+        source: 'test'
+      });
+    });
+  }
+  // 2. Lỗi indent từ detectCommonMistakes
+  mistakes.filter(m => m.text.includes('indent') || m.text.includes('Thiếu thụt')).forEach(m => {
+    const ln = m.text.match(/Dòng (\d+)/);
+    fixes.push({ level: 'error', lineNum: ln ? parseInt(ln[1]) : null, title: 'Thiếu thụt đầu dòng (indent)', detail: m.text.replace(/<[^>]+>/g, ''), hint: 'Thêm 4 dấu cách hoặc 1 Tab trước lệnh sau <code>if/for/while/def:</code>', source: 'syntax' });
+  });
+  // 3. Rubric fail (ưu tiên trung bình)
+  rubricResults.filter(r => r.status === 'fail').forEach(r => {
+    fixes.push({
+      level: 'warn',
+      lineNum: r.lineNum !== 'all' ? parseInt(r.lineNum) : null,
+      title: r.desc,
+      detail: `Chưa tìm thấy: ${r.missingKws.join(', ')}`,
+      hint: r.hint || buildRubricHint(r.desc, r.missingKws, ''),
+      source: 'rubric'
+    });
+  });
+  // 4. Test case logic errors
+  if (testRun) {
+    testRun.results.filter(t => !t.pass && !t.error).forEach(t => {
+      const diff = buildOutputDiff(t.actual, t.expected);
+      fixes.push({
+        level: 'warn',
+        lineNum: null,
+        title: `Test "${t.desc}" — Output sai`,
+        detail: `Nhận: "${(t.actual||'').substring(0,50)}" | Cần: "${t.expected}"`,
+        hint: diff.hint || '',
+        source: 'test'
+      });
+    });
+  }
+  // 5. Cảnh báo nhẹ
+  mistakes.filter(m => !m.text.includes('indent') && !m.text.includes('Thiếu thụt')).forEach(m => {
+    fixes.push({ level: 'info', lineNum: null, title: m.text.replace(/<[^>]+>/g,'').substring(0,60), detail: '', hint: m.text, source: 'warning' });
+  });
+  return fixes.slice(0, 8); // Tối đa 8 lỗi
 }
 
 // ── MAIN GRADE FUNCTION ──────────────────────────────────────
@@ -2497,25 +2645,31 @@ function renderGrade(results, score, pass, fail, skip, testRun, mistakes, qualit
 
   const banner = document.createElement('div');
   banner.className = `grade-banner ${bannerCls}`;
-  banner.innerHTML = `<span class="gb-icon">${bannerIcon}</span><div class="gb-text"><b>${bannerMsg}</b>${mistakes.length > 0 ? `Phát hiện <b>${mistakes.length}</b> vấn đề tiềm ẩn trong code.` : ''}</div>`;
+  const totalIssues = (testRun ? testRun.total - testRun.passed : 0) + fail + mistakes.length;
+  banner.innerHTML = `<span class="gb-icon">${bannerIcon}</span><div class="gb-text"><b>${bannerMsg}</b>${totalIssues > 0 ? `<span style="font-size:11px;opacity:.85">${totalIssues} vấn đề cần xử lý. Xem mục <b>↓ Cần sửa</b> bên dưới.</span>` : ''}</div>`;
   container.appendChild(banner);
 
-  // ── Common mistake warnings ─────────────────────────────────
-  if (mistakes.length) {
-    const mSec = document.createElement('div');
-    mSec.className = 'grade-section';
-    mSec.textContent = '⚠ Vấn đề phát hiện';
-    container.appendChild(mSec);
-
-    const mList = document.createElement('div');
-    mList.className = 'mistake-list';
-    mistakes.forEach(m => {
-      const item = document.createElement('div');
-      item.className = 'mistake-item';
-      item.innerHTML = `<span class="mistake-icon">${m.icon}</span><div class="mistake-text">${m.text}</div>`;
-      mList.appendChild(item);
+  // ── PRIORITY FIX BOX ─────────────────────────────────────
+  const priorityFixes = buildPriorityFixes(results, testRun, mistakes);
+  if (priorityFixes.length > 0 && score < 10) {
+    const pfBox = document.createElement('div');
+    pfBox.className = 'fix-priority';
+    const errorCount = priorityFixes.filter(f => f.level === 'error').length;
+    const warnCount  = priorityFixes.filter(f => f.level === 'warn').length;
+    pfBox.innerHTML = `<div class="fix-priority-hdr">🔧 Cần sửa (${priorityFixes.length} mục${errorCount > 0 ? ` — ${errorCount} lỗi nghiêm trọng` : ''})</div><div class="fix-priority-body" id="fix-list"></div>`;
+    container.appendChild(pfBox);
+    const fixList = pfBox.querySelector('#fix-list');
+    priorityFixes.forEach((fix, i) => {
+      const fi = document.createElement('div');
+      fi.className = `fix-item ${fix.level === 'warn' ? 'warn-lvl' : fix.level === 'info' ? 'info-lvl' : ''}`;
+      const numCls = fix.level === 'warn' ? 'warn-lvl' : fix.level === 'info' ? 'info-lvl' : '';
+      const gotoBtn = fix.lineNum ? `<span class="fix-goto" onclick="hlLine(${fix.lineNum});event.stopPropagation()">Dòng ${fix.lineNum} →</span>` : '';
+      const detailTxt = fix.detail ? `<div style="font-size:11px;color:var(--text3);margin-top:2px;font-family:var(--mono)">${esc(fix.detail.substring(0,80))}</div>` : '';
+      const hintTxt = fix.hint ? `<div class="hint-box" style="margin-top:5px">💡 ${fix.hint}</div>` : '';
+      fi.innerHTML = `<span class="fix-num ${numCls}">${i+1}</span><div class="fix-text"><b>${esc(fix.title)}</b>${detailTxt}${hintTxt}</div>${gotoBtn}`;
+      if (fix.lineNum) fi.onclick = (e) => { if (!e.target.classList.contains('fix-goto')) hlLine(fix.lineNum); };
+      fixList.appendChild(fi);
     });
-    container.appendChild(mList);
   }
 
   // ── Test results ──────────────────────────────────────────
@@ -2542,18 +2696,27 @@ function renderGrade(results, score, pass, fail, skip, testRun, mistakes, qualit
         ? `<span style="font-size:10px;color:var(--text3)"> ⌨ Input: <code style="background:var(--surface3);padding:1px 4px;border-radius:3px">${esc(t.inputs.join(', '))}</code></span>`
         : '';
 
-      // Output diff block
-      let diffHtml = '';
+      // Enhanced output diff analysis
+      let detailHtml = '';
       if (!t.pass) {
-        const gotTrunc   = (t.actual  || '').substring(0, 120);
-        const wantTrunc  = t.expected || '—';
-        diffHtml = `<div class="diff-block"><div class="diff-got">${esc(gotTrunc) || '(trống)'}</div><div class="diff-want">${esc(wantTrunc)}</div></div>`;
-      }
-
-      // Hint
-      let hintHtml = '';
-      if (cat && cat.hint) {
-        hintHtml = `<div class="hint-box">💡 <b>Gợi ý:</b> ${cat.hint}</div>`;
+        const diff = buildOutputDiff(t.actual, t.expected);
+        const gotFull  = (t.actual  || '').trim();
+        const wantFull = (t.expected || '').trim();
+        // Build detailed comparison rows
+        let compRows = `<div class="tc-analysis">`;
+        if (t.error) {
+          // Runtime error: show full error message
+          const errLines = gotFull.split('\n').slice(0, 5);
+          compRows += `<div class="tca-row"><span class="tca-label">Lỗi:</span><span class="tca-val got">${esc(errLines[0] || '')}</span></div>`;
+          if (errLines.length > 1) compRows += `<div class="tca-row"><span class="tca-label"></span><span class="tca-val" style="color:var(--text3);font-size:10px">${esc(errLines.slice(1).join(' | ').substring(0,120))}</span></div>`;
+        } else {
+          compRows += `<div class="tca-row"><span class="tca-label">✗ Nhận:</span><span class="tca-val got">${esc(gotFull.substring(0,100)) || '(không có output)'}</span></div>`;
+          compRows += `<div class="tca-row"><span class="tca-label">✓ Cần:</span><span class="tca-val want">${esc(wantFull.substring(0,100))}</span></div>`;
+        }
+        if (diff.hint) compRows += `<div style="margin-top:5px;font-size:11.5px;color:var(--text2);line-height:1.7">${diff.hint}</div>`;
+        if (cat && cat.hint) compRows += `<div class="hint-box" style="margin-top:5px">💡 <b>Gợi ý:</b> ${cat.hint}</div>`;
+        compRows += `</div>`;
+        detailHtml = compRows;
       }
 
       td.innerHTML = `
@@ -2561,10 +2724,10 @@ function renderGrade(results, score, pass, fail, skip, testRun, mistakes, qualit
         <div class="li-info">
           <div class="li-pre">${catBadge}${esc(t.desc)}${inputStr}</div>
           <div class="li-msg ${t.pass ? 'ok' : 'er'}">
-            ${t.pass ? `✓ Output chứa "${esc(t.expected)}"` : (t.error ? `✗ Lỗi: ${esc(t.actual.split('\n')[0].substring(0,80))}` : `✗ Output không chứa "${esc(t.expected)}"`)}
-            ${!t.pass ? `<span class="li-toggle" onclick="toggleDetail(this)">▼ Chi tiết</span>` : ''}
+            ${t.pass ? `✓ Output chứa <code style="background:rgba(63,185,80,.15);padding:1px 5px;border-radius:3px;color:#3fb950">${esc(t.expected)}</code>` : (t.error ? `✗ Lỗi: <span style="font-family:var(--mono);font-size:10.5px">${esc(t.actual.split('\n')[0].substring(0,70))}</span>` : `✗ Output không khớp`)}
+            ${!t.pass ? `<span class="li-toggle" onclick="toggleDetail(this)">▼ Phân tích</span>` : ''}
           </div>
-          <div class="li-detail">${diffHtml}${hintHtml}</div>
+          <div class="li-detail">${detailHtml}</div>
         </div>
         <div class="li-pts ${t.pass ? 'pt-ok' : 'pt-er'}" style="font-size:11px">${t.pass ? '✓' : '✗'}</div>`;
       container.appendChild(td);
@@ -2577,6 +2740,7 @@ function renderGrade(results, score, pass, fail, skip, testRun, mistakes, qualit
   rSec.textContent = `📋 Cấu trúc code (${pass}/${pass+fail} đạt · ${testRun ? '40%' : '100%'} điểm)`;
   container.appendChild(rSec);
 
+  const codeForAnalysis = ci ? ci.value : '';
   results.forEach(r => {
     const d = document.createElement('div');
     d.className = `li ${r.status} collapsed`;
@@ -2586,7 +2750,6 @@ function renderGrade(results, score, pass, fail, skip, testRun, mistakes, qualit
     if      (r.status === 'pass') catBadge = `<span class="err-cat ok">Đạt</span>`;
     else if (r.status === 'skip') catBadge = `<span class="err-cat warn">Bỏ qua</span>`;
     else {
-      // Classify type of missing
       const kw = (r.missingKws || []).join(',').toLowerCase();
       let catType = 'missing';
       if (/input|print|int|float/.test(kw))   catType = 'syntax';
@@ -2598,23 +2761,54 @@ function renderGrade(results, score, pass, fail, skip, testRun, mistakes, qualit
       ? `<span style="color:#3fb950;font-weight:800">${r.earned.toFixed(1)}</span>`
       : `<span style="color:#f85149">0</span>`;
 
-    let hintHtml = '';
-    if (r.hint) hintHtml = `<div class="hint-box">💡 <b>Gợi ý:</b> ${r.hint}</div>`;
-
     let msgTxt = '';
-    if (r.status === 'pass') msgTxt = `✓ Tìm thấy: <code>${esc(r.matchedKws.join(', ') || '—')}</code>`;
-    else if (r.status === 'skip') msgTxt = '(Không cần từ khóa cụ thể)';
-    else msgTxt = `✗ Chưa tìm thấy: <code>${esc(r.missingKws.join(', '))}</code>`;
+    if (r.status === 'pass') {
+      msgTxt = `✓ Tìm thấy: <code style="background:rgba(63,185,80,.12);padding:1px 5px;border-radius:3px;color:#3fb950">${esc(r.matchedKws.join(', ') || '—')}</code>`;
+    } else if (r.status === 'skip') {
+      msgTxt = '(Không cần từ khóa cụ thể)';
+    } else {
+      msgTxt = `✗ Chưa tìm thấy: <code style="background:rgba(248,81,73,.12);padding:1px 5px;border-radius:3px;color:#f85149">${esc(r.missingKws.join(', '))}</code>`;
+    }
 
+    // Build detailed analysis for fail items
+    let detailHtml = '';
+    if (r.status === 'fail') {
+      const lineAnalysis = analyzeCodeLines(codeForAnalysis, r.missingKws, r.lineNum);
+      let analysisHtml = '';
+      if (lineAnalysis.length > 0) {
+        // Show relevant lines from student's code
+        const lineRows = lineAnalysis.slice(0, 4).map(la => {
+          const lineEsc = esc(la.text.substring(0, 80));
+          return `<div style="font-size:10.5px;color:var(--text3);font-family:var(--mono);padding:1px 0"><span style="color:var(--text3);min-width:28px;display:inline-block">L${la.lineNum}</span><span style="color:var(--text2)">${lineEsc}</span></div>`;
+        }).join('');
+        if (lineRows) {
+          analysisHtml = `<div class="rfd-section">Code hiện tại (dòng liên quan):</div><div class="rfd-code-found">${lineRows}</div>`;
+        }
+      }
+      const hintContent = r.hint || buildRubricHint(r.desc, r.missingKws, codeForAnalysis);
+      const hintHtml = hintContent ? `<div class="hint-box">💡 <b>Cần làm:</b> ${hintContent}</div>` : '';
+      detailHtml = `<div class="tc-analysis">${analysisHtml}${hintHtml}</div>`;
+    } else if (r.status === 'pass' && r.matchedKws.length) {
+      // Show where keywords were found
+      const lineAnalysis = analyzeCodeLines(codeForAnalysis, r.matchedKws, r.lineNum);
+      if (lineAnalysis.length > 0) {
+        const lineRows = lineAnalysis.slice(0, 3).map(la => {
+          return `<div style="font-size:10.5px;font-family:var(--mono);padding:1px 0"><span style="color:var(--text3);min-width:28px;display:inline-block">L${la.lineNum}</span><span style="color:#3fb950">${esc(la.text.substring(0,80))}</span></div>`;
+        }).join('');
+        detailHtml = `<div class="tc-analysis"><div class="rfd-code-found">${lineRows}</div></div>`;
+      }
+    }
+
+    const hasDetail = detailHtml.length > 0;
     d.innerHTML = `
       <span class="ln-b" style="flex-shrink:0">${r.lineNum === 'all' ? 'All' : 'L'+r.lineNum}</span>
       <div class="li-info">
         <div class="li-pre">${catBadge}${esc(r.desc)}</div>
         <div class="li-msg ${r.status === 'pass' ? 'ok' : r.status === 'skip' ? '' : 'er'}">
           ${msgTxt}
-          ${r.status !== 'pass' && r.status !== 'skip' && r.hint ? `<span class="li-toggle" onclick="toggleDetail(this)">▼ Gợi ý</span>` : ''}
+          ${hasDetail ? `<span class="li-toggle" onclick="toggleDetail(this)">▼ ${r.status === 'pass' ? 'Xem code' : 'Phân tích'}</span>` : ''}
         </div>
-        <div class="li-detail">${hintHtml}</div>
+        <div class="li-detail">${detailHtml}</div>
       </div>
       <div class="li-pts ${r.status === 'pass' ? 'pt-ok' : 'pt-er'}">${ptDisplay}<span style="font-size:9px;color:var(--text3)">/${r.pts.toFixed(1)}</span></div>`;
     d.onclick = e => { if(!e.target.classList.contains('li-toggle')) hlLine(r.lineNum); };
@@ -2633,7 +2827,10 @@ function toggleDetail(btn) {
   const isExp = li.classList.contains('expanded');
   li.classList.toggle('expanded', !isExp);
   li.classList.toggle('collapsed', isExp);
-  btn.textContent = isExp ? '▼ Chi tiết' : '▲ Ẩn';
+  // Preserve original text prefix
+  const origText = btn.dataset.orig || btn.textContent.replace(/^▲ /, '▼ ');
+  if (!btn.dataset.orig) btn.dataset.orig = origText;
+  btn.textContent = isExp ? origText : '▲ Ẩn';
 }
 
 function renderQualityBar(quality) {
@@ -3613,7 +3810,7 @@ window.addEventListener('load', () => {
 //    → APIs & Services → Credentials → Create OAuth 2.0 Client ID
 //    → Application type: Web → Authorised origins: domain trường
 //
-const APP_VERSION = 'v4.9.16'; // tự động tăng mỗi lần cập nhật
+const APP_VERSION = 'v4.9.17'; // tự động tăng mỗi lần cập nhật
 // Cập nhật badge version từ APP_VERSION
 document.addEventListener('DOMContentLoaded', function() {
   const vb = document.getElementById('ver-badge');
