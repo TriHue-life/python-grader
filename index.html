@@ -352,35 +352,37 @@
       border-right: 1px solid var(--border);
     }
 
-    /* Output + Grade panel: right column, stacked */
+    /* Right column: only one panel visible at a time in landscape */
     #output-panel {
       grid-column: 2;
       grid-row: 1;
-      height: 50% !important;
-      border-bottom: 1px solid var(--border);
+      height: 100% !important;
     }
     #grade-panel {
       grid-column: 2;
-      grid-row: 2;
-      height: 50% !important;
+      grid-row: 1;
+      height: 100% !important;
+      display: none !important;
     }
-
     /* Override mob-active logic in landscape */
     body.landscape-mode .panel { display: flex !important; }
-    body.landscape-mode #output-panel { height: 50% !important; }
-    body.landscape-mode #grade-panel { height: 50% !important; }
-
+    body.landscape-mode #output-panel { height: 100% !important; }
+    body.landscape-mode #grade-panel { height: 100% !important; }
+    /* Landscape right panel switcher */
+    #ls-switcher { display: flex !important; position: static !important; grid-column: 2; grid-row: 1; align-self: start; justify-self: end; z-index: 50; }
+    body.landscape-mode #output-panel.ls-hidden { display: none !important; }
+    body.landscape-mode #grade-panel.ls-visible { display: flex !important; }
+      /* Adjust output-panel and grade-panel top padding for switcher */
+    body.landscape-mode #output-panel .ph,
+    body.landscape-mode #grade-panel .ph { padding-right: 130px; }
     /* Code input: smaller font for landscape */
     #code-input { font-size: 12px !important; line-height: 1.6 !important; padding: 8px 10px !important; }
     .lnums { font-size: 11px !important; min-width: 32px !important; }
-
     /* Toolbar: compact */
     .toolbar { padding: 5px 8px !important; gap: 4px !important; }
     .btn { font-size: 11px !important; padding: 5px 9px !important; }
-
     /* Output: compact */
     #out { font-size: 12px !important; line-height: 1.6 !important; padding: 8px 10px !important; }
-
     /* Grade panel: compact */
     .score-box { margin: 6px 10px !important; padding: 10px !important; }
     .ring { width: 64px !important; height: 64px !important; }
@@ -393,10 +395,8 @@
     .sl { font-size: 9px !important; }
     .tab { font-size: 11px !important; padding: 5px 10px !important; }
     .sec-t { font-size: 10px !important; }
-
     /* Hide mobile nav in landscape (panels always visible) */
     .mobile-nav { display: none !important; }
-
     /* Toast: top in landscape */
     .toast { bottom: 12px !important; }
   }
@@ -573,7 +573,7 @@
   </div>
   <div style="display:flex;align-items:center;gap:10px">
     <button onclick="window.location.reload(true)" title="Cập nhật phiên bản mới" style="background:none;border:none;cursor:pointer;font-size:14px;padding:4px;opacity:0.6;color:var(--text2);" id="reload-btn">🔄</button>
-    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.11</span>
+    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.12</span>
     <!-- Google auth area (hidden — login via AI panel only) -->
     <div id="google-auth-area" style="display:none">
       <div id="g-signin-wrap"></div>
@@ -658,6 +658,11 @@ print('Số ký tự:', len(name))"></textarea>
     </div>
   </div>
 
+  <!-- LANDSCAPE SWITCHER: chuyển đổi output/grade khi quay ngang -->
+  <div id="ls-switcher" style="display:none;grid-column:2;grid-row:1;position:absolute;top:0;right:0;z-index:50;background:var(--surface);border-bottom:1px solid var(--border);border-left:1px solid var(--border);display:none;gap:0">
+    <button id="ls-btn-out" class="ls-tab on" onclick="lsSwitch('output')" style="padding:5px 12px;font-size:11px;font-weight:700;background:var(--surface3);border:none;border-right:1px solid var(--border);color:var(--text);cursor:pointer">▶ Output</button>
+    <button id="ls-btn-grade" class="ls-tab" onclick="lsSwitch('grade')" style="padding:5px 12px;font-size:11px;font-weight:700;background:none;border:none;color:var(--text3);cursor:pointer">📊 Điểm</button>
+  </div>
   <!-- OUTPUT -->
   <div class="panel" id="output-panel">
     <div class="ph">
@@ -3450,26 +3455,56 @@ window.addEventListener('load', () => {
     }, 200);
   };
 
+  // ── Landscape right-panel switcher ──────────────────────────────────────────
+  let lsActivePanel = 'output'; // 'output' or 'grade'
+  function lsSwitch(panel) {
+    lsActivePanel = panel;
+    const outEl = document.getElementById('output-panel');
+    const gradeEl = document.getElementById('grade-panel');
+    const btnOut = document.getElementById('ls-btn-out');
+    const btnGrade = document.getElementById('ls-btn-grade');
+    if (!outEl || !gradeEl) return;
+    if (panel === 'output') {
+      outEl.classList.remove('ls-hidden');
+      gradeEl.classList.remove('ls-visible');
+      if (btnOut) { btnOut.style.background = 'var(--surface3)'; btnOut.style.color = 'var(--text)'; }
+      if (btnGrade) { btnGrade.style.background = 'none'; btnGrade.style.color = 'var(--text3)'; }
+    } else {
+      outEl.classList.add('ls-hidden');
+      gradeEl.classList.add('ls-visible');
+      if (btnOut) { btnOut.style.background = 'none'; btnOut.style.color = 'var(--text3)'; }
+      if (btnGrade) { btnGrade.style.background = 'var(--surface3)'; btnGrade.style.color = 'var(--text)'; }
+    }
+  }
   function applyLandscapeMode() {
     const landscape = isMobileDevice() && isLandscapeNow();
     document.body.classList.toggle('landscape-mode', landscape);
+    // Show/hide landscape switcher
+    const sw = document.getElementById('ls-switcher');
+    if (sw) sw.style.display = landscape ? 'flex' : 'none';
     if (landscape) {
       // Ensure all panels visible in landscape
       Object.values(PANELS).forEach(id => {
         const el = document.getElementById(id);
         if (el) el.classList.remove('mob-active');
       });
+      // Apply current ls panel state
+      lsSwitch(lsActivePanel);
       // Update header height CSS var
       const hdr = document.querySelector('header');
       if (hdr) {
-        // Wait one frame for layout to settle
         requestAnimationFrame(() => {
           document.documentElement.style.setProperty('--header-h', hdr.offsetHeight + 'px');
-          // Also update exbar height
           const bar = document.getElementById('ex-bar');
           if (bar) document.documentElement.style.setProperty('--exbar-h', bar.offsetHeight + 'px');
         });
       }
+    } else {
+      // Portrait: remove ls classes
+      const outEl = document.getElementById('output-panel');
+      const gradeEl = document.getElementById('grade-panel');
+      if (outEl) outEl.classList.remove('ls-hidden');
+      if (gradeEl) gradeEl.classList.remove('ls-visible');
     }
   }
 
@@ -3525,7 +3560,10 @@ window.addEventListener('load', () => {
   const _origGradeCode = window.gradeCode;
   window.gradeCode = function() {
     _origGradeCode();
-    if (isMobileDevice() && !isLandscapeNow()) setTimeout(() => mobilePanel('grade'), 150);
+    if (isMobileDevice()) {
+      if (isLandscapeNow()) setTimeout(() => lsSwitch('grade'), 150);
+      else setTimeout(() => mobilePanel('grade'), 150);
+    }
   };
 })();
 
@@ -3548,7 +3586,7 @@ window.addEventListener('load', () => {
 //    → APIs & Services → Credentials → Create OAuth 2.0 Client ID
 //    → Application type: Web → Authorised origins: domain trường
 //
-const APP_VERSION = 'v4.9.11'; // tự động tăng mỗi lần cập nhật
+const APP_VERSION = 'v4.9.12'; // tự động tăng mỗi lần cập nhật
 // Cập nhật badge version từ APP_VERSION
 document.addEventListener('DOMContentLoaded', function() {
   const vb = document.getElementById('ver-badge');
