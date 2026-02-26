@@ -534,7 +534,7 @@
     </div>
   </div>
   <div style="display:flex;align-items:center;gap:10px">
-    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.3</span>
+    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.4</span>
     <!-- Google auth area (hidden — login via AI panel only) -->
     <div id="google-auth-area" style="display:none">
       <div id="g-signin-wrap"></div>
@@ -3333,7 +3333,7 @@ window.addEventListener('load', () => {
 //    → APIs & Services → Credentials → Create OAuth 2.0 Client ID
 //    → Application type: Web → Authorised origins: domain trường
 //
-const APP_VERSION = 'v4.9.3'; // tự động tăng mỗi lần cập nhật
+const APP_VERSION = 'v4.9.4'; // tự động tăng mỗi lần cập nhật
 // Cập nhật badge version từ APP_VERSION
 document.addEventListener('DOMContentLoaded', function() {
   const vb = document.getElementById('ver-badge');
@@ -3868,14 +3868,6 @@ setTimeout(initGoogleSignIn, 1500);
 })();
 </script>
 
-<!-- Footer tác giả -->
-<footer style="background:var(--surface);border-top:1px solid var(--border);padding:10px 20px;text-align:center;font-size:11px;color:var(--text3);flex-shrink:0">
-  Tác giả: <strong style="color:var(--text2)">Trí Huệ</strong>
-  &nbsp;·&nbsp;
-  <a href="mailto:trihue.life@gmail.com" style="color:var(--accent);text-decoration:none">trihue.life@gmail.com</a>
-  &nbsp;·&nbsp;
-  <a href="https://github.com/TriHue-life/html_grader" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">GitHub: html_grader</a>
-</footer>
 
 </body>
 </html>
