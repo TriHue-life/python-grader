@@ -43,7 +43,7 @@
   .lnums{padding:10px 0;background:var(--surface);border-right:1px solid var(--border);text-align:right;min-width:46px;font-family:var(--mono);font-size:12.5px;line-height:1.6;color:var(--text3);user-select:none;overflow:hidden;flex-shrink:0}
   .lnums span{display:block;padding:0 10px 0 6px;height:20px}
   .lnums span.al{color:var(--text2);background:rgba(88,166,255,.07)}
-  #code-input{flex:1;background:transparent;border:none;outline:none;resize:none;font-family:var(--mono);font-size:12.5px;line-height:1.6;color:var(--text);padding:10px 14px;caret-color:var(--accent);overflow-y:auto;tab-size:4;white-space:pre;overflow-wrap:normal;overflow-x:auto}
+  #code-input{flex:1;background:transparent;border:none;outline:none;resize:none;font-family:var(--mono);font-size:12.5px;line-height:1.6;color:var(--text);padding:10px 14px;caret-color:var(--accent);overflow-y:auto;tab-size:4;white-space:pre;overflow-wrap:normal;overflow-x:auto;direction:ltr;unicode-bidi:plaintext;text-align:left}
   #code-input::selection{background:rgba(88,166,255,.25)}
   .toolbar{padding:7px 12px;background:var(--surface);border-top:1px solid var(--border);display:flex;align-items:center;gap:7px;flex-shrink:0}
   .btn{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:var(--sans);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
@@ -534,7 +534,7 @@
     </div>
   </div>
   <div style="display:flex;align-items:center;gap:10px">
-    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.1</span>
+    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.2</span>
     <!-- Google auth area (hidden — login via AI panel only) -->
     <div id="google-auth-area" style="display:none">
       <div id="g-signin-wrap"></div>
@@ -602,7 +602,7 @@
     </div>
     <div class="editor-wrap">
       <div class="lnums" id="lnums"><span class="al">1</span></div>
-      <textarea id="code-input" spellcheck="false" autocomplete="off" autocorrect="off" placeholder="# Nhập code Python tại đây...
+      <textarea id="code-input" dir="ltr" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="none" inputmode="text" placeholder="# Nhập code Python tại đây...
 # Ví dụ:
 name = input('Nhập tên: ')
 print('Xin chào,', name)
@@ -3301,7 +3301,7 @@ window.addEventListener('load', () => {
 //    → APIs & Services → Credentials → Create OAuth 2.0 Client ID
 //    → Application type: Web → Authorised origins: domain trường
 //
-const APP_VERSION = 'v4.9.1'; // tự động tăng mỗi lần cập nhật
+const APP_VERSION = 'v4.9.2'; // tự động tăng mỗi lần cập nhật
 // Cập nhật badge version từ APP_VERSION
 document.addEventListener('DOMContentLoaded', function() {
   const vb = document.getElementById('ver-badge');
