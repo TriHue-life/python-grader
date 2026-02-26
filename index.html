@@ -628,7 +628,7 @@
   </div>
   <div style="display:flex;align-items:center;gap:10px">
     <button onclick="window.location.reload(true)" title="Cập nhật phiên bản mới" style="background:none;border:none;cursor:pointer;font-size:14px;padding:4px;opacity:0.6;color:var(--text2);" id="reload-btn">🔄</button>
-    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.17</span>
+    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.18</span>
     <!-- Google auth area (hidden — login via AI panel only) -->
     <div id="google-auth-area" style="display:none">
       <div id="g-signin-wrap"></div>
@@ -2183,11 +2183,13 @@ function runSync(code, inputs = []) {
 }
 
 
-// ─── Run code silently (for test execution) ──────────────────────
+/// ─── Run code silently (for test execution) ──────────────────
 function runSilent(code, inputs = []) {
   code = sanitizeCode(code);
   let output = '';
   let hasError = false;
+  let errorLine = null;  // số dòng lỗi chính xác
+  let errorType = null;  // loại lỗi
   let inputIdx = 0;
   try {
     const toks = PyInterp.tokenize(code);
@@ -2198,12 +2200,23 @@ function runSilent(code, inputs = []) {
       (prompt) => { if (inputIdx < inputs.length) return inputs[inputIdx++]; return '0'; }
     );
     const r = interp.run(ast);
-    if (r && r.e) { hasError = true; output += r.e.toString(); }
+    if (r && r.e) {
+      hasError = true;
+      errorLine = r.e.ln || null;
+      errorType = r.e.et || null;
+      output += r.e.toString();
+    }
   } catch(e) {
     hasError = true;
-    output += (e instanceof PyInterp.PyErr ? e.toString() : 'RuntimeError: ' + (e.message || String(e)));
+    if (e instanceof PyInterp.PyErr) {
+      errorLine = e.ln || null;
+      errorType = e.et || null;
+      output += e.toString();
+    } else {
+      output += 'RuntimeError: ' + (e.message || String(e));
+    }
   }
-  return { output: output.trim(), error: hasError };
+  return { output: output.trim(), error: hasError, errorLine, errorType };
 }
 
 function runTestCases(exId, code) {
@@ -2220,7 +2233,12 @@ function runTestCases(exId, code) {
     // Pass if output contains expected string (after normalization)
     const pass = !res.error && expected && outNorm.includes(expected);
     if (pass) passed++;
-    results.push({ desc: t.d, inputs: t.i || [], expected: t.e || '', actual: res.output, pass, error: res.error });
+    results.push({
+      desc: t.d, inputs: t.i || [], expected: t.e || '',
+      actual: res.output, pass, error: res.error,
+      errorLine: res.errorLine,   // số dòng lỗi chính xác từ PyErr.ln
+      errorType: res.errorType    // loại lỗi
+    });
   });
   return { results, passed, total: tests.length, score: Math.round((passed / tests.length) * 100) };
 }
@@ -2250,58 +2268,69 @@ function detectCommonMistakes(code) {
   const lines  = code.split('\n');
 
   // 1. Gán thay vì so sánh trong điều kiện: if x = 5
-  if (/\bif\b.*[^=!<>]=[^=>]/.test(code))
-    issues.push({ icon:'⚠', text:'Có thể dùng <b>=</b> (gán) thay vì <b>==</b> (so sánh) trong câu lệnh if. Ví dụ: <code>if x = 5</code> → nên là <code>if x == 5</code>' });
+  lines.forEach((ln, i) => {
+    if (/\bif\b.*[^=!<>]=[^=>]/.test(ln))
+      issues.push({ icon:'⚠', text:`Dòng ${i+1}: Có thể dùng <b>=</b> (gán) thay vì <b>==</b> (so sánh). Ví dụ: <code>if x = 5</code> → <code>if x == 5</code>`, lineNum: i+1, rawLine: ln.trim() });
+  });
 
-  // 2. print không có ngoặc: print "abc"  
-  if (/\bprint\s+"/.test(code) || /\bprint\s+'/.test(code))
-    issues.push({ icon:'⚠', text:'<b>print</b> phải có dấu ngoặc trong Python 3. Ví dụ: <code>print("Hello")</code>' });
+  // 2. print không có ngoặc: print "abc"
+  lines.forEach((ln, i) => {
+    if (/\bprint\s+["']/.test(ln))
+      issues.push({ icon:'⚠', text:`Dòng ${i+1}: <b>print</b> phải có dấu ngoặc trong Python 3: <code>print("Hello")</code>`, lineNum: i+1, rawLine: ln.trim() });
+  });
 
   // 3. Quên chuyển kiểu input() → int/float
   const hasInput  = /\binput\s*\(/.test(code);
   const hasIntConv= /\bint\s*\(\s*input/.test(code) || /\bfloat\s*\(\s*input/.test(code);
   const hasMath   = /[+\-*\/]/.test(code);
-  if (hasInput && hasMath && !hasIntConv)
-    issues.push({ icon:'⚠', text:'Nếu dùng input() để nhập số và tính toán, cần chuyển kiểu: <code>int(input(...))</code> hoặc <code>float(input(...))</code>' });
+  if (hasInput && hasMath && !hasIntConv) {
+    const inputLineIdx = lines.findIndex(l => /=\s*input\s*\(/.test(l) && !/int\s*\(|float\s*\(/.test(l));
+    issues.push({ icon:'⚠',
+      text: inputLineIdx >= 0
+        ? `Dòng ${inputLineIdx+1}: Dùng input() để nhập số cần chuyển kiểu: <code>int(input(...))</code> hoặc <code>float(input(...))</code>`
+        : 'Nếu dùng input() để nhập số và tính toán, cần chuyển kiểu: <code>int(input(...))</code>',
+      lineNum: inputLineIdx >= 0 ? inputLineIdx+1 : null,
+      rawLine: inputLineIdx >= 0 ? lines[inputLineIdx].trim() : null
+    });
+  }
 
   // 4. Lặp vô hạn: while True không có break
-  if (/\bwhile\s+True\b/.test(code) && !/\bbreak\b/.test(code))
-    issues.push({ icon:'⚠', text:'Vòng lặp <code>while True</code> không có <code>break</code> → có thể chạy mãi không dừng' });
+  if (/\bwhile\s+True\b/.test(code) && !/\bbreak\b/.test(code)) {
+    const wIdx = lines.findIndex(l => /\bwhile\s+True\b/.test(l));
+    issues.push({ icon:'⚠', text:`Dòng ${wIdx+1}: Vòng lặp <code>while True</code> không có <code>break</code> → có thể chạy vô hạn`, lineNum: wIdx+1, rawLine: lines[wIdx].trim() });
+  }
 
   // 5. Dùng = trong điều kiện while
-  if (/\bwhile\b.*[^=!<>]=[^=>]/.test(code))
-    issues.push({ icon:'⚠', text:'Kiểm tra điều kiện trong <code>while</code>: nên dùng <code>==</code> thay vì <code>=</code>' });
+  lines.forEach((ln, i) => {
+    if (/\bwhile\b.*[^=!<>]=[^=>]/.test(ln))
+      issues.push({ icon:'⚠', text:`Dòng ${i+1}: Kiểm tra điều kiện trong <code>while</code>: nên dùng <code>==</code> thay vì <code>=</code>`, lineNum: i+1, rawLine: ln.trim() });
+  });
 
-  // 6. Thiếu dấu thụt đầu dòng (indent) sau :
+  // 6. Thiếu dấu thụt đầu dòng (indent) sau : — trả về lineNum chính xác
   for (let i = 0; i < lines.length - 1; i++) {
     const ln = lines[i].trim();
     if (/:\s*$/.test(ln) && /^(if|else|elif|for|while|def|class|try|except|finally)\b/.test(ln)) {
       const nextLn = lines[i+1];
       if (nextLn && nextLn.trim().length > 0 && !/^\s/.test(nextLn))
-        issues.push({ icon:'🔴', text: `Dòng ${i+2}: Thiếu thụt đầu dòng (indent) sau <code>${esc(ln)}</code>` });
+        issues.push({ icon:'🔴', text:`Dòng ${i+2}: Thiếu thụt đầu dòng (indent) sau <code>${esc(ln)}</code>`, lineNum: i+2, rawLine: lines[i+1].trim() });
     }
   }
 
   // 7. Chia cho 0
-  if (/\/\s*0\b/.test(code))
-    issues.push({ icon:'🔴', text:'Phép chia cho 0 sẽ gây lỗi <code>ZeroDivisionError</code>' });
+  lines.forEach((ln, i) => {
+    if (/\/\s*0\b/.test(ln) && !/\/\//.test(ln))
+      issues.push({ icon:'🔴', text:`Dòng ${i+1}: Phép chia cho 0 sẽ gây lỗi <code>ZeroDivisionError</code>`, lineNum: i+1, rawLine: ln.trim() });
+  });
 
-  // 8. Dùng range sai: range(1, n) thay vì range(1, n+1)
-  // (chỉ cảnh báo nhẹ)
-
-  // 9. Thiếu chú thích
+  // 8. Thiếu chú thích
   if (!/#/.test(code) && code.trim().split('\n').length >= 5)
-    issues.push({ icon:'💬', text:'Chưa có chú thích <code>#</code>. Thêm chú thích giúp code dễ đọc và dễ hiểu hơn' });
+    issues.push({ icon:'💬', text:'Chưa có chú thích <code>#</code>. Thêm chú thích giúp code dễ đọc hơn', lineNum: null, rawLine: null });
 
-  // 10. Tên biến tiếng Anh viết sai kiểu
-  // (khó phát hiện chính xác, bỏ qua)
-
-  // 11. Dùng == so sánh với True/False thay vì dùng trực tiếp
-  if (/==\s*True\b|==\s*False\b/.test(code))
-    issues.push({ icon:'💡', text:'Mẹo: thay <code>if x == True</code> → <code>if x</code>; <code>if x == False</code> → <code>if not x</code>' });
-
-  // 12. Không dùng f-string khi có thể (style)
-  // Skip - too complex
+  // 9. Dùng == so sánh với True/False
+  lines.forEach((ln, i) => {
+    if (/==\s*True\b|==\s*False\b/.test(ln))
+      issues.push({ icon:'💡', text:`Dòng ${i+1}: Mẹo: thay <code>if x == True</code> → <code>if x</code>; <code>if x == False</code> → <code>if not x</code>`, lineNum: i+1, rawLine: ln.trim() });
+  });
 
   return issues;
 }
@@ -2464,6 +2493,56 @@ function buildRubricHint(desc, missing, code) {
   return `Cần có: <code>${esc(missing.join(', '))}</code> trong code`;
 }
 
+// ── Tìm dòng tốt nhất để chèn từ khóa còn thiếu ──────────────────────
+function findInsertLine(code, missingKws) {
+  const lines = code.split('\n');
+  const m = missingKws[0] || '';
+
+  // Quy tắc tìm dòng theo từng loại từ khóa
+  const rules = [
+    // Nếu thiếu else/elif → tìm dòng if gần cuối nhất
+    { kws: ['else', 'elif'], find: /^\s*if\b/, label: 'sau if' },
+    // Nếu thiếu return → tìm dòng def
+    { kws: ['return'], find: /^\s*def\b/, label: 'trong hàm' },
+    // Nếu thiếu range/for → tìm vị trí sau input
+    { kws: ['range', 'for'], find: /^\s*(n|so|count|num)\s*=\s*int\s*\(/, label: 'sau khai báo biến' },
+    // Nếu thiếu int/float → tìm dòng có input() không có int/float
+    { kws: ['int', 'float'], find: /=\s*input\s*\((?!.*int|.*float)/, label: 'dòng nhập liệu' },
+    // Nếu thiếu print → tìm dòng cuối có biến kết quả
+    { kws: ['print'], find: /^\s*(ket_qua|result|tong|tb|ans|output)\s*=/, label: 'dòng kết quả' },
+    // Nếu thiếu # → dòng đầu tiên
+    { kws: ['#'], find: null, label: 'dòng đầu' },
+  ];
+
+  for (const rule of rules) {
+    if (!rule.kws.includes(m)) continue;
+    if (!rule.find) return { lineNum: 1, label: rule.label };
+    // Tìm dòng khớp từ cuối lên
+    for (let i = lines.length - 1; i >= 0; i--) {
+      if (rule.find.test(lines[i])) {
+        return { lineNum: i + 1, label: rule.label };
+      }
+    }
+  }
+
+  // Mặc định: tìm dòng có từ khóa liên quan nhất
+  const related = {
+    'else': 'if', 'elif': 'if', 'return': 'def',
+    'break': 'for', 'continue': 'for', 'append': '[',
+    'range': 'for', 'int': 'input', 'float': 'input'
+  };
+  const relKw = related[m];
+  if (relKw) {
+    for (let i = lines.length - 1; i >= 0; i--) {
+      if (lines[i].toLowerCase().includes(relKw)) {
+        return { lineNum: i + 1, label: `gần dòng ${i + 1}` };
+      }
+    }
+  }
+
+  return null; // Không tìm được dòng cụ thể
+}
+
 // ── Phân tích chi tiết dòng code chứa/thiếu từ khóa ─────────────
 function analyzeCodeLines(code, kws, lineNum) {
   const lines = code.split('\n');
@@ -2517,37 +2596,67 @@ function buildOutputDiff(actual, expected) {
 // ── Tạo danh sách lỗi ưu tiên cần sửa ──────────────────────────
 function buildPriorityFixes(rubricResults, testRun, mistakes) {
   const fixes = [];
+  const seenErrors = new Set(); // tránh trùng lặp
+
   // 1. Lỗi syntax/runtime từ test cases (ưu tiên cao nhất)
   if (testRun) {
     testRun.results.filter(t => !t.pass && t.error).forEach(t => {
       const cat = categorizeTestFailure(t);
-      const errLine = (t.actual || '').match(/(?:dòng|line)\s*(\d+)/i);
+      // Ưu tiên dùng errorLine từ PyErr.ln, fallback sang parse từ text
+      let errLine = t.errorLine || null;
+      if (!errLine) {
+        const m = (t.actual || '').match(/(?:dòng|line)\s*(\d+)/i);
+        errLine = m ? parseInt(m[1]) : null;
+      }
+      const errKey = `${t.errorType}:${errLine}`;
+      if (seenErrors.has(errKey)) return;
+      seenErrors.add(errKey);
+      const errFirstLine = (t.actual || '').split('\n')[0];
       fixes.push({
         level: 'error',
-        lineNum: errLine ? parseInt(errLine[1]) : null,
+        lineNum: errLine,
         title: cat ? cat.label : 'Lỗi thực thi',
-        detail: (t.actual || '').split('\n')[0].substring(0, 100),
+        detail: errFirstLine.substring(0, 100),
         hint: cat ? cat.hint : '',
         source: 'test'
       });
     });
   }
-  // 2. Lỗi indent từ detectCommonMistakes
-  mistakes.filter(m => m.text.includes('indent') || m.text.includes('Thiếu thụt')).forEach(m => {
-    const ln = m.text.match(/Dòng (\d+)/);
-    fixes.push({ level: 'error', lineNum: ln ? parseInt(ln[1]) : null, title: 'Thiếu thụt đầu dòng (indent)', detail: m.text.replace(/<[^>]+>/g, ''), hint: 'Thêm 4 dấu cách hoặc 1 Tab trước lệnh sau <code>if/for/while/def:</code>', source: 'syntax' });
+
+  // 2. Lỗi indent từ detectCommonMistakes (có số dòng chính xác)
+  mistakes.filter(m => m.lineNum != null).forEach(m => {
+    fixes.push({
+      level: 'error',
+      lineNum: m.lineNum,
+      title: 'Thiếu thụt đầu dòng (indent)',
+      detail: `Dòng ${m.lineNum}: ${(m.rawLine||'').substring(0,60)}`,
+      hint: 'Thêm 4 dấu cách hoặc 1 Tab trước lệnh sau <code>if/for/while/def:</code>',
+      source: 'syntax'
+    });
   });
-  // 3. Rubric fail (ưu tiên trung bình)
+
+  // 3. Rubric fail — tìm dòng chính xác
   rubricResults.filter(r => r.status === 'fail').forEach(r => {
+    // Nếu có số dòng cụ thể từ rubric config
+    let lineNum = r.lineNum !== 'all' ? parseInt(r.lineNum) : null;
+    let lineLabel = lineNum ? `Dòng ${lineNum}` : null;
+    // Nếu không có số dòng, tìm dòng tốt nhất để sửa
+    if (!lineNum && r.missingKws.length > 0) {
+      const codeForSearch = ci ? ci.value : '';
+      const found = findInsertLine(codeForSearch, r.missingKws);
+      if (found) { lineNum = found.lineNum; lineLabel = found.label; }
+    }
     fixes.push({
       level: 'warn',
-      lineNum: r.lineNum !== 'all' ? parseInt(r.lineNum) : null,
+      lineNum,
+      lineLabel,
       title: r.desc,
-      detail: `Chưa tìm thấy: ${r.missingKws.join(', ')}`,
+      detail: `Thiếu: ${r.missingKws.join(', ')}`,
       hint: r.hint || buildRubricHint(r.desc, r.missingKws, ''),
       source: 'rubric'
     });
   });
+
   // 4. Test case logic errors
   if (testRun) {
     testRun.results.filter(t => !t.pass && !t.error).forEach(t => {
@@ -2555,18 +2664,20 @@ function buildPriorityFixes(rubricResults, testRun, mistakes) {
       fixes.push({
         level: 'warn',
         lineNum: null,
-        title: `Test "${t.desc}" — Output sai`,
-        detail: `Nhận: "${(t.actual||'').substring(0,50)}" | Cần: "${t.expected}"`,
+        title: `Test “${t.desc}” — Output sai`,
+        detail: `Nhận: “${(t.actual||'').substring(0,50)}” | Cần: “${t.expected}”`,
         hint: diff.hint || '',
         source: 'test'
       });
     });
   }
-  // 5. Cảnh báo nhẹ
-  mistakes.filter(m => !m.text.includes('indent') && !m.text.includes('Thiếu thụt')).forEach(m => {
+
+  // 5. Cảnh báo nhẹ (không có số dòng)
+  mistakes.filter(m => m.lineNum == null).forEach(m => {
     fixes.push({ level: 'info', lineNum: null, title: m.text.replace(/<[^>]+>/g,'').substring(0,60), detail: '', hint: m.text, source: 'warning' });
   });
-  return fixes.slice(0, 8); // Tối đa 8 lỗi
+
+  return fixes.slice(0, 8); // Tối đa 8 mục
 }
 
 // ── MAIN GRADE FUNCTION ──────────────────────────────────────
@@ -2663,7 +2774,8 @@ function renderGrade(results, score, pass, fail, skip, testRun, mistakes, qualit
       const fi = document.createElement('div');
       fi.className = `fix-item ${fix.level === 'warn' ? 'warn-lvl' : fix.level === 'info' ? 'info-lvl' : ''}`;
       const numCls = fix.level === 'warn' ? 'warn-lvl' : fix.level === 'info' ? 'info-lvl' : '';
-      const gotoBtn = fix.lineNum ? `<span class="fix-goto" onclick="hlLine(${fix.lineNum});event.stopPropagation()">Dòng ${fix.lineNum} →</span>` : '';
+      const gotoLabel = fix.lineNum ? `Dòng ${fix.lineNum}` : (fix.lineLabel ? fix.lineLabel : null);
+      const gotoBtn = fix.lineNum ? `<span class="fix-goto" onclick="hlLine(${fix.lineNum});event.stopPropagation()">${gotoLabel} →</span>` : (fix.lineLabel ? `<span class="fix-goto" style="cursor:default;opacity:.6">${fix.lineLabel}</span>` : '');
       const detailTxt = fix.detail ? `<div style="font-size:11px;color:var(--text3);margin-top:2px;font-family:var(--mono)">${esc(fix.detail.substring(0,80))}</div>` : '';
       const hintTxt = fix.hint ? `<div class="hint-box" style="margin-top:5px">💡 ${fix.hint}</div>` : '';
       fi.innerHTML = `<span class="fix-num ${numCls}">${i+1}</span><div class="fix-text"><b>${esc(fix.title)}</b>${detailTxt}${hintTxt}</div>${gotoBtn}`;
@@ -2705,10 +2817,19 @@ function renderGrade(results, score, pass, fail, skip, testRun, mistakes, qualit
         // Build detailed comparison rows
         let compRows = `<div class="tc-analysis">`;
         if (t.error) {
-          // Runtime error: show full error message
+          // Runtime error: show full error message with exact line number
           const errLines = gotFull.split('\n').slice(0, 5);
-          compRows += `<div class="tca-row"><span class="tca-label">Lỗi:</span><span class="tca-val got">${esc(errLines[0] || '')}</span></div>`;
+          const lineTag = t.errorLine
+            ? ` <span class="fix-goto" style="cursor:pointer" onclick="hlLine(${t.errorLine})">Dòng ${t.errorLine} →</span>`
+            : '';
+          compRows += `<div class="tca-row"><span class="tca-label">Lỗi:</span><span class="tca-val got">${esc(errLines[0] || '')}${lineTag}</span></div>`;
           if (errLines.length > 1) compRows += `<div class="tca-row"><span class="tca-label"></span><span class="tca-val" style="color:var(--text3);font-size:10px">${esc(errLines.slice(1).join(' | ').substring(0,120))}</span></div>`;
+          if (t.errorLine) {
+            // Show the actual line from student's code
+            const codeLines = (ci ? ci.value : '').split('\n');
+            const errCodeLine = codeLines[t.errorLine - 1];
+            if (errCodeLine) compRows += `<div class="tca-row"><span class="tca-label">Code:</span><span class="tca-val" style="font-family:var(--mono);color:var(--text2)">L${t.errorLine}: ${esc(errCodeLine.trim().substring(0,80))}</span></div>`;
+          }
         } else {
           compRows += `<div class="tca-row"><span class="tca-label">✗ Nhận:</span><span class="tca-val got">${esc(gotFull.substring(0,100)) || '(không có output)'}</span></div>`;
           compRows += `<div class="tca-row"><span class="tca-label">✓ Cần:</span><span class="tca-val want">${esc(wantFull.substring(0,100))}</span></div>`;
@@ -3810,7 +3931,7 @@ window.addEventListener('load', () => {
 //    → APIs & Services → Credentials → Create OAuth 2.0 Client ID
 //    → Application type: Web → Authorised origins: domain trường
 //
-const APP_VERSION = 'v4.9.17'; // tự động tăng mỗi lần cập nhật
+const APP_VERSION = 'v4.9.18'; // tự động tăng mỗi lần cập nhật
 // Cập nhật badge version từ APP_VERSION
 document.addEventListener('DOMContentLoaded', function() {
   const vb = document.getElementById('ver-badge');
