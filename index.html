@@ -612,6 +612,24 @@
   .cri-pts { font-family:var(--mono); font-size:12px; font-weight:700; color:var(--accent); flex-shrink:0; }
   .criteria-note { margin:0 14px 14px; padding:8px 12px; background:rgba(63,185,80,.07); border:1px solid rgba(63,185,80,.2); border-radius:8px; font-size:11.5px; color:var(--text3); line-height:1.6; }
   .criteria-note b { color:var(--accent2); }
+  /* Criteria rubric item enhanced */
+  .cri { display:flex; align-items:flex-start; gap:9px; padding:10px 14px; border-bottom:1px solid var(--border); cursor:pointer; transition:background .15s; }
+  .cri:hover { background:var(--surface3); }
+  .cri.expanded { background:rgba(88,166,255,.04); }
+  .cri-icon { font-size:15px; flex-shrink:0; margin-top:1px; }
+  .cri-body { flex:1; min-width:0; }
+  .cri-top { display:flex; align-items:center; gap:7px; }
+  .cri-pts-bar { height:4px; border-radius:2px; background:var(--surface3); margin-top:5px; overflow:hidden; }
+  .cri-pts-fill { height:100%; border-radius:2px; background:var(--accent); transition:width .3s; }
+  .cri-kw { font-size:10px; color:var(--text3); margin-top:4px; font-family:var(--mono); }
+  .cri-kw code { background:var(--surface3); padding:1px 5px; border-radius:3px; color:var(--text2); }
+  .cri-detail { display:none; margin-top:8px; padding:8px 10px; background:var(--surface3); border-radius:7px; font-size:11.5px; color:var(--text2); line-height:1.7; }
+  .cri.expanded .cri-detail { display:block; }
+  .cri-example { margin-top:6px; font-family:var(--mono); font-size:11px; background:var(--surface); border:1px solid var(--border); border-radius:5px; padding:6px 9px; color:#79c0ff; white-space:pre; overflow-x:auto; }
+  .cri-score-summary { display:flex; gap:10px; padding:10px 14px; background:var(--surface3); border-top:1px solid var(--border); font-size:11.5px; }
+  .css-item { flex:1; text-align:center; }
+  .css-val { font-size:16px; font-weight:800; color:var(--accent); font-family:var(--mono); }
+  .css-lbl { font-size:10px; color:var(--text3); margin-top:2px; }
 </style>
   <!-- Google Identity Services -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -628,7 +646,7 @@
   </div>
   <div style="display:flex;align-items:center;gap:10px">
     <button onclick="window.location.reload(true)" title="Cập nhật phiên bản mới" style="background:none;border:none;cursor:pointer;font-size:14px;padding:4px;opacity:0.6;color:var(--text2);" id="reload-btn">🔄</button>
-    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.18</span>
+    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.19</span>
     <!-- Google auth area (hidden — login via AI panel only) -->
     <div id="google-auth-area" style="display:none">
       <div id="g-signin-wrap"></div>
@@ -3687,13 +3705,106 @@ function renderCriteria(e) {
   const gradeTag = e.g ? `<span class="ex-tag ${e.g.toLowerCase()}">${esc(e.g)}</span>` : '';
   const lvTag = e.lv ? `<span class="ex-tag">${esc(e.lv.split('–')[0].trim())}</span>` : '';
 
+  // Hàm tự động gán icon và mô tả chi tiết dựa trên từ khóa
+  function getCriIcon(kw, desc) {
+    const k = (kw + ' ' + desc).toLowerCase();
+    if (/input/.test(k)) return '📥';
+    if (/print|in ra|output/.test(k)) return '🖨';
+    if (/for|while|range|vòng lặp|lặp/.test(k)) return '🔁';
+    if (/if|else|elif|điều kiện|kiểm tra/.test(k)) return '🔀';
+    if (/def|hàm|function/.test(k)) return '🔧';
+    if (/int|float|str|chuyển|convert/.test(k)) return '🔢';
+    if (/#|chú thích|comment/.test(k)) return '💬';
+    if (/and|or|not|logic/.test(k)) return '⚡';
+    if (/%|chia hết|modulo/.test(k)) return '➗';
+    if (/list|append|sort|mảng/.test(k)) return '📋';
+    if (/return|trả về/.test(k)) return '↩';
+    return '✅';
+  }
+
+  // Hàm tạo gợi ý code mẫu dựa trên từ khóa
+  function getCriExample(kw, desc) {
+    const k = (kw + ' ' + desc).toLowerCase();
+    const keywords = kw.split(',').map(s => s.trim()).filter(Boolean);
+    const kw0 = keywords[0] || '';
+
+    if (/input/.test(k)) return `ten = input("Nhập tên: ")\nn = int(input("Nhập số: "))`;
+    if (/for.*range|range.*for/.test(k)) return `for i in range(n):\n    print(i)`;
+    if (/for/.test(k)) return `for i in range(10):\n    # xử lý từng phần tử\n    print(i)`;
+    if (/while/.test(k)) return `while dieu_kien:\n    # lặp cho đến khi điều kiện sai\n    i += 1`;
+    if (/elif/.test(k)) return `if x > 0:\n    print("dương")\nelif x < 0:\n    print("âm")\nelse:\n    print("không")`;
+    if (/else/.test(k)) return `if dieu_kien:\n    print("Đúng")\nelse:\n    print("Sai")`;
+    if (/if/.test(k)) return `if x > 0:\n    print("x là số dương")`;
+    if (/def/.test(k)) return `def ten_ham(tham_so):\n    # thân hàm\n    return ket_qua`;
+    if (/return/.test(k)) return `def tinh_tong(a, b):\n    return a + b`;
+    if (/float/.test(k)) return `x = float(input("Nhập số thực: "))`;
+    if (/int/.test(k)) return `n = int(input("Nhập số nguyên: "))`;
+    if (/print/.test(k)) return `print("Kết quả:", ket_qua)\nprint(f"Giá trị x = {x}")`;
+    if (/#/.test(k)) return `# Đây là chú thích giải thích code\nn = int(input())  # nhập số nguyên`;
+    if (/and/.test(k)) return `if a > 0 and b > 0:\n    print("Cả hai đều dương")`;
+    if (/or/.test(k)) return `if x < 0 or x > 100:\n    print("Ngoài khoảng")`;
+    if (/%/.test(k)) return `if n % 2 == 0:\n    print("Số chẵn")\nif n % 5 == 0:\n    print("Chia hết cho 5")`;
+    if (/round/.test(k)) return `ket_qua = round(so_thuc, 2)  # làm tròn 2 chữ số`;
+    if (/append|list/.test(k)) return `ds = []\nds.append(phan_tu)  # thêm phần tử vào danh sách`;
+    if (/sort/.test(k)) return `ds.sort()  # sắp xếp tăng dần\nds.sort(reverse=True)  # giảm dần`;
+    // Fallback: hiển thị từ khóa cần có
+    if (kw0) return `# Code cần chứa: ${keywords.join(', ')}`;
+    return '';
+  }
+
+  // Hàm tạo mô tả chi tiết
+  function getCriDetail(kw, desc, pts) {
+    const k = (kw + ' ' + desc).toLowerCase();
+    const keywords = kw.split(',').map(s => s.trim()).filter(Boolean);
+    const kwList = keywords.map(k => `<code>${esc(k)}</code>`).join(', ');
+
+    let detail = `Code của bạn cần chứa từ khóa: ${kwList}`;
+
+    if (/input/.test(k)) detail = `Dùng hàm <code>input()</code> để nhận dữ liệu từ bàn phím. Thường kết hợp với <code>int()</code> hoặc <code>float()</code> để chuyển kiểu.`;
+    else if (/for.*range|range.*for/.test(k)) detail = `Dùng vòng lặp <code>for i in range(...)</code> để lặp một số lần xác định. <code>range(n)</code> tạo dãy từ 0 đến n-1.`;
+    else if (/for/.test(k)) detail = `Dùng vòng lặp <code>for</code> để duyệt qua từng phần tử. Thường dùng với <code>range()</code> hoặc danh sách.`;
+    else if (/while/.test(k)) detail = `Dùng vòng lặp <code>while</code> khi không biết trước số lần lặp. Cần đảm bảo điều kiện sẽ trở thành False để thoát vòng lặp.`;
+    else if (/elif/.test(k)) detail = `Dùng <code>elif</code> để kiểm tra thêm điều kiện sau <code>if</code>. Cấu trúc: <code>if ... elif ... else ...</code>`;
+    else if (/else/.test(k)) detail = `Dùng <code>else</code> để xử lý trường hợp ngược lại khi điều kiện <code>if</code> sai.`;
+    else if (/if/.test(k)) detail = `Dùng câu lệnh <code>if</code> để kiểm tra điều kiện. Chỉ thực thi khối lệnh bên trong khi điều kiện đúng.`;
+    else if (/def/.test(k)) detail = `Dùng <code>def</code> để định nghĩa hàm. Hàm giúp tái sử dụng code và làm cho chương trình có cấu trúc rõ ràng hơn.`;
+    else if (/float/.test(k)) detail = `Dùng <code>float()</code> để chuyển chuỗi từ <code>input()</code> thành số thực (có phần thập phân).`;
+    else if (/int/.test(k)) detail = `Dùng <code>int()</code> để chuyển chuỗi từ <code>input()</code> thành số nguyên.`;
+    else if (/print/.test(k)) detail = `Dùng <code>print()</code> để hiển thị kết quả ra màn hình. Có thể dùng f-string: <code>print(f"Kết quả: {bien}")</code>`;
+    else if (/#/.test(k)) detail = `Thêm chú thích bằng ký tự <code>#</code> để giải thích code. Giúp người đọc hiểu mục đích của từng đoạn code.`;
+    else if (/and/.test(k)) detail = `Dùng <code>and</code> để kết hợp nhiều điều kiện — tất cả phải đúng thì kết quả mới đúng.`;
+    else if (/or/.test(k)) detail = `Dùng <code>or</code> để kết hợp điều kiện — chỉ cần một điều kiện đúng là kết quả đúng.`;
+    else if (/%/.test(k)) detail = `Dùng toán tử <code>%</code> (modulo) để lấy phần dư của phép chia. Ví dụ: <code>n % 2 == 0</code> kiểm tra số chẵn.`;
+    else if (/round/.test(k)) detail = `Dùng <code>round(số, n)</code> để làm tròn số thực đến n chữ số thập phân.`;
+
+    return detail;
+  }
+
   let rubricRows = e.rb.map((r, i) => {
     const pts = parseFloat(r.pts) || 0;
-    const modeLabel = r.mode === 'all' ? '<span style="font-size:9px;color:var(--text3);margin-left:4px">[AND]</span>' : '';
-    return `<div class="cri">
-      <span class="cri-num">${i + 1}</span>
-      <span class="cri-desc">${esc(r.desc)}${modeLabel}</span>
-      <span class="cri-pts">${pts.toFixed(1)}đ</span>
+    const pct = totalPts > 0 ? (pts / totalPts * 100).toFixed(0) : 0;
+    const modeLabel = r.mode === 'all' ? ' <span style="font-size:9px;color:var(--text3)">[Cần tất cả]</span>' : '';
+    const icon = getCriIcon(r.kw || '', r.desc || '');
+    const example = getCriExample(r.kw || '', r.desc || '');
+    const detail = getCriDetail(r.kw || '', r.desc || '', pts);
+    const kwList = (r.kw || '').split(',').map(k => k.trim()).filter(Boolean).map(k => `<code>${esc(k)}</code>`).join(' ');
+    const exampleHtml = example ? `<div class="cri-example">${esc(example)}</div>` : '';
+
+    return `<div class="cri" onclick="this.classList.toggle('expanded')">
+      <span class="cri-icon">${icon}</span>
+      <div class="cri-body">
+        <div class="cri-top">
+          <span class="cri-num" style="font-size:10px;color:var(--text3);background:var(--surface3);border-radius:4px;padding:2px 6px;flex-shrink:0;min-width:24px;text-align:center;font-family:var(--mono)">${i + 1}</span>
+          <span class="cri-desc" style="flex:1;font-size:12px;color:var(--text);line-height:1.4;font-weight:600">${esc(r.desc)}${modeLabel}</span>
+          <span class="cri-pts" style="font-family:var(--mono);font-size:13px;font-weight:800;color:var(--accent);flex-shrink:0">${pts.toFixed(1)}đ</span>
+        </div>
+        <div class="cri-pts-bar"><div class="cri-pts-fill" style="width:${pct}%"></div></div>
+        ${kwList ? `<div class="cri-kw">Từ khóa: ${kwList}</div>` : ''}
+        <div class="cri-detail">
+          ${detail}
+          ${exampleHtml}
+        </div>
+      </div>
     </div>`;
   }).join('');
 
@@ -3712,6 +3823,7 @@ function renderCriteria(e) {
           <span class="crb-title">✓ Tiêu chí chấm điểm</span>
           <span class="crb-total">Tổng: ${totalPts.toFixed(1)} điểm</span>
         </div>
+        <div style="padding:6px 14px 4px;font-size:10.5px;color:var(--text3)">👆 Click vào tiêu chí để xem gợi ý code mẫu</div>
         ${rubricRows}
       </div>
 
@@ -3931,7 +4043,7 @@ window.addEventListener('load', () => {
 //    → APIs & Services → Credentials → Create OAuth 2.0 Client ID
 //    → Application type: Web → Authorised origins: domain trường
 //
-const APP_VERSION = 'v4.9.18'; // tự động tăng mỗi lần cập nhật
+const APP_VERSION = 'v4.9.19'; // tự động tăng mỗi lần cập nhật
 // Cập nhật badge version từ APP_VERSION
 document.addEventListener('DOMContentLoaded', function() {
   const vb = document.getElementById('ver-badge');
