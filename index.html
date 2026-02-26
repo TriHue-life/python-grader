@@ -428,7 +428,7 @@
   </div>
   <div style="display:flex;align-items:center;gap:10px">
     <span class="badge offline-badge" style="font-size:10px">🟢 Offline</span>
-    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.8.2</span>
+    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.8.3</span>
     <!-- Google auth area (hidden — login via AI panel only) -->
     <div id="google-auth-area" style="display:none">
       <div id="g-signin-wrap"></div>
@@ -2000,9 +2000,13 @@ function analyzeRubricItem(cr, code, lines) {
   const codeOnlyLines = checkLines.map(l => l.replace(/#.*$/, ''));
   const checkTxt = codeOnlyLines.join('\n').toLowerCase();
   const fullTxt  = checkLines.join('\n').toLowerCase();
+  // Normalize: xóa khoảng trắng để so sánh (học sinh có thể viết s = 0 hoặc s=0)
+  const normCheckTxt = checkTxt.replace(/\s+/g, '');
+  const normFullTxt  = fullTxt.replace(/\s+/g, '');
 
   // Dùng fullTxt (có comment) cho '#', dùng checkTxt (không có comment) cho từ khóa còn lại
-  const getTxt = (k) => k.trim() === '#' ? fullTxt : checkTxt;
+  // Và dùng normalized version để so sánh keyword
+  const getTxt = (k) => k.trim() === '#' ? normFullTxt : normCheckTxt;
 
   let passed = false, matchedKws = [], missingKws = [];
   if (kws.length) {
@@ -3098,7 +3102,7 @@ window.addEventListener('load', () => {
 //    → APIs & Services → Credentials → Create OAuth 2.0 Client ID
 //    → Application type: Web → Authorised origins: domain trường
 //
-const APP_VERSION = 'v4.8.2'; // tự động tăng mỗi lần cập nhật
+const APP_VERSION = 'v4.8.3'; // tự động tăng mỗi lần cập nhật
 // Cập nhật badge version từ APP_VERSION
 document.addEventListener('DOMContentLoaded', function() {
   const vb = document.getElementById('ver-badge');
