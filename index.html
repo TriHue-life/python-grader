@@ -570,7 +570,8 @@
     </div>
   </div>
   <div style="display:flex;align-items:center;gap:10px">
-    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.8</span>
+    <button onclick="window.location.reload(true)" title="Cập nhật phiên bản mới" style="background:none;border:none;cursor:pointer;font-size:14px;padding:4px;opacity:0.6;color:var(--text2);" id="reload-btn">🔄</button>
+    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.9</span>
     <!-- Google auth area (hidden — login via AI panel only) -->
     <div id="google-auth-area" style="display:none">
       <div id="g-signin-wrap"></div>
@@ -3545,11 +3546,21 @@ window.addEventListener('load', () => {
 //    → APIs & Services → Credentials → Create OAuth 2.0 Client ID
 //    → Application type: Web → Authorised origins: domain trường
 //
-const APP_VERSION = 'v4.9.8'; // tự động tăng mỗi lần cập nhật
+const APP_VERSION = 'v4.9.9'; // tự động tăng mỗi lần cập nhật
 // Cập nhật badge version từ APP_VERSION
 document.addEventListener('DOMContentLoaded', function() {
   const vb = document.getElementById('ver-badge');
   if (vb) vb.textContent = APP_VERSION;
+
+  // Auto-reload nếu đang dùng phiên bản cũ (iOS Safari cache)
+  const storedVer = localStorage.getItem('pg_version');
+  if (storedVer && storedVer !== APP_VERSION) {
+    // Phát hiện version cũ → xóa cache và reload
+    localStorage.setItem('pg_version', APP_VERSION);
+    window.location.reload(true);
+    return;
+  }
+  localStorage.setItem('pg_version', APP_VERSION);
 });
 const GEMINI_API_KEY   = 'AIzaSyCaBm7oMX5kOldlAZV5ebZTzIQlsC44xUU';
 // GOOGLE_CLIENT_ID: tạo tại console.cloud.google.com → APIs & Services
