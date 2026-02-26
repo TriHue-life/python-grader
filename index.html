@@ -46,8 +46,40 @@
   .lnums{padding:10px 0;background:var(--surface);border-right:1px solid var(--border);text-align:right;min-width:46px;font-family:var(--mono);font-size:12.5px;line-height:1.6;color:var(--text3);user-select:none;overflow:hidden;flex-shrink:0}
   .lnums span{display:block;padding:0 10px 0 6px;height:20px}
   .lnums span.al{color:var(--text2);background:rgba(88,166,255,.07)}
-  #code-input{flex:1;background:transparent;border:none;outline:none;resize:none;font-family:var(--mono);font-size:12.5px;line-height:1.6;color:var(--text);padding:10px 14px;caret-color:var(--accent);overflow-y:auto;tab-size:4;white-space:pre;overflow-wrap:normal;overflow-x:auto;direction:ltr;unicode-bidi:plaintext;text-align:left}
+  #code-input{flex:1;border:none;outline:none;resize:none;font-family:var(--mono);font-size:12.5px;line-height:1.6;padding:10px 14px;overflow-y:auto;tab-size:4;white-space:pre;overflow-wrap:normal;overflow-x:auto;direction:ltr;unicode-bidi:plaintext;text-align:left}
   #code-input::selection{background:rgba(88,166,255,.25)}
+  /* ── Syntax Highlighting Overlay (VSCode Dark+ colors) ── */
+  #hl-overlay{
+    position:absolute;top:0;left:46px;right:0;bottom:0;
+    padding:10px 14px;
+    font-family:var(--mono);font-size:12.5px;line-height:1.6;
+    white-space:pre;overflow-wrap:normal;overflow-x:auto;overflow-y:auto;
+    pointer-events:none;user-select:none;
+    tab-size:4;word-break:normal;
+    color:transparent;
+    background:var(--bg);
+    z-index:0;
+  }
+  #code-input{
+    position:relative;z-index:1;
+    background:transparent !important;
+    color:transparent !important;
+    caret-color:var(--text) !important;
+  }
+  /* VSCode Dark+ token colors */
+  .hl-kw   { color:#569cd6 }  /* keywords: if, else, for, while, def, class, return... */
+  .hl-bi   { color:#4ec9b0 }  /* builtins: print, input, int, str, len, range... */
+  .hl-str  { color:#ce9178 }  /* strings */
+  .hl-num  { color:#b5cea8 }  /* numbers */
+  .hl-cmt  { color:#6a9955;font-style:italic }  /* comments */
+  .hl-fn   { color:#dcdcaa }  /* function names (after def) */
+  .hl-cls  { color:#4ec9b0 }  /* class names (after class) */
+  .hl-op   { color:#d4d4d4 }  /* operators */
+  .hl-punc { color:#d4d4d4 }  /* punctuation */
+  .hl-self { color:#9cdcfe }  /* self */
+  .hl-deco { color:#dcdcaa }  /* decorators */
+  .hl-bool { color:#569cd6 }  /* True, False, None */
+  .hl-plain{ color:#d4d4d4 }  /* plain text / identifiers */
   .toolbar{padding:7px 12px;background:var(--surface);border-top:1px solid var(--border);display:flex;align-items:center;gap:7px;flex-shrink:0}
   .btn{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:var(--sans);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
   .btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(88,166,255,.08)}
@@ -187,6 +219,7 @@
     .logo { font-size: 15px; gap: 8px; }
     .logo-icon { width: 26px; height: 26px; font-size: 13px; }
     header > div:last-child .badge { display: none; }
+    .logo-title .sub { display: flex; align-items: center; gap: 6px; font-size: 11px; opacity: 0.85; }
     .offline-badge { font-size: 10px !important; }
 
     /* Exercise bar: stack vertically */
@@ -277,7 +310,7 @@
     /* Header: ultra compact */
     header { padding: 4px 12px; }
     .logo-title .main { font-size: 18px; }
-    .logo-title .sub { display: none; }
+    .logo-title .sub { display: none !important; }
     .logo-icon { width: 22px; height: 22px; font-size: 11px; }
 
     /* Ex bar: horizontal, compact */
@@ -537,7 +570,7 @@
     </div>
   </div>
   <div style="display:flex;align-items:center;gap:10px">
-    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.7</span>
+    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.8</span>
     <!-- Google auth area (hidden — login via AI panel only) -->
     <div id="google-auth-area" style="display:none">
       <div id="g-signin-wrap"></div>
@@ -605,6 +638,7 @@
     </div>
     <div class="editor-wrap">
       <div class="lnums" id="lnums"><span class="al">1</span></div>
+      <div id="hl-overlay" aria-hidden="true"></div>
       <textarea id="code-input" dir="ltr" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="none" inputmode="text" placeholder="# Nhập code Python tại đây...
 # Ví dụ:
 name = input('Nhập tên: ')
@@ -1736,14 +1770,162 @@ function updLN() {
   lnEl.scrollTop = ci.scrollTop;
 }
 
-ci.addEventListener('input', updLN);
+// ── Syntax Highlighting Engine (VSCode Dark+ for Python) ────────────────────
+const hlOverlay = document.getElementById('hl-overlay');
+
+const PY_KEYWORDS = new Set([
+  'False','None','True','and','as','assert','async','await','break','class',
+  'continue','def','del','elif','else','except','finally','for','from',
+  'global','if','import','in','is','lambda','nonlocal','not','or','pass',
+  'raise','return','try','while','with','yield'
+]);
+
+const PY_BUILTINS = new Set([
+  'abs','all','any','bin','bool','breakpoint','bytearray','bytes','callable',
+  'chr','classmethod','compile','complex','delattr','dict','dir','divmod',
+  'enumerate','eval','exec','filter','float','format','frozenset','getattr',
+  'globals','hasattr','hash','help','hex','id','input','int','isinstance',
+  'issubclass','iter','len','list','locals','map','max','memoryview','min',
+  'next','object','oct','open','ord','pow','print','property','range',
+  'repr','reversed','round','set','setattr','slice','sorted','staticmethod',
+  'str','sum','super','tuple','type','vars','zip'
+]);
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function hlPython(code) {
+  let out = '';
+  let i = 0;
+  const n = code.length;
+  let prevTokType = null; // track if prev was 'def' or 'class'
+
+  while (i < n) {
+    const ch = code[i];
+
+    // Comment
+    if (ch === '#') {
+      let j = i;
+      while (j < n && code[j] !== '\n') j++;
+      out += `<span class="hl-cmt">${escHtml(code.slice(i, j))}</span>`;
+      i = j;
+      prevTokType = null;
+      continue;
+    }
+
+    // Triple-quoted string
+    if ((ch === '"' || ch === "'") && code[i+1] === ch && code[i+2] === ch) {
+      const q = ch.repeat(3);
+      let j = i + 3;
+      while (j < n && code.slice(j, j+3) !== q) j++;
+      j += 3;
+      out += `<span class="hl-str">${escHtml(code.slice(i, j))}</span>`;
+      i = j;
+      prevTokType = null;
+      continue;
+    }
+
+    // Single/double quoted string
+    if (ch === '"' || ch === "'") {
+      let j = i + 1;
+      while (j < n && code[j] !== ch && code[j] !== '\n') {
+        if (code[j] === '\\') j++; // skip escape
+        j++;
+      }
+      if (j < n && code[j] === ch) j++;
+      out += `<span class="hl-str">${escHtml(code.slice(i, j))}</span>`;
+      i = j;
+      prevTokType = null;
+      continue;
+    }
+
+    // Number (int, float, hex, binary)
+    if (/[0-9]/.test(ch) || (ch === '.' && /[0-9]/.test(code[i+1] || ''))) {
+      let j = i;
+      if (ch === '0' && (code[i+1] === 'x' || code[i+1] === 'X')) { j += 2; while (j < n && /[0-9a-fA-F_]/.test(code[j])) j++; }
+      else if (ch === '0' && (code[i+1] === 'b' || code[i+1] === 'B')) { j += 2; while (j < n && /[01_]/.test(code[j])) j++; }
+      else { while (j < n && /[0-9._eE+\-]/.test(code[j])) j++; }
+      out += `<span class="hl-num">${escHtml(code.slice(i, j))}</span>`;
+      i = j;
+      prevTokType = null;
+      continue;
+    }
+
+    // Decorator
+    if (ch === '@') {
+      let j = i + 1;
+      while (j < n && /[\w.]/.test(code[j])) j++;
+      out += `<span class="hl-deco">${escHtml(code.slice(i, j))}</span>`;
+      i = j;
+      prevTokType = 'deco';
+      continue;
+    }
+
+    // Identifier or keyword
+    if (/[a-zA-Z_\u00c0-\u024f\u1ea0-\u1ef9]/.test(ch)) {
+      let j = i;
+      while (j < n && /[\w\u00c0-\u024f\u1ea0-\u1ef9]/.test(code[j])) j++;
+      const word = code.slice(i, j);
+      let cls;
+      if (prevTokType === 'def') cls = 'hl-fn';
+      else if (prevTokType === 'class') cls = 'hl-cls';
+      else if (word === 'self' || word === 'cls') cls = 'hl-self';
+      else if (word === 'True' || word === 'False' || word === 'None') cls = 'hl-bool';
+      else if (PY_KEYWORDS.has(word)) cls = 'hl-kw';
+      else if (PY_BUILTINS.has(word)) cls = 'hl-bi';
+      else cls = 'hl-plain';
+      out += `<span class="${cls}">${escHtml(word)}</span>`;
+      prevTokType = (word === 'def' || word === 'class') ? word : null;
+      i = j;
+      continue;
+    }
+
+    // Operators
+    if (/[+\-*/%=<>!&|^~]/.test(ch)) {
+      let j = i;
+      // Multi-char operators
+      const two = code.slice(i, i+2);
+      if (['**','//','==','!=','<=','>=','+=','-=','*=','/=','//=','**=','%=','&=','|=','^=','<<','>>','->'].includes(two)) j = i + 2;
+      else j = i + 1;
+      out += `<span class="hl-op">${escHtml(code.slice(i, j))}</span>`;
+      i = j;
+      prevTokType = null;
+      continue;
+    }
+
+    // Punctuation
+    if (/[()\[\]{},.:;]/.test(ch)) {
+      out += `<span class="hl-punc">${escHtml(ch)}</span>`;
+      i++;
+      prevTokType = null;
+      continue;
+    }
+
+    // Whitespace and newlines - pass through
+    out += escHtml(ch);
+    if (ch !== ' ' && ch !== '\t' && ch !== '\n') prevTokType = null;
+    i++;
+  }
+  return out;
+}
+
+function updateHighlight() {
+  if (!hlOverlay) return;
+  const code = ci.value;
+  hlOverlay.innerHTML = hlPython(code) + '\n'; // trailing newline prevents scroll jump
+  hlOverlay.scrollTop = ci.scrollTop;
+  hlOverlay.scrollLeft = ci.scrollLeft;
+}
+
+ci.addEventListener('input', () => { updLN(); updateHighlight(); });
 ci.addEventListener('keydown', e => {
-  if (e.key === 'Tab') { e.preventDefault(); const s=ci.selectionStart,en=ci.selectionEnd; ci.value=ci.value.substring(0,s)+'    '+ci.value.substring(en); ci.selectionStart=ci.selectionEnd=s+4; updLN(); }
+  if (e.key === 'Tab') { e.preventDefault(); const s=ci.selectionStart,en=ci.selectionEnd; ci.value=ci.value.substring(0,s)+'    '+ci.value.substring(en); ci.selectionStart=ci.selectionEnd=s+4; updLN(); updateHighlight(); }
   if ((e.ctrlKey||e.metaKey) && e.key === 'Enter') runCode();
 });
-ci.addEventListener('scroll', () => lnEl.scrollTop = ci.scrollTop);
+ci.addEventListener('scroll', () => { lnEl.scrollTop = ci.scrollTop; if(hlOverlay){hlOverlay.scrollTop=ci.scrollTop;hlOverlay.scrollLeft=ci.scrollLeft;} });
 ci.addEventListener('click', updLN); ci.addEventListener('keyup', updLN);
-updLN();
+updLN(); updateHighlight();
 
 // ─── Output ─────────────────────────────────────────────────
 function clearOut() { document.getElementById('out').innerHTML = '<span class="o-p">// Output đã xóa…</span>'; }
@@ -2456,7 +2638,7 @@ function hlLine(ln) {
 async function runAndGrade() { clearOut(); await runCode_v2(ci.value.trim()); setTimeout(gradeCode, 200); }
 
 function clearAll() {
-  ci.value = ''; updLN(); clearOut();
+  ci.value = ''; updLN(); updateHighlight(); clearOut();
   document.getElementById('lr').innerHTML = '<div class="empty"><div class="empty-i">📋</div>Nhấn <b>Chấm điểm</b> để xem kết quả</div>';
   document.getElementById('rv').textContent = '—';
   document.getElementById('sg').textContent = 'Chưa chấm'; document.getElementById('sg').style.color = 'var(--text3)';
@@ -2528,7 +2710,7 @@ print(f"Trung bình: {tb:.2f}")
 # Sắp xếp và hiển thị
 numbers.sort()
 print(f"Sau khi sắp xếp: {numbers}")`;
-  updLN(); toast('📋 Đã tải ví dụ');
+  updLN(); updateHighlight(); toast('📋 Đã tải ví dụ');
 }
 
 // ─── Utils ──────────────────────────────────────────────────
@@ -3135,6 +3317,8 @@ function onExChange() {
 
   // Render public criteria tab
   renderCriteria(e);
+  // Refresh highlight for current code
+  updateHighlight();
 }
 
 // ── Render criteria tab (public rubric display) ───────────────────────────────
@@ -3361,7 +3545,7 @@ window.addEventListener('load', () => {
 //    → APIs & Services → Credentials → Create OAuth 2.0 Client ID
 //    → Application type: Web → Authorised origins: domain trường
 //
-const APP_VERSION = 'v4.9.7'; // tự động tăng mỗi lần cập nhật
+const APP_VERSION = 'v4.9.8'; // tự động tăng mỗi lần cập nhật
 // Cập nhật badge version từ APP_VERSION
 document.addEventListener('DOMContentLoaded', function() {
   const vb = document.getElementById('ver-badge');
