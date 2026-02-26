@@ -270,7 +270,7 @@
   }
 
   /* ── LANDSCAPE MOBILE ─────────────────────────────────────────── */
-  @media (max-width: 900px) and (orientation: landscape) {
+  @media (max-width: 1024px) and (orientation: landscape) and (max-height: 500px) {
     /* Header: ultra compact */
     header { padding: 4px 12px; }
     .logo-title .main { font-size: 18px; }
@@ -534,7 +534,7 @@
     </div>
   </div>
   <div style="display:flex;align-items:center;gap:10px">
-    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.2</span>
+    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.3</span>
     <!-- Google auth area (hidden — login via AI panel only) -->
     <div id="google-auth-area" style="display:none">
       <div id="g-signin-wrap"></div>
@@ -3177,10 +3177,32 @@ window.addEventListener('load', () => {
   };
   let activePanel = 'editor';
 
-  function isMobile() { return window.innerWidth <= 768; }
+  // ── Device detection helpers ──────────────────────────────────────────
+  // Use screen dimensions (not window) to detect physical device size
+  function getDeviceShortSide() {
+    return Math.min(screen.width, screen.height);
+  }
+  function isMobileDevice() {
+    // A mobile phone has short side <= 500px (phones up to ~6.7")
+    // Also check user agent as fallback
+    const shortSide = getDeviceShortSide();
+    const ua = navigator.userAgent || '';
+    const isPhone = /Android.*Mobile|iPhone|iPod/.test(ua);
+    return shortSide <= 500 || isPhone;
+  }
+  function isLandscapeNow() {
+    return window.innerWidth > window.innerHeight;
+  }
+  // Legacy: isMobile() = is currently in portrait-like single-panel mode
+  function isMobile() {
+    if (!isMobileDevice()) return false; // desktop/tablet
+    return !isLandscapeNow(); // portrait = single panel mode
+  }
 
   function mobilePanel(name) {
-    if (!isMobile()) return;
+    // In landscape on phone, all panels visible — skip single-panel logic
+    if (isMobileDevice() && isLandscapeNow()) return;
+    if (!isMobileDevice()) return;
     activePanel = name;
     Object.keys(PANELS).forEach(k => {
       const el = document.getElementById(PANELS[k]);
@@ -3190,7 +3212,6 @@ window.addEventListener('load', () => {
       const btn = document.getElementById(id);
       if (btn) btn.classList.toggle('on', id === 'mnav-' + name);
     });
-    // Scroll to top of active panel
     const panel = document.getElementById(PANELS[name]);
     if (panel) panel.scrollTop = 0;
   }
@@ -3214,21 +3235,51 @@ window.addEventListener('load', () => {
     }, 200);
   };
 
+  function applyLandscapeMode() {
+    const landscape = isMobileDevice() && isLandscapeNow();
+    document.body.classList.toggle('landscape-mode', landscape);
+    if (landscape) {
+      // Ensure all panels visible in landscape
+      Object.values(PANELS).forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('mob-active');
+      });
+      // Update header height CSS var
+      const hdr = document.querySelector('header');
+      if (hdr) {
+        // Wait one frame for layout to settle
+        requestAnimationFrame(() => {
+          document.documentElement.style.setProperty('--header-h', hdr.offsetHeight + 'px');
+          // Also update exbar height
+          const bar = document.getElementById('ex-bar');
+          if (bar) document.documentElement.style.setProperty('--exbar-h', bar.offsetHeight + 'px');
+        });
+      }
+    }
+  }
+
   function applyMobileLayout() {
-    if (!isMobile()) {
-      // Reset to desktop: show all panels
+    if (!isMobileDevice()) {
+      // Desktop: show all panels
+      Object.values(PANELS).forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('mob-active');
+      });
+    } else if (isLandscapeNow()) {
+      // Landscape phone: CSS handles layout, just remove mob-active
       Object.values(PANELS).forEach(id => {
         const el = document.getElementById(id);
         if (el) el.classList.remove('mob-active');
       });
     } else {
-      // Apply mobile: show active panel only
+      // Portrait phone: single panel mode
       mobilePanel(activePanel);
     }
   }
 
   // Init on load
   window.addEventListener('DOMContentLoaded', () => {
+    applyLandscapeMode();
     applyMobileLayout();
   });
 
@@ -3238,9 +3289,8 @@ window.addEventListener('load', () => {
     setTimeout(() => {
       applyLandscapeMode();
       applyMobileLayout();
-    }, 300);
+    }, 400);
   });
-
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
@@ -3249,36 +3299,18 @@ window.addEventListener('load', () => {
     }, 150);
   });
 
-  function applyLandscapeMode() {
-    const isLandscape = window.innerWidth > window.innerHeight;
-    const isMob = window.innerWidth <= 900;
-    if (isLandscape && isMob) {
-      document.body.classList.add('landscape-mode');
-      // Measure and set header height CSS var
-      const hdr = document.querySelector('header');
-      if (hdr) document.documentElement.style.setProperty('--header-h', hdr.offsetHeight + 'px');
-    } else {
-      document.body.classList.remove('landscape-mode');
-    }
-  }
-
-  // Init landscape on load
-  window.addEventListener('DOMContentLoaded', () => {
-    applyLandscapeMode();
-  });
-
-  // Patch runCode to auto-switch to output on mobile
+  // Patch runCode to auto-switch to output on mobile portrait
   const _origRunCode = window.runCode;
   window.runCode = async function() {
-    if (isMobile()) mobilePanel('output');
+    if (isMobileDevice() && !isLandscapeNow()) mobilePanel('output');
     await _origRunCode();
   };
 
-  // Patch gradeCode to auto-switch to results on mobile
+  // Patch gradeCode to auto-switch to results on mobile portrait
   const _origGradeCode = window.gradeCode;
   window.gradeCode = function() {
     _origGradeCode();
-    if (isMobile()) setTimeout(() => mobilePanel('grade'), 150);
+    if (isMobileDevice() && !isLandscapeNow()) setTimeout(() => mobilePanel('grade'), 150);
   };
 })();
 
@@ -3301,7 +3333,7 @@ window.addEventListener('load', () => {
 //    → APIs & Services → Credentials → Create OAuth 2.0 Client ID
 //    → Application type: Web → Authorised origins: domain trường
 //
-const APP_VERSION = 'v4.9.2'; // tự động tăng mỗi lần cập nhật
+const APP_VERSION = 'v4.9.3'; // tự động tăng mỗi lần cập nhật
 // Cập nhật badge version từ APP_VERSION
 document.addEventListener('DOMContentLoaded', function() {
   const vb = document.getElementById('ver-badge');
