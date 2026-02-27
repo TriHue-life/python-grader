@@ -45,13 +45,13 @@
   #editor-panel{grid-column:1;grid-row:1}
   .editor-wrap{display:flex;flex:1;overflow:hidden;background:var(--bg);position:relative}
   .lnums{padding:10px 0;background:var(--surface);border-right:1px solid var(--border);text-align:right;min-width:46px;font-family:var(--mono);font-size:12.5px;line-height:1.6;color:var(--text3);user-select:none;overflow:hidden;flex-shrink:0}
-  .lnums span{display:block;padding:0 10px 0 6px;height:20px}
+  .lnums span{display:block;padding:0 10px 0 6px;line-height:inherit;height:var(--lh,20px)}
   .lnums span.al{color:var(--text2);background:rgba(88,166,255,.07)}
   #code-input{flex:1;border:none;outline:none;resize:none;font-family:var(--mono);font-size:12.5px;line-height:1.6;padding:10px 14px;overflow-y:auto;tab-size:4;white-space:pre;overflow-wrap:normal;overflow-x:auto;direction:ltr;unicode-bidi:plaintext;text-align:left}
   #code-input::selection{background:rgba(88,166,255,.25)}
   /* ── Syntax Highlighting Overlay (VSCode Dark+ colors) ── */
   #hl-overlay{
-    position:absolute;top:0;left:46px;right:0;bottom:0;
+    position:absolute;top:0;left:var(--lnum-w,46px);right:0;bottom:0;
     padding:10px 14px;
     font-family:var(--mono);font-size:12.5px;line-height:1.6;
     white-space:pre;overflow-wrap:normal;overflow-x:auto;overflow-y:auto;
@@ -276,6 +276,7 @@
     #editor-panel .editor-wrap { flex: 1; min-height: 0; }
     #code-input { font-size: 14px; line-height: 1.7; padding: 12px 10px; }
     .lnums { font-size: 12px; min-width: 36px; }
+    /* lnums span height and hl-overlay sync handled by syncEditorLayout() JS */
 
     /* Mobile keyboard shortcut bar: show on mobile */
     .mob-keys { display: flex !important; }
@@ -330,6 +331,7 @@
   @media (max-width: 375px) {
     .btn { font-size: 12px; padding: 7px 10px; }
     #code-input { font-size: 13px; }
+    /* lnums span height sync handled by syncEditorLayout() JS */
     .score-grade { font-size: 15px; }
   }
 
@@ -409,6 +411,7 @@
     /* Code input: smaller font for landscape */
     #code-input { font-size: 12px !important; line-height: 1.6 !important; padding: 8px 10px !important; }
     .lnums { font-size: 11px !important; min-width: 32px !important; }
+    /* lnums span height and hl-overlay sync handled by syncEditorLayout() JS */
     /* Toolbar: compact */
     .toolbar { padding: 5px 8px !important; gap: 4px !important; }
     .btn { font-size: 11px !important; padding: 5px 9px !important; }
@@ -662,7 +665,7 @@
   </div>
   <div style="display:flex;align-items:center;gap:10px">
     <button onclick="window.location.reload(true)" title="Cập nhật phiên bản mới" style="background:none;border:none;cursor:pointer;font-size:14px;padding:4px;opacity:0.6;color:var(--text2);" id="reload-btn">🔄</button>
-    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.21</span>
+    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.22</span>
     <!-- Google auth area (hidden — login via AI panel only) -->
     <div id="google-auth-area" style="display:none">
       <div id="g-signin-wrap"></div>
@@ -2150,6 +2153,27 @@ function mkDedent() {
 }
 ci.addEventListener('scroll', () => { lnEl.scrollTop = ci.scrollTop; if(hlOverlay){hlOverlay.scrollTop=ci.scrollTop;hlOverlay.scrollLeft=ci.scrollLeft;} });
 ci.addEventListener('click', updLN); ci.addEventListener('keyup', updLN);
+
+// ─── Sync lnums width → hl-overlay left (fixes cursor offset on mobile) ─────
+function syncEditorLayout() {
+  const lnW = lnEl.getBoundingClientRect().width;
+  if (hlOverlay) hlOverlay.style.left = lnW + 'px';
+  // Also sync line-height: read computed style from code-input
+  const cs = window.getComputedStyle(ci);
+  const fs = parseFloat(cs.fontSize);
+  const lh = parseFloat(cs.lineHeight) || fs * 1.6;
+  // Update lnums span height via CSS variable on lnEl
+  lnEl.style.setProperty('--lh', lh + 'px');
+  if (hlOverlay) {
+    hlOverlay.style.fontSize = cs.fontSize;
+    hlOverlay.style.lineHeight = cs.lineHeight;
+    hlOverlay.style.padding = cs.padding;
+  }
+}
+window.addEventListener('resize', syncEditorLayout);
+window.addEventListener('orientationchange', () => setTimeout(syncEditorLayout, 200));
+syncEditorLayout();
+
 updLN(); updateHighlight();
 
 // ─── Output ─────────────────────────────────────────────────
@@ -5210,7 +5234,7 @@ window.addEventListener('load', () => {
 //    → APIs & Services → Credentials → Create OAuth 2.0 Client ID
 //    → Application type: Web → Authorised origins: domain trường
 //
-const APP_VERSION = 'v4.9.21'; // tự động tăng mỗi lần cập nhật
+const APP_VERSION = 'v4.9.22'; // tự động tăng mỗi lần cập nhật
 // Cập nhật badge version từ APP_VERSION
 document.addEventListener('DOMContentLoaded', function() {
   const vb = document.getElementById('ver-badge');
