@@ -665,7 +665,7 @@
   </div>
   <div style="display:flex;align-items:center;gap:10px">
     <button onclick="window.location.reload(true)" title="Cập nhật phiên bản mới" style="background:none;border:none;cursor:pointer;font-size:14px;padding:4px;opacity:0.6;color:var(--text2);" id="reload-btn">🔄</button>
-    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.22</span>
+    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.23</span>
     <!-- Google auth area (hidden — login via AI panel only) -->
     <div id="google-auth-area" style="display:none">
       <div id="g-signin-wrap"></div>
@@ -3129,6 +3129,20 @@ function renderGrade(results, score, pass, fail, skip, testRun, mistakes, qualit
   if (quality && quality.length) {
     renderQualityBar(quality);
   }
+
+  // ── Mobile: "Sửa code" shortcut button ───────────────────
+  // Only inject on mobile portrait (single-panel mode)
+  const existingEditBtn = document.getElementById('mob-edit-btn');
+  if (existingEditBtn) existingEditBtn.remove();
+  const editBtn = document.createElement('div');
+  editBtn.id = 'mob-edit-btn';
+  editBtn.style.cssText = 'display:none;margin:10px 14px 20px;';
+  editBtn.innerHTML = `<button onclick="if(window.mobilePanel)mobilePanel('editor');else{document.getElementById('editor-panel').scrollIntoView()};" style="width:100%;padding:12px;border-radius:10px;border:1px solid var(--accent);background:rgba(88,166,255,.1);color:var(--accent);font-family:var(--sans);font-size:14px;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent;">✏️ Quay lại sửa code</button>`;
+  container.appendChild(editBtn);
+  // Show only on mobile portrait
+  if (typeof isMobileDevice === 'function' && isMobileDevice() && typeof isLandscapeNow === 'function' && !isLandscapeNow()) {
+    editBtn.style.display = 'block';
+  }
 }
 
 function toggleDetail(btn) {
@@ -5095,9 +5109,9 @@ window.addEventListener('load', () => {
     if (!code) { toast('⚠ Vui lòng nhập code Python'); if(btn) btn.classList.remove('on'); return; }
     await runCode_v2(code);
     setTimeout(() => {
+      _gradeFromRun = true; // signal: this gradeCode call should auto-switch to grade
       gradeCode();
       setTimeout(() => {
-        mobilePanel('grade');
         if(btn) btn.classList.remove('on');
       }, 300);
     }, 200);
@@ -5204,14 +5218,18 @@ window.addEventListener('load', () => {
     await _origRunCode();
   };
 
-  // Patch gradeCode to auto-switch to results on mobile portrait
+  // Patch gradeCode: only auto-switch to grade when called from mobileRunGrade
+  // Do NOT auto-switch if user manually navigated back to editor panel
+  let _gradeFromRun = false;
   const _origGradeCode = window.gradeCode;
   window.gradeCode = function() {
     _origGradeCode();
-    if (isMobileDevice()) {
+    if (isMobileDevice() && _gradeFromRun) {
+      _gradeFromRun = false;
       if (isLandscapeNow()) setTimeout(() => lsSwitch('grade'), 150);
       else setTimeout(() => mobilePanel('grade'), 150);
     }
+    _gradeFromRun = false;
   };
 })();
 
@@ -5234,7 +5252,7 @@ window.addEventListener('load', () => {
 //    → APIs & Services → Credentials → Create OAuth 2.0 Client ID
 //    → Application type: Web → Authorised origins: domain trường
 //
-const APP_VERSION = 'v4.9.22'; // tự động tăng mỗi lần cập nhật
+const APP_VERSION = 'v4.9.23'; // tự động tăng mỗi lần cập nhật
 // Cập nhật badge version từ APP_VERSION
 document.addEventListener('DOMContentLoaded', function() {
   const vb = document.getElementById('ver-badge');
