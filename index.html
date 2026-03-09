@@ -665,7 +665,7 @@
   </div>
   <div style="display:flex;align-items:center;gap:10px">
     <button onclick="window.location.reload(true)" title="Cập nhật phiên bản mới" style="background:none;border:none;cursor:pointer;font-size:14px;padding:4px;opacity:0.6;color:var(--text2);" id="reload-btn">🔄</button>
-    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.24</span>
+    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.25</span>
     <!-- Google auth area (hidden — login via AI panel only) -->
     <div id="google-auth-area" style="display:none">
       <div id="g-signin-wrap"></div>
@@ -1254,6 +1254,8 @@ class Env{
 }
 
 // ─── Interpreter ───────────────────────────────────────────
+// mkf: tag an integer as 'float' so pStr shows decimal point (e.g. 3.0)
+const mkf=(n)=>{if(Number.isInteger(n)){const o=Object(n);o.__float__=true;o.valueOf=()=>n;return o;}return n;};
 class Interp{
   constructor(outCb,inCb){
     this.out=outCb;this.inCb=inCb;
@@ -1266,8 +1268,6 @@ class Interp{
 
   builtins(env){
     const py=this;
-    // mkf: tag a number as 'float' so pStr shows decimal point
-    const mkf=(n)=>{if(Number.isInteger(n)){const o=Object(n);o.__float__=true;o.valueOf=()=>n;return o;}return n;};
     const B={
       print:(...args)=>{
         let sep=' ',end='\n';
@@ -1278,6 +1278,7 @@ class Interp{
       input:(prompt='')=>{py.out(py.pStr(prompt));const v=py.inCb();return v===null||v===undefined?'':String(v);},
       int:(x,base)=>{
         if(x===null)return 0;if(typeof x==='boolean')return x?1:0;
+        if(x&&typeof x==='object'&&x.__float__)return Math.trunc(x.valueOf());
         if(typeof x==='number')return Math.trunc(x);
         if(typeof x==='string'){const n=base?parseInt(x.trim(),base):parseInt(x.trim(),10);if(isNaN(n))throw new PyErr('ValueError',`invalid literal for int(): '${x}'`);return n;}
         throw new PyErr('TypeError',`int() không nhận '${py.tname(x)}'`);
@@ -1300,7 +1301,8 @@ class Interp{
         const arr=[...py.toArr(it)];arr.sort((a,b)=>{const ka=key?py.call(key,[a],{}):a;const kb=key?py.call(key,[b],{}):b;return py.pLt(ka,kb)?-1:py.pLt(kb,ka)?1:0;});if(rev)arr.reverse();return arr;
       },
       reversed:(it)=>[...py.toArr(it)].reverse(),
-      abs:(x)=>Math.abs(x),round:(x,n=0)=>{if(n===0)return Math.round(x);const f=Math.pow(10,n);return Math.round(x*f)/f;},
+      abs:(x)=>{const xv=x&&typeof x==='object'&&x.__float__?x.valueOf():x;const r=Math.abs(xv);return(x&&typeof x==='object'&&x.__float__&&Number.isInteger(r))?mkf(r):r;},
+      round:(x,n=0)=>{const xv=x&&typeof x==='object'&&x.__float__?x.valueOf():x;if(n===0){const r=Math.round(xv);return(x&&typeof x==='object'&&x.__float__&&Number.isInteger(r))?mkf(r):r;}const f=Math.pow(10,n);const r=Math.round(xv*f)/f;return(x&&typeof x==='object'&&x.__float__&&Number.isInteger(r))?mkf(r):r;},
       pow:(x,y,m)=>{const r=Math.pow(x,y);return m!==undefined?r%m:r;},
       divmod:(a,b)=>{const q=Math.floor(a/b);return[q,a-q*b];},
       min:(...args)=>{let a=args.length===1&&Array.isArray(args[0])?args[0]:args;if(a[a.length-1]&&a[a.length-1].__kw__)a=a.slice(0,-1);return a.reduce((x,y)=>py.pLt(x,y)?x:y);},
@@ -1309,7 +1311,7 @@ class Interp{
       any:(it)=>py.toArr(it).some(v=>py.pBool(v)),
       all:(it)=>py.toArr(it).every(v=>py.pBool(v)),
       type:(x)=>py.tname(x),
-      isinstance:(o,c)=>{if(typeof c==='string')return py.tname(o)===c;if(c&&c.__cls__)return o&&o.__inst__&&o.__cls__===c;if(c==='int'||c===B?.int)return typeof o==='number'&&Number.isInteger(o);if(c==='float'||c===B?.float)return typeof o==='number';if(c==='str'||c===B?.str)return typeof o==='string';if(c==='list'||c===B?.list)return Array.isArray(o)&&!o.__tup__;if(c==='bool'||c===B?.bool)return typeof o==='boolean';return false;},
+      isinstance:(o,c)=>{if(typeof c==='string')return py.tname(o)===c;if(c&&c.__cls__)return o&&o.__inst__&&o.__cls__===c;if(c==='int'||c===B?.int)return typeof o==='number'&&Number.isInteger(o);if(c==='float'||c===B?.float)return typeof o==='number'||(o&&typeof o==='object'&&o.__float__);if(c==='str'||c===B?.str)return typeof o==='string';if(c==='list'||c===B?.list)return Array.isArray(o)&&!o.__tup__;if(c==='bool'||c===B?.bool)return typeof o==='boolean';return false;},
       repr:(x)=>py.pRepr(x),
       chr:(x)=>String.fromCharCode(x),ord:(x)=>x.charCodeAt(0),
       hex:(x)=>'0x'+x.toString(16),bin:(x)=>'0b'+Math.abs(x).toString(2),oct:(x)=>'0o'+x.toString(8),
@@ -1494,11 +1496,14 @@ class Interp{
   }
 
   augOp(op,a,b){
+    const af=a&&typeof a==='object'&&a.__float__;const bf=b&&typeof b==='object'&&b.__float__;
+    const av=af?a.valueOf():a;const bv=bf?b.valueOf():b;
+    const wf=(res)=>(af||bf)&&Number.isInteger(res)?mkf(res):res;
     switch(op){
-      case'+=':if(Array.isArray(a)&&Array.isArray(b)){a.push(...b);return a;}return a+b;
-      case'-=':return a-b;case'*=':return a*b;case'/=':return a/b;
-      case'//=':return Math.floor(a/b);case'%=':return((a%b)+b)%b;
-      case'**=':return Math.pow(a,b);case'&=':return a&b;case'|=':return a|b;case'^=':return a^b;
+      case'+=':if(Array.isArray(av)&&Array.isArray(bv)){av.push(...bv);return av;}return wf(av+bv);
+      case'-=':return wf(av-bv);case'*=':return wf(av*bv);case'/=':return av/bv;
+      case'//=':return wf(Math.floor(av/bv));case'%=':return wf(((av%bv)+bv)%bv);
+      case'**=':return wf(Math.pow(av,bv));case'&=':return av&bv;case'|=':return av|bv;case'^=':return av^bv;
     }
   }
 
@@ -1520,7 +1525,7 @@ class Interp{
         return d;
       }
       case'Bin':return this.evalBin(e,env);
-      case'UnOp':{const v=this.eval(e.v,env);if(e.op==='-')return-v;if(e.op==='+')return+v;if(e.op==='~')return~v;if(e.op==='not')return!this.pBool(v);break;}
+      case'UnOp':{const v=this.eval(e.v,env);if(e.op==='-'){const nv=-v;return(v&&typeof v==='object'&&v.__float__&&Number.isInteger(nv))?mkf(nv):nv;}if(e.op==='+'){const pv=+v;return(v&&typeof v==='object'&&v.__float__&&Number.isInteger(pv))?mkf(pv):pv;}if(e.op==='~')return~v;if(e.op==='not')return!this.pBool(v);break;}
       case'BoolOp':{const l=this.eval(e.l,env);if(e.op==='or')return this.pBool(l)?l:this.eval(e.r,env);return!this.pBool(l)?l:this.eval(e.r,env);}
       case'Cmp':{const l=this.eval(e.l,env);const r=this.eval(e.r,env);return this.cmp(e.op,l,r);}
       case'Call':return this.evalCall(e,env);
@@ -1560,16 +1565,19 @@ class Interp{
 
   evalBin(e,env){
     const l=this.eval(e.l,env);const r=this.eval(e.r,env);
+    const lf=l&&typeof l==='object'&&l.__float__;const rf=r&&typeof r==='object'&&r.__float__;
+    const lv=lf?l.valueOf():l;const rv=rf?r.valueOf():r;
+    const wf=(res)=>(lf||rf)&&Number.isInteger(res)?mkf(res):res;
     switch(e.op){
-      case'+':if(Array.isArray(l)&&Array.isArray(r))return[...l,...r];if(typeof l==='string'||typeof r==='string')return this.pStr(l)+this.pStr(r);return l+r;
-      case'-':return l-r;
-      case'*':if(typeof l==='string'&&typeof r==='number')return l.repeat(Math.max(0,r));if(typeof r==='string'&&typeof l==='number')return r.repeat(Math.max(0,l));if(Array.isArray(l)&&typeof r==='number'){const a=[];for(let i=0;i<r;i++)a.push(...l);return a;}return l*r;
-      case'/':if(r===0)throw new PyErr('ZeroDivisionError','division by zero');return l/r;
-      case'//':if(r===0)throw new PyErr('ZeroDivisionError','division by zero');return Math.floor(l/r);
-      case'%':if(r===0)throw new PyErr('ZeroDivisionError','modulo by zero');if(typeof l==='string')return this.pyFmt(l,r);return((l%r)+Math.abs(r))%Math.abs(r);
-      case'**':return Math.pow(l,r);
-      case'&':return l&r;case'|':return l|r;case'^':return l^r;
-      case'<<':return l<<r;case'>>':return l>>r;
+      case'+':if(Array.isArray(lv)&&Array.isArray(rv))return[...lv,...rv];if(typeof lv==='string'||typeof rv==='string')return this.pStr(lv)+this.pStr(rv);return wf(lv+rv);
+      case'-':return wf(lv-rv);
+      case'*':if(typeof lv==='string'&&typeof rv==='number')return lv.repeat(Math.max(0,rv));if(typeof rv==='string'&&typeof lv==='number')return rv.repeat(Math.max(0,lv));if(Array.isArray(lv)&&typeof rv==='number'){const a=[];for(let i=0;i<rv;i++)a.push(...lv);return a;}return wf(lv*rv);
+      case'/':if(rv===0)throw new PyErr('ZeroDivisionError','division by zero');return lv/rv;
+      case'//':if(rv===0)throw new PyErr('ZeroDivisionError','division by zero');return wf(Math.floor(lv/rv));
+      case'%':if(rv===0)throw new PyErr('ZeroDivisionError','modulo by zero');if(typeof lv==='string')return this.pyFmt(lv,rv);return wf(((lv%rv)+Math.abs(rv))%Math.abs(rv));
+      case'**':return wf(Math.pow(lv,rv));
+      case'&':return lv&rv;case'|':return lv|rv;case'^':return lv^rv;
+      case'<<':return lv<<rv;case'>>':return lv>>rv;
     }
   }
 
@@ -1593,21 +1601,25 @@ class Interp{
     }
   }
   pEq(a,b){
-    if(a===b)return true;if(a===null||b===null)return a===b;
-    if(Array.isArray(a)&&Array.isArray(b))return a.length===b.length&&a.every((v,i)=>this.pEq(v,b[i]));
-    return a==b;
+    const av=a&&typeof a==='object'&&a.__float__?a.valueOf():a;
+    const bv=b&&typeof b==='object'&&b.__float__?b.valueOf():b;
+    if(av===bv)return true;if(av===null||bv===null)return av===bv;
+    if(Array.isArray(av)&&Array.isArray(bv))return av.length===bv.length&&av.every((v,i)=>this.pEq(v,bv[i]));
+    return av==bv;
   }
   pLt(a,b){
-    if(typeof a==='string'&&typeof b==='string')return a<b;
-    if(Array.isArray(a)&&Array.isArray(b)){for(let i=0;i<Math.min(a.length,b.length);i++){if(this.pLt(a[i],b[i]))return true;if(this.pLt(b[i],a[i]))return false;}return a.length<b.length;}
-    return a<b;
+    const av=a&&typeof a==='object'&&a.__float__?a.valueOf():a;
+    const bv=b&&typeof b==='object'&&b.__float__?b.valueOf():b;
+    if(typeof av==='string'&&typeof bv==='string')return av<bv;
+    if(Array.isArray(av)&&Array.isArray(bv)){for(let i=0;i<Math.min(av.length,bv.length);i++){if(this.pLt(av[i],bv[i]))return true;if(this.pLt(bv[i],av[i]))return false;}return av.length<bv.length;}
+    return av<bv;
   }
   pIn(x,c){
     if(typeof c==='string')return c.includes(this.pStr(x));
     if(Array.isArray(c))return c.some(v=>this.pEq(v,x));
     if(c&&c.__d__)return(c.__k__||[]).some(k=>this.pEq(k,x));
     if(c&&c.__set__)return c.data.has(this.pRepr(x));
-    if(c&&c.__rng__){const r=c;if(typeof x!=='number')return false;if(r.s>0)return x>=r.a&&x<r.b&&Number.isInteger((x-r.a)/r.s);return x<=r.a&&x>r.b&&Number.isInteger((r.a-x)/(-r.s));}
+    if(c&&c.__rng__){const r=c;const xv=x&&typeof x==='object'&&x.__float__?x.valueOf():x;if(typeof xv!=='number')return false;if(r.s>0)return xv>=r.a&&xv<r.b&&Number.isInteger((xv-r.a)/r.s);return xv<=r.a&&xv>r.b&&Number.isInteger((r.a-xv)/(-r.s));}
     throw new PyErr('TypeError',`'${this.tname(c)}' is not iterable`);
   }
 
@@ -1763,8 +1775,9 @@ class Interp{
   }
 
   getItem(o,idx){
-    if(typeof o==='string'){const i=idx<0?o.length+idx:idx;if(i<0||i>=o.length)throw new PyErr('IndexError','string index out of range');return o[i];}
-    if(Array.isArray(o)){const i=typeof idx==='number'?(idx<0?o.length+idx:idx):idx;if(typeof i==='number'&&(i<0||i>=o.length))throw new PyErr('IndexError','list index out of range');return o[i];}
+    const idxv=idx&&typeof idx==='object'&&idx.__float__?idx.valueOf():idx;
+    if(typeof o==='string'){const i=idxv<0?o.length+idxv:idxv;if(i<0||i>=o.length)throw new PyErr('IndexError','string index out of range');return o[i];}
+    if(Array.isArray(o)){const i=typeof idxv==='number'?(idxv<0?o.length+idxv:idxv):idxv;if(typeof i==='number'&&(i<0||i>=o.length))throw new PyErr('IndexError','list index out of range');return o[i];}
     if(o&&o.__d__!==undefined){const k=this.pRepr(idx);if(!(k in o.__d__))throw new PyErr('KeyError',this.pRepr(idx));return o.__d__[k];}
     if(o&&o.__rng__){const r=o;const i=idx<0?Math.ceil((r.b-r.a)/r.s)+idx:idx;return r.a+i*r.s;}
     throw new PyErr('TypeError',`'${this.tname(o)}' is not subscriptable`);
@@ -1792,6 +1805,7 @@ class Interp{
   pBool(v){
     if(v===null||v===undefined)return false;if(typeof v==='boolean')return v;
     if(typeof v==='number')return v!==0;if(typeof v==='string')return v.length>0;
+    if(v&&typeof v==='object'&&v.__float__)return v.valueOf()!==0;
     if(Array.isArray(v))return v.length>0;if(v.__d__!==undefined)return(v.__k__||[]).length>0;
     if(v.__set__)return v.data.size>0;if(v.__rng__)return v.s>0?v.a<v.b:v.a>v.b;return true;
   }
@@ -1830,6 +1844,7 @@ class Interp{
   pRepr(v){
     if(typeof v==='string')return`'${v.replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,'\\n').replace(/\t/g,'\\t')}'`;
     if(v===null)return'None';if(v===true)return'True';if(v===false)return'False';
+    if(v&&typeof v==='object'&&v.__float__)return this.pStr(v);
     if(typeof v==='number')return this.pStr(v);
     if(v.__tup__)return`(${v.map(x=>this.pRepr(x)).join(', ')}${v.length===1?',':''})`;
     if(Array.isArray(v))return`[${v.map(x=>this.pRepr(x)).join(', ')}]`;
@@ -1837,6 +1852,7 @@ class Interp{
   }
   tname(v){
     if(v===null)return'NoneType';if(v===true||v===false)return'bool';
+    if(v&&typeof v==='object'&&v.__float__)return'float';
     if(typeof v==='number')return Number.isInteger(v)?'int':'float';if(typeof v==='string')return'str';
     if(v.__tup__)return'tuple';if(Array.isArray(v))return'list';if(v.__d__!==undefined)return'dict';
     if(v.__set__)return'set';if(v.__rng__)return'range';if(v.__inst__)return v.__cls__.__name__;
@@ -5270,7 +5286,7 @@ window.addEventListener('load', () => {
 //    → APIs & Services → Credentials → Create OAuth 2.0 Client ID
 //    → Application type: Web → Authorised origins: domain trường
 //
-const APP_VERSION = 'v4.9.24'; // tự động tăng mỗi lần cập nhật
+const APP_VERSION = 'v4.9.25'; // tự động tăng mỗi lần cập nhật
 // Cập nhật badge version từ APP_VERSION
 document.addEventListener('DOMContentLoaded', function() {
   const vb = document.getElementById('ver-badge');
