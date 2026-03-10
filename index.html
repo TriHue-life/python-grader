@@ -677,7 +677,7 @@
   </div>
   <div style="display:flex;align-items:center;gap:10px">
     <button onclick="window.location.reload(true)" title="Cập nhật phiên bản mới" style="background:none;border:none;cursor:pointer;font-size:14px;padding:4px;opacity:0.6;color:var(--text2);" id="reload-btn">🔄</button>
-    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.26</span>
+    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.27</span>
     <!-- Google auth area (hidden — login via AI panel only) -->
     <div id="google-auth-area" style="display:none">
       <div id="g-signin-wrap"></div>
@@ -3337,9 +3337,7 @@ const EXERCISES = [
 /* Bài 19: Câu lệnh IF */
 {id:'k10-19-1.1',g:'K10',ch:'Bài 19: Câu lệnh IF',lv:'Mức 1 – Nhận biết',num:'1.1',
 title:'Kiểm tra mật khẩu',
-desc:`<b>Đề bài:</b> Nhập một chuỗi từ bàn phím, kiểm tra xem có trùng với mật khẩu <b>"123456"</b> hay không.
-  • Nếu đúng → in <b>"Truy cập thành công!"</b>
-  • Nếu sai  → in <b>"Mật khẩu sai!"</b>`,
+desc:`<b>Đề bài:</b> Chương trình yêu cầu người dùng nhập vào một chuỗi ký tự. Sau đó, chương trình sẽ kiểm tra xem chuỗi ký tự vừa nhập có khớp với mật khẩu định sẵn là <b>"123456"</b> hay không.<br>• Nếu chuỗi nhập vào trùng khớp với mật khẩu, hiển thị thông báo <b>"Truy cập thành công!"</b>.<br>• Nếu chuỗi nhập vào không trùng khớp với mật khẩu, hiển thị thông báo <b>"Mật khẩu sai!"</b>.<br><br><b>Gợi ý:</b> Để kiểm tra sự trùng khớp giữa hai chuỗi, bạn có thể thực hiện phép so sánh từng ký tự hoặc so sánh toàn bộ chuỗi.`,
 rb:[
   {desc:'Dùng input() nhập chuỗi mật khẩu',kw:'input',pts:2,
    hint:'Dùng input() để nhận chuỗi từ bàn phím. Không cần int() vì mật khẩu là chuỗi.'},
@@ -3355,7 +3353,7 @@ rb:[
 
 {id:'k10-19-1.2',g:'K10',ch:'Bài 19: Câu lệnh IF',lv:'Mức 1',num:'1.2',
 title:'Kiểm tra số dương',
-desc:`<b>Đề bài:</b> Nhập số nguyên <b>a</b>, kiểm tra xem <b>a</b> có lớn hơn 0 hay không. Nếu đúng in "<b>a là số dương</b>".`,
+desc:`<b>Đề bài:</b> Cho một số nguyên <b>a</b>. Hãy xác định xem <b>a</b> có phải là số dương hay không. Nếu <b>a</b> là số dương, hiển thị thông báo "<b>a là số dương</b>".`,
 rb:[
   {desc:'Dùng input() nhập biến a',kw:'input',pts:2,
    hint:'Dùng input() để nhận dữ liệu từ bàn phím.'},
@@ -3371,7 +3369,7 @@ rb:[
 
 {id:'k10-19-1.3',g:'K10',ch:'Bài 19: Câu lệnh IF',lv:'Mức 1',num:'1.3',
 title:'Kiểm tra chia hết cho 5',
-desc:`<b>Đề bài:</b> Nhập số nguyên <b>n</b>. Kiểm tra xem n có chia hết cho 5 hay không và in kết quả tương ứng.`,
+desc:`<b>Đề bài:</b> Yêu cầu người dùng cung cấp một số nguyên <b>n</b>. Thực hiện kiểm tra để xác định liệu số <b>n</b> này có chia hết cho 5 hay không. Sau đó, hiển thị kết quả tương ứng ra màn hình.<b>Gợi ý:</b> Để kiểm tra một số có chia hết cho số khác hay không, bạn có thể xem xét phần dư của phép chia. Nếu phần dư bằng 0, số đó chia hết.`,
 rb:[
   {desc:'Dùng input() và int() nhập n',kw:'input,int',pts:2,mode:'any',
    hint:'n = int(input("Nhập n: ")) để nhận số nguyên từ bàn phím.'},
@@ -3387,9 +3385,7 @@ rb:[
 
 {id:'k10-19-2.1',g:'K10',ch:'Bài 19: Câu lệnh IF',lv:'Mức 2 – Thông hiểu',num:'2.1',
 title:'Số chẵn hay số lẻ',
-desc:`<b>Đề bài:</b> Nhập số nguyên <b>n</b>. Dùng biểu thức lôgic để phân loại:
-  • n % 2 == 0 → in <b>"Đây là số chẵn"</b>
-  • Ngược lại  → in <b>"Đây là số lẻ"</b>`,
+desc:`<b>Đề bài:</b> Yêu cầu người dùng nhập vào một số nguyên <b>n</b>. Sau đó, hãy xác định xem số <b>n</b> này là số chẵn hay số lẻ và hiển thị kết quả ra màn hình.<br><b>Gợi ý:</b> Một số được coi là số chẵn nếu nó chia hết cho 2 mà không có số dư. Ngược lại, nếu chia cho 2 có số dư, đó là số lẻ.`,
 rb:[
   {desc:'Dùng input() nhập n',kw:'input',pts:1,
    hint:'Dùng input() để nhận dữ liệu từ bàn phím.'},
@@ -3405,9 +3401,7 @@ rb:[
 
 {id:'k10-19-2.2',g:'K10',ch:'Bài 19: Câu lệnh IF',lv:'Mức 2',num:'2.2',
 title:'Kiểm tra khoảng giá trị',
-desc:`<b>Đề bài:</b> Nhập số thực <b>x</b>. Kiểm tra xem x có nằm trong khoảng <b>(0; 100)</b> hay không.
-  • Trong khoảng → in <b>"x nằm trong khoảng (0, 100)"</b>
-  • Ngoài khoảng → in <b>"x nằm ngoài khoảng (0, 100)"</b>`,
+desc:`<b>Đề bài:</b> Nhập vào một số thực <b>x</b>. Xác định xem giá trị của <b>x</b> có thuộc đoạn từ 0 đến 100 (bao gồm cả 0 và 100) hay không. Thông báo kết quả xác định được. <b>Gợi ý:</b> So sánh giá trị của <b>x</b> với các mốc 0 và 100.`,
 rb:[
   {desc:'Dùng float() và input() nhập x',kw:'float,input',pts:2,mode:'any',
    hint:'x = float(input("Nhập x: ")) để nhận số thực.'},
@@ -3423,7 +3417,7 @@ rb:[
 
 {id:'k10-19-2.3',g:'K10',ch:'Bài 19: Câu lệnh IF',lv:'Mức 2',num:'2.3',
 title:'Tìm số lớn hơn trong hai số',
-desc:`<b>Đề bài:</b> Nhập hai số thực <b>a, b</b>. In ra màn hình số lớn nhất trong hai số.`,
+desc:`<b>Đề bài:</b> Cho hai số thực <b>a</b> và <b>b</b>. Hãy xác định và hiển thị số có giá trị lớn hơn trong hai số này.<b>Gợi ý:</b> So sánh hai số với nhau để tìm ra số lớn hơn.`,
 rb:[
   {desc:'Dùng input() nhập a và b',kw:'input',pts:2,
    hint:'Cần 2 lần gọi input() để nhập a và b.'},
@@ -3439,8 +3433,7 @@ rb:[
 
 {id:'k10-19-3.1',g:'K10',ch:'Bài 19: Câu lệnh IF',lv:'Mức 3 – Vận dụng',num:'3.1',
 title:'Tính tiền mua cam',
-desc:`<b>Đề bài:</b> Giá cam: dưới 5kg là 12.000đ/kg; từ 5kg trở lên là 10.000đ/kg.
-Nhập <b>khoi_luong</b> (kg). Tính và in tổng số tiền phải trả.`,
+desc:`<b>Đề bài:</b> Chương trình cần nhận vào một số nguyên hoặc số thực biểu thị khối lượng cam tính bằng kilogam, ký hiệu là <b>k</b>.<br>Dựa trên khối lượng <b>k</b> này, chương trình sẽ tính tổng số tiền phải trả theo quy tắc sau:<br>• Nếu khối lượng <b>k</b> từ 5 kg trở lên: giá mỗi kilogam là <b>15.000 đ</b>.<br>• Nếu khối lượng <b>k</b> nhỏ hơn 5 kg: giá mỗi kilogam là <b>18.000 đ</b>.<br>Cuối cùng, chương trình phải hiển thị tổng số tiền cần thanh toán.<br><br><b>Gợi ý:</b> Để xác định giá tiền, chương trình cần kiểm tra điều kiện về khối lượng <b>k</b>. Sau đó, áp dụng mức giá tương ứng để tính tổng tiền.`,
 rb:[
   {desc:'Nhập khối lượng bằng input()',kw:'input',pts:1,
    hint:'Dùng input() để nhận khối lượng từ bàn phím.'},
@@ -3458,8 +3451,7 @@ rb:[
 
 {id:'k10-19-3.2',g:'K10',ch:'Bài 19: Câu lệnh IF',lv:'Mức 3',num:'3.2',
 title:'Kiểm tra bộ ba cạnh tam giác',
-desc:`<b>Đề bài:</b> Nhập 3 số dương <b>a, b, c</b>. Kiểm tra xem chúng có thể là 3 cạnh của một tam giác không.
-<i>Điều kiện:</i> a+b>c <b>và</b> a+c>b <b>và</b> b+c>a`,
+desc:`<b>Đề bài:</b> Cho ba số thực dương <b>a, b, c</b>. Xác định xem ba số này có thể tạo thành độ dài ba cạnh của một tam giác hay không.<br><b>Gợi ý:</b> Để ba đoạn thẳng có độ dài <b>a, b, c</b> tạo thành một tam giác, tổng độ dài của hai đoạn thẳng bất kỳ phải lớn hơn độ dài đoạn thẳng còn lại.`,
 rb:[
   {desc:'Nhập a, b, c bằng input()',kw:'input',pts:1,
    hint:'Cần 3 lần gọi input() để nhập a, b, c.'},
@@ -3475,7 +3467,7 @@ rb:[
 
 {id:'k10-19-3.3',g:'K10',ch:'Bài 19: Câu lệnh IF',lv:'Mức 3',num:'3.3',
 title:'Xếp loại học tập',
-desc:`<b>Đề bài:</b> Nhập điểm trung bình <b>dtb</b>. Nếu <b>dtb ≥ 5.0</b> thì in <b>"Kết quả: Đạt"</b>, ngược lại in <b>"Kết quả: Không đạt"</b>.`,
+desc:`<b>Đề bài:</b> Yêu cầu người dùng cung cấp một giá trị điểm trung bình <b>dtb</b>, nằm trong khoảng từ 0 đến 10. Dựa vào giá trị này, hãy xác định và hiển thị xếp loại học tập tương ứng theo các tiêu chí sau:<br>  • Nếu <b>dtb</b> lớn hơn hoặc bằng 8.0, xếp loại là <b>Giỏi</b>.<br>  • Nếu <b>dtb</b> lớn hơn hoặc bằng 6.5 (nhưng nhỏ hơn 8.0), xếp loại là <b>Khá</b>.<br>  • Nếu <b>dtb</b> lớn hơn hoặc bằng 5.0 (nhưng nhỏ hơn 6.5), xếp loại là <b>Trung bình</b>.<br>  • Nếu <b>dtb</b> nhỏ hơn 5.0, xếp loại là <b>Yếu</b>.<br><b>Gợi ý:</b> Bạn có thể kiểm tra các điều kiện xếp loại theo thứ tự từ cao xuống thấp hoặc từ thấp lên cao. Khi một điều kiện được thỏa mãn, hãy xác định xếp loại và không cần kiểm tra các điều kiện còn lại.`,
 rb:[
   {desc:'Nhập dtb bằng input()',kw:'input',pts:1,
    hint:'Dùng input() để nhận điểm trung bình từ bàn phím.'},
@@ -3491,9 +3483,7 @@ rb:[
 
 {id:'k10-19-4.1',g:'K10',ch:'Bài 19: Câu lệnh IF',lv:'Mức 4 – Phân tích',num:'4.1',
 title:'Kiểm tra năm nhuận',
-desc:`<b>Đề bài:</b> Nhập năm <b>n</b>. Kiểm tra năm nhuận: chia hết cho 400, hoặc (chia hết cho 4 và không chia hết cho 100).
-  • Năm nhuận → in <b>"n là năm nhuận"</b>
-  • Ngược lại  → in <b>"n không phải là năm nhuận"</b>`,
+desc:`<b>Đề bài:</b> Nhập một số nguyên dương <b>y</b> đại diện cho một năm. Yêu cầu kiểm tra và thông báo liệu năm <b>y</b> có phải là năm nhuận hay không. Một năm được coi là năm nhuận nếu nó thỏa mãn một trong hai điều kiện sau:<br>• Năm đó chia hết cho 4 nhưng không chia hết cho 100.<br>• Hoặc năm đó chia hết cho 400.<br><br><b>Gợi ý:</b> Để kiểm tra một số có chia hết cho số khác hay không, bạn có thể sử dụng phép toán lấy phần dư. Nếu phần dư bằng 0, tức là chia hết. Áp dụng các điều kiện đã cho để xác định năm nhuận.`,
 rb:[
   {desc:'Nhập năm bằng input() và int()',kw:'input,int',pts:1,mode:'any',
    hint:'n = int(input("Nhập năm: ")) để nhận năm từ bàn phím.'},
@@ -3511,11 +3501,7 @@ rb:[
 
 {id:'k10-19-4.2',g:'K10',ch:'Bài 19: Câu lệnh IF',lv:'Mức 4',num:'4.2',
 title:'Tính tiền điện lũy kế',
-desc:`<b>Đề bài:</b> Nhập số kWh tiêu thụ <b>k</b>. Tính tiền điện:
-  • ≤ 50 kWh: 1.678đ/kWh
-  • 51–100 kWh: 50×1.678 + (k-50)×1.734
-  • > 100 kWh: 50×1.678 + 50×1.734 + (k-100)×2.014
-In kết quả làm tròn 3 chữ số thập phân.`,
+desc:`<b>Đề bài:</b> Cho một số nguyên <b>k</b> là số kWh điện tiêu thụ. Hãy tính tổng số tiền điện phải trả dựa trên các bậc thang lũy kế sau: • 1–50 kWh: 1.678 đ/kWh • 51–100 kWh: 50×1.678 + (<b>k</b>-50)×1.734 • > 100 kWh: 50×1.678 + 50×1.734 + (<b>k</b>-100)×2.014 Kết quả tính toán cần được làm tròn đến 3 chữ số thập phân.<b>Gợi ý:</b> Xác định <b>k</b> thuộc bậc thang nào để áp dụng công thức tính tiền tương ứng.`,
 rb:[
   {desc:'Nhập k bằng input() và float()/int()',kw:'input,float,int',pts:1,mode:'any',
    hint:'k = float(input("Nhập số kWh: ")) để nhận số kWh.'},
@@ -3533,7 +3519,7 @@ rb:[
 
 {id:'k10-19-4.3',g:'K10',ch:'Bài 19: Câu lệnh IF',lv:'Mức 4',num:'4.3',
 title:'Xác định góc phần tư',
-desc:`<b>Đề bài:</b> Nhập tọa độ <b>(x, y)</b> của một điểm (giả sử x, y ≠ 0). Xác định điểm đó thuộc góc phần tư nào (I, II, III hoặc IV).`,
+desc:`<b>Đề bài:</b> Nhập vào hai số nguyên <b>x</b> và <b>y</b>, là tọa độ của một điểm trong mặt phẳng tọa độ Descartes. (Giả sử <b>x</b>, <b>y</b> khác 0). Xác định điểm đó thuộc góc phần tư nào (I, II, III hoặc IV).<br><br><b>Gợi ý:</b> Dựa vào dấu của từng tọa độ <b>x</b> và <b>y</b> để xác định vị trí của điểm trong các góc phần tư. Ví dụ, nếu <b>x</b> dương và <b>y</b> dương thì điểm nằm ở góc phần tư thứ I.`,
 rb:[
   {desc:'Nhập x, y bằng input()',kw:'input',pts:1,
    hint:'Cần 2 lần gọi input() để nhập x và y.'},
@@ -3552,7 +3538,7 @@ rb:[
 /* Bài 20: Câu lệnh FOR */
 {id:'k10-20-1.1',g:'K10',ch:'Bài 20: Câu lệnh FOR',lv:'Mức 1 – Nhận biết',num:'1.1',
 title:'In dãy số 0 đến 9',
-desc:`<b>Đề bài:</b> Sử dụng lệnh <b>for</b> để in các số từ 0 đến 9 trên cùng một hàng, cách nhau bởi dấu cách.`,
+desc:`<b>Đề bài:</b> In các số nguyên từ 0 đến 9. Các số phải được in trên cùng một dòng và cách nhau bởi một dấu cách.<br><br><b>Gợi ý:</b> Bạn có thể duyệt qua từng số trong một khoảng xác định và hiển thị chúng.`,
 rb:[
   {desc:'Dùng vòng lặp for',kw:'for',pts:3,
    hint:'for i in range(...): để lặp qua các số.'},
@@ -3566,7 +3552,7 @@ rb:[
 
 {id:'k10-20-1.2',g:'K10',ch:'Bài 20: Câu lệnh FOR',lv:'Mức 1',num:'1.2',
 title:'Lặp lại thông điệp n lần',
-desc:`<b>Đề bài:</b> Nhập số nguyên <b>n</b>. In dòng chữ <b>"Học lập trình Python"</b> đúng <b>n</b> lần.`,
+desc:`<b>Đề bài:</b> Yêu cầu người dùng nhập một số nguyên dương <b>n</b>. Sau đó, hiển thị dòng chữ <b>"Học lập trình Python"</b> lặp lại chính xác <b>n</b> lần.<br><br><b>Gợi ý:</b> Để lặp lại một hành động nhiều lần, hãy nghĩ đến một cấu trúc cho phép thực hiện một công việc cụ thể theo số lượng đã định.`,
 rb:[
   {desc:'Nhập n bằng input()',kw:'input',pts:1,
    hint:'Dùng input() để nhận n từ bàn phím.'},
@@ -3582,7 +3568,7 @@ rb:[
 
 {id:'k10-20-1.3',g:'K10',ch:'Bài 20: Câu lệnh FOR',lv:'Mức 1',num:'1.3',
 title:'In dãy số từ 1 đến n',
-desc:`<b>Đề bài:</b> Nhập số nguyên <b>n</b>. In ra các số từ 1 đến n trên cùng một hàng.`,
+desc:`<b>Đề bài:</b> Viết chương trình nhận vào một số nguyên dương <b>n</b>. Sau đó, hiển thị tất cả các số nguyên từ 1 đến <b>n</b> trên cùng một dòng, cách nhau bởi một khoảng trắng.<b>Gợi ý:</b> Để hiển thị các số theo thứ tự, bạn có thể lặp qua từng giá trị từ 1 đến <b>n</b> và xuất chúng ra màn hình.`,
 rb:[
   {desc:'Nhập n bằng input()',kw:'input',pts:1,
    hint:'Dùng input() để nhận n từ bàn phím.'},
@@ -3598,7 +3584,7 @@ rb:[
 
 {id:'k10-20-2.1',g:'K10',ch:'Bài 20: Câu lệnh FOR',lv:'Mức 2 – Thông hiểu',num:'2.1',
 title:'Tính tổng S = 1+2+...+n',
-desc:`<b>Đề bài:</b> Nhập số nguyên <b>n</b>. Viết chương trình tính tổng S = 1 + 2 + 3 + ... + n bằng vòng lặp for.`,
+desc:`<b>Đề bài:</b> Nhập vào một số nguyên dương <b>n</b>. Yêu cầu tính tổng S = 1 + 2 + 3 + ... + <b>n</b>.<br><b>Gợi ý:</b> Để tính tổng, bạn có thể bắt đầu với một giá trị tổng ban đầu là 0. Sau đó, lần lượt cộng các số từ 1 đến <b>n</b> vào tổng đó.`,
 rb:[
   {desc:'Nhập n bằng input() và int()',kw:'input,int',pts:1,mode:'any',
    hint:'n = int(input("Nhập n: "))'},
@@ -3614,7 +3600,7 @@ rb:[
 
 {id:'k10-20-2.2',g:'K10',ch:'Bài 20: Câu lệnh FOR',lv:'Mức 2',num:'2.2',
 title:'In số chẵn từ 1 đến 20',
-desc:`<b>Đề bài:</b> In ra tất cả các số chẵn trong đoạn từ 1 đến 20 trên cùng một hàng.`,
+desc:`<b>Đề bài:</b> Viết chương trình hiển thị tất cả các số nguyên chẵn trong khoảng từ 1 đến 20. Các số này phải được in ra trên cùng một dòng, cách nhau bởi dấu cách.<b>Gợi ý:</b> Bạn có thể xem xét từng số nguyên trong khoảng đã cho. Với mỗi số, hãy kiểm tra xem nó có chia hết cho 2 hay không. Nếu có, hãy hiển thị số đó.`,
 rb:[
   {desc:'Dùng for k in range(1, 21) hoặc range(2, 21, 2)',kw:'range',pts:3,
    hint:'range(1, 21) duyệt từ 1 đến 20, hoặc range(2, 21, 2) chỉ lấy số chẵn.'},
@@ -3628,7 +3614,7 @@ rb:[
 
 {id:'k10-20-2.3',g:'K10',ch:'Bài 20: Câu lệnh FOR',lv:'Mức 2',num:'2.3',
 title:'Đếm số bội của 3',
-desc:`<b>Đề bài:</b> Nhập số nguyên <b>n</b>. Đếm xem trong khoảng từ 1 đến n có bao nhiêu số là bội của 3.`,
+desc:`<b>Đề bài:</b> Cho một số nguyên dương <b>n</b>. Hãy xác định có bao nhiêu số nguyên trong khoảng từ 1 đến <b>n</b> (bao gồm cả 1 và <b>n</b>) là bội của 3.<br><br><b>Gợi ý:</b> Bạn có thể duyệt qua từng số từ 1 đến <b>n</b> và kiểm tra xem số đó có chia hết cho 3 hay không. Một cách khác là sử dụng phép tính để tìm ra số lượng bội của 3 một cách trực tiếp.`,
 rb:[
   {desc:'Nhập n bằng input() và int()',kw:'input,int',pts:1,mode:'any',
    hint:'n = int(input("Nhập n: "))'},
@@ -3644,7 +3630,7 @@ rb:[
 
 {id:'k10-20-3.1',g:'K10',ch:'Bài 20: Câu lệnh FOR',lv:'Mức 3 – Vận dụng',num:'3.1',
 title:'Tính giai thừa n!',
-desc:`<b>Đề bài:</b> Nhập số nguyên <b>n</b>. Tính tích P = 1 × 2 × 3 × ... × n (giai thừa n!). In kết quả.`,
+desc:`<b>Đề bài:</b> Nhập một số nguyên dương <b>n</b>. Yêu cầu tính giá trị của tích P, trong đó P là kết quả của phép nhân tất cả các số nguyên từ 1 đến <b>n</b> (được gọi là giai thừa của <b>n</b>, ký hiệu là n!). Sau đó, hiển thị kết quả P đã tính được. <br><b>Gợi ý:</b> Bạn có thể bắt đầu với một giá trị tích ban đầu là 1. Lặp lại việc nhân giá trị tích này với từng số nguyên tăng dần, bắt đầu từ 1 cho đến khi đạt đến <b>n</b>.`,
 rb:[
   {desc:'Nhập n bằng input() và int()',kw:'input,int',pts:1,mode:'any',
    hint:'n = int(input("Nhập n: "))'},
@@ -3660,7 +3646,7 @@ rb:[
 
 {id:'k10-20-3.2',g:'K10',ch:'Bài 20: Câu lệnh FOR',lv:'Mức 3',num:'3.2',
 title:'Liệt kê các ước số',
-desc:`<b>Đề bài:</b> Nhập số tự nhiên <b>n</b>. In ra tất cả các ước số của n trên cùng một hàng.`,
+desc:`<b>Đề bài:</b> Nhập vào một số tự nhiên <b>n</b>. Hãy xuất ra tất cả các số là ước của <b>n</b>, mỗi số cách nhau một khoảng trắng.<b>Gợi ý:</b> Bạn có thể kiểm tra lần lượt các số từ 1 đến <b>n</b>. Nếu một số chia hết cho <b>n</b> thì đó là ước số.`,
 rb:[
   {desc:'Nhập n bằng input() và int()',kw:'input,int',pts:1,mode:'any',
    hint:'n = int(input("Nhập n: "))'},
@@ -3676,7 +3662,7 @@ rb:[
 
 {id:'k10-20-3.3',g:'K10',ch:'Bài 20: Câu lệnh FOR',lv:'Mức 3',num:'3.3',
 title:'Tính tổng nghịch đảo S = 1 + 1/2 + ... + 1/n',
-desc:`<b>Đề bài:</b> Nhập số nguyên <b>n</b>. Tính tổng S = 1 + 1/2 + 1/3 + ... + 1/n. In kết quả làm tròn 4 chữ số thập phân.`,
+desc:`<b>Đề bài:</b> Nhập một số nguyên dương <b>n</b>. Tính tổng S theo công thức: S = 1 + 1/2 + 1/3 + ... + 1/n. Hiển thị kết quả của tổng S, làm tròn đến 4 chữ số sau dấu phẩy.<br><br><b>Gợi ý:</b> Để tính tổng này, bạn có thể bắt đầu với tổng ban đầu bằng 0. Sau đó, lặp lại việc cộng thêm các phân số 1/i vào tổng, với i tăng dần từ 1 đến <b>n</b>.`,
 rb:[
   {desc:'Nhập n bằng input() và int()',kw:'input,int',pts:1,mode:'any',
    hint:'n = int(input("Nhập n: "))'},
@@ -3692,7 +3678,7 @@ rb:[
 
 {id:'k10-20-4.1',g:'K10',ch:'Bài 20: Câu lệnh FOR',lv:'Mức 4 – Phân tích',num:'4.1',
 title:'Kiểm tra số nguyên tố',
-desc:`<b>Đề bài:</b> Nhập số tự nhiên <b>n</b>. Kiểm tra xem n có phải số nguyên tố hay không (số chỉ có 2 ước là 1 và chính nó).`,
+desc:`<b>Đề bài:</b> Nhập một số tự nhiên <b>n</b>. Xác định xem <b>n</b> có phải là số nguyên tố hay không. Một số nguyên tố là số tự nhiên lớn hơn 1 và chỉ có hai ước số dương là 1 và chính nó.<br><br><b>Gợi ý:</b> Để kiểm tra một số có phải là số nguyên tố, bạn có thể thử chia số đó cho các số nguyên dương bắt đầu từ 2 và nhỏ hơn chính nó. Nếu số đó chỉ chia hết cho 1 và chính nó, thì đó là số nguyên tố.`,
 rb:[
   {desc:'Nhập n bằng input() và int()',kw:'input,int',pts:1,mode:'any',
    hint:'n = int(input("Nhập n: "))'},
@@ -3708,7 +3694,7 @@ rb:[
 
 {id:'k10-20-4.2',g:'K10',ch:'Bài 20: Câu lệnh FOR',lv:'Mức 4',num:'4.2',
 title:'Tổng các lập phương S = 1³+2³+...+n³',
-desc:`<b>Đề bài:</b> Nhập số nguyên <b>n</b>. Tính tổng S = 1³ + 2³ + ... + n³.`,
+desc:`<b>Đề bài:</b> Nhập vào một số nguyên dương <b>n</b>. Yêu cầu tính tổng S của các lập phương từ 1 đến <b>n</b>, theo công thức S = 1³ + 2³ + ... + <b>n</b>³.<b>Gợi ý:</b> Để tính tổng này, bạn có thể xem xét việc thực hiện một quá trình lặp, bắt đầu từ 1 và kết thúc ở <b>n</b>. Trong mỗi bước lặp, hãy tính giá trị lập phương của số hiện tại và thêm nó vào một tổng đang được tích lũy.`,
 rb:[
   {desc:'Nhập n bằng input() và int()',kw:'input,int',pts:1,mode:'any',
    hint:'n = int(input("Nhập n: "))'},
@@ -3724,7 +3710,7 @@ rb:[
 
 {id:'k10-20-4.3',g:'K10',ch:'Bài 20: Câu lệnh FOR',lv:'Mức 4',num:'4.3',
 title:'Đếm ước số thực sự và tính tổng',
-desc:`<b>Đề bài:</b> Nhập số nguyên <b>n</b>. Tìm các ước số thực sự của n (k < n) và tính tổng của chúng.`,
+desc:`<b>Đề bài:</b> Nhập vào một số nguyên dương <b>n</b>. Nhiệm vụ là tìm tất cả các ước số nguyên dương của <b>n</b> mà nhỏ hơn chính <b>n</b> (gọi là ước số thực sự). Sau đó, tính tổng của các ước số thực sự này và hiển thị kết quả.<br><br><b>Gợi ý:</b> Để tìm các ước số thực sự, bạn có thể xem xét từng số nguyên dương bắt đầu từ 1 và tăng dần lên, dừng lại trước khi đạt đến <b>n</b>. Với mỗi số đang xét, hãy kiểm tra xem <b>n</b> có chia hết cho số đó hay không. Nếu có, số đó là một ước số thực sự. Bạn cần thu thập tất cả các ước số thực sự này và sau đó tính tổng của chúng.`,
 rb:[
   {desc:'Nhập n bằng input() và int()',kw:'input,int',pts:1,mode:'any',
    hint:'n = int(input("Nhập n: "))'},
@@ -3741,7 +3727,7 @@ rb:[
 /* Bài 21: Câu lệnh WHILE */
 {id:'k10-21-1.1',g:'K10',ch:'Bài 21: Câu lệnh WHILE',lv:'Mức 1 – Nhận biết',num:'1.1',
 title:'In dãy số tăng dần 1→5',
-desc:`<b>Đề bài:</b> Sử dụng lệnh <b>while</b> để in các số từ 1 đến 5 trên cùng một hàng.`,
+desc:`<b>Đề bài:</b> Viết chương trình hiển thị các số nguyên từ 1 đến 5 theo thứ tự tăng dần trên cùng một dòng.<br><b>Gợi ý:</b> Bạn có thể sử dụng một cấu trúc lặp để duyệt qua các số và hiển thị chúng.`,
 rb:[
   {desc:'Khởi tạo biến đếm k = 1',kw:'k=1',pts:2,
    hint:'k = 1 trước vòng lặp để bắt đầu từ 1.'},
@@ -3755,7 +3741,7 @@ rb:[
 
 {id:'k10-21-1.2',g:'K10',ch:'Bài 21: Câu lệnh WHILE',lv:'Mức 1',num:'1.2',
 title:'Đếm ngược từ 5 về 1',
-desc:`<b>Đề bài:</b> Dùng <b>while</b> đếm ngược từ 5 về 1, sau đó in chữ <b>"Bắt đầu!"</b>.`,
+desc:`<b>Đề bài:</b> Yêu cầu chương trình thực hiện việc đếm ngược từ số 5 về số 1. Sau khi hoàn thành việc đếm ngược, chương trình sẽ hiển thị thông báo <b>"Bắt đầu!"</b>.<br><br><b>Gợi ý:</b><br>• Bạn có thể sử dụng một cấu trúc lặp để giảm dần giá trị của một biến từ 5 xuống 1.<br>• Mỗi lần lặp, hiển thị giá trị hiện tại của biến.<br>• Sau khi vòng lặp kết thúc, hiển thị thông báo cuối cùng.`,
 rb:[
   {desc:'Khởi tạo count = 5',kw:'count=5',pts:2,
    hint:'count = 5 trước vòng lặp để bắt đầu đếm ngược từ 5.'},
@@ -3771,7 +3757,7 @@ rb:[
 
 {id:'k10-21-1.3',g:'K10',ch:'Bài 21: Câu lệnh WHILE',lv:'Mức 1',num:'1.3',
 title:'Dừng vòng lặp khi gặp số 5',
-desc:`<b>Đề bài:</b> Dùng <b>while</b> in các số từ 0 đến 10. Khi gặp số 5 thì dừng lại (dùng <b>break</b>).`,
+desc:`<b>Đề bài:</b> Viết một chương trình thực hiện việc hiển thị các số nguyên liên tiếp, bắt đầu từ 0. Chương trình sẽ tiếp tục hiển thị các số cho đến khi gặp số 5 thì dừng lại. Các số sau 5 sẽ không được hiển thị. Ví dụ, nếu chương trình bắt đầu từ 0, nó sẽ hiển thị 0, 1, 2, 3, 4, sau đó khi gặp 5 thì dừng lại.`,
 rb:[
   {desc:'Khởi tạo i = 0',kw:'i=0',pts:1,
    hint:'i = 0 trước vòng lặp.'},
@@ -3787,7 +3773,7 @@ rb:[
 
 {id:'k10-21-2.1',g:'K10',ch:'Bài 21: Câu lệnh WHILE',lv:'Mức 2 – Thông hiểu',num:'2.1',
 title:'Tính tổng cho đến khi đạt 50',
-desc:`<b>Đề bài:</b> Tính tổng các số tự nhiên 1, 2, 3... cho đến khi tổng đó lớn hơn hoặc bằng 50. In tổng cuối cùng và số cuối cùng được cộng.`,
+desc:`<b>Đề bài:</b> Yêu cầu tính tổng các số tự nhiên liên tiếp bắt đầu từ 1 (1, 2, 3, ...). Quá trình cộng sẽ dừng lại khi tổng đạt giá trị lớn hơn hoặc bằng 50. Sau đó, hiển thị ra màn hình giá trị tổng cuối cùng và số tự nhiên cuối cùng đã được thêm vào tổng.<br><br><b>Gợi ý:</b> Bạn có thể sử dụng một biến để lưu trữ tổng hiện tại và một biến để lưu trữ số tự nhiên đang xét. Bắt đầu với số 1 và tổng là 0. Lặp lại việc cộng số hiện tại vào tổng và tăng số hiện tại lên 1 cho đến khi tổng đạt điều kiện dừng.`,
 rb:[
   {desc:'Khởi tạo s = 0 và k = 1',kw:'s=0',pts:2,
    hint:'s = 0 (biến tổng) và k = 1 (số cộng tiếp theo) trước vòng lặp.'},
@@ -3803,7 +3789,7 @@ rb:[
 
 {id:'k10-21-2.2',g:'K10',ch:'Bài 21: Câu lệnh WHILE',lv:'Mức 2',num:'2.2',
 title:'In dãy số cách đều 2,5,8,11...',
-desc:`<b>Đề bài:</b> Dùng <b>while</b> in dãy số cách đều 2, 5, 8, 11... (bắt đầu 2, cách 3) nhỏ hơn 30.`,
+desc:`<b>Đề bài:</b> In ra các số trong một dãy số cách đều. Dãy số bắt đầu từ 2, và mỗi số tiếp theo lớn hơn số trước đó 3 đơn vị. Các số trong dãy phải nhỏ hơn 30. <br><b>Gợi ý:</b> Bắt đầu với số đầu tiên, sau đó lặp lại việc thêm khoảng cách vào số hiện tại và kiểm tra điều kiện dừng.`,
 rb:[
   {desc:'Khởi tạo k = 2 (số đầu tiên)',kw:'k=2',pts:2,
    hint:'k = 2 trước vòng lặp.'},
@@ -3817,7 +3803,7 @@ rb:[
 
 {id:'k10-21-2.3',g:'K10',ch:'Bài 21: Câu lệnh WHILE',lv:'Mức 2',num:'2.3',
 title:'Tìm lũy thừa nhỏ nhất 2^k > 1000',
-desc:`<b>Đề bài:</b> Tìm số nguyên <b>k</b> nhỏ nhất sao cho 2^k > 1000. Dùng vòng while.`,
+desc:`<b>Đề bài:</b> Tìm số nguyên <b>k</b> nhỏ nhất sao cho 2^k > 1000.<b>Gợi ý:</b> Bắt đầu với một giá trị <b>k</b> ban đầu, sau đó lặp lại việc tăng <b>k</b> và tính lũy thừa của 2 cho đến khi điều kiện 2^k > 1000 được thỏa mãn. Giá trị <b>k</b> đầu tiên thỏa mãn điều kiện đó chính là kết quả cần tìm.`,
 rb:[
   {desc:'Khởi tạo k = 0',kw:'k=0',pts:2,
    hint:'k = 0 trước vòng lặp.'},
@@ -3831,7 +3817,7 @@ rb:[
 
 {id:'k10-21-3.1',g:'K10',ch:'Bài 21: Câu lệnh WHILE',lv:'Mức 3 – Vận dụng',num:'3.1',
 title:'Nhập số dương (kiểm tra hợp lệ)',
-desc:`<b>Đề bài:</b> Yêu cầu người dùng nhập một số. Nếu nhập số âm hoặc bằng 0 thì yêu cầu nhập lại cho đến khi nhận được số dương. In ra số đó.`,
+desc:`<b>Đề bài:</b> Yêu cầu người dùng nhập một số nguyên. Nếu số nhập vào là số âm hoặc bằng 0, chương trình cần yêu cầu người dùng nhập lại. Quá trình này tiếp diễn cho đến khi nhận được một số nguyên dương hợp lệ. Cuối cùng, in ra số nguyên dương đó.<b>Gợi ý:</b> Lặp lại việc nhận giá trị từ người dùng và kiểm tra điều kiện của giá trị đó. Chỉ dừng lại khi giá trị thỏa mãn yêu cầu.`,
 rb:[
   {desc:'Nhập n lần đầu bằng int(input(...))',kw:'input',pts:2,
    hint:'n = int(input("Nhập số dương: ")) trước vòng lặp.'},
@@ -3845,7 +3831,7 @@ rb:[
 
 {id:'k10-21-3.2',g:'K10',ch:'Bài 21: Câu lệnh WHILE',lv:'Mức 3',num:'3.2',
 title:'Thuật toán Euclid tìm UCLN',
-desc:`<b>Đề bài:</b> Nhập hai số nguyên <b>a, b</b>. Tìm ước chung lớn nhất (UCLN) bằng cách trừ số lớn cho số nhỏ cho đến khi chúng bằng nhau.`,
+desc:`<b>Đề bài:</b> Cho hai số nguyên dương <b>a</b> và <b>b</b>. Yêu cầu tìm ước chung lớn nhất (UCLN) của hai số này.<br><b>Gợi ý:</b> Bạn có thể lặp lại việc lấy số lớn trừ đi số nhỏ cho đến khi hai số bằng nhau. Giá trị cuối cùng đó chính là UCLN.`,
 rb:[
   {desc:'Nhập a, b bằng input()',kw:'input',pts:1,
    hint:'Cần 2 lần gọi input() để nhập a và b.'},
@@ -3861,7 +3847,7 @@ rb:[
 
 {id:'k10-21-3.3',g:'K10',ch:'Bài 21: Câu lệnh WHILE',lv:'Mức 3',num:'3.3',
 title:'Tính trung bình cộng, dừng khi nhập 0',
-desc:`<b>Đề bài:</b> Nhập dãy số từ bàn phím, dừng khi người dùng nhập số 0. Tính và in trung bình cộng của các số đã nhập (không tính số 0).`,
+desc:`<b>Đề bài:</b> Chương trình yêu cầu người dùng nhập vào một dãy các số nguyên. Quá trình nhập số sẽ dừng lại khi người dùng nhập số 0. Hãy tính tổng và đếm số lượng các số đã nhập (không bao gồm số 0), sau đó hiển thị giá trị trung bình cộng của chúng.<br><br><b>Gợi ý:</b> Để giải quyết bài toán này, bạn có thể sử dụng một cấu trúc lặp để liên tục nhận các số. Trong mỗi lần lặp, hãy kiểm tra xem số vừa nhập có phải là 0 hay không. Nếu không phải là 0, hãy cộng số đó vào một tổng và tăng bộ đếm số lượng lên. Khi số 0 được nhập, vòng lặp sẽ kết thúc và bạn có thể tính toán trung bình cộng từ tổng và số lượng đã có.`,
 rb:[
   {desc:'Khởi tạo tong = 0 và dem = 0',kw:'tong=0',pts:1,
    hint:'tong = 0 (tổng) và dem = 0 (đếm số lượng) trước vòng lặp.'},
@@ -3877,7 +3863,7 @@ rb:[
 
 {id:'k10-21-4.1',g:'K10',ch:'Bài 21: Câu lệnh WHILE',lv:'Mức 4 – Phân tích',num:'4.1',
 title:'Bài toán gửi tiết kiệm',
-desc:`<b>Đề bài:</b> Một người gửi 100 triệu vào ngân hàng với lãi suất 6%/năm. Sau bao nhiêu năm thì số tiền (cả gốc lẫn lãi) vượt quá 150 triệu? In số năm và số tiền đạt được.`,
+desc:`<b>Đề bài:</b> Một người gửi một khoản tiền ban đầu là <b>100 triệu</b> vào ngân hàng với lãi suất <b>6%</b> mỗi năm.<ul><li>Xác định số năm tối thiểu để tổng số tiền (bao gồm cả gốc và lãi) vượt quá <b>150 triệu</b>.</li><li>In ra số năm đó và tổng số tiền đạt được tại thời điểm đó.</li></ul><b>Gợi ý:</b> Bạn có thể mô phỏng quá trình gửi tiền theo từng năm. Mỗi năm, số tiền sẽ tăng thêm một lượng bằng lãi suất nhân với tổng số tiền hiện có. Lặp lại quá trình này và đếm số năm cho đến khi tổng số tiền vượt qua mốc <b>150 triệu</b>.`,
 rb:[
   {desc:'Khởi tạo tien_goc = 100 và lai_suat = 0.06',kw:'lai_suat',pts:2,
    hint:'tien_goc = 100 (triệu) và lai_suat = 0.06 (6%).'},
@@ -3893,7 +3879,7 @@ rb:[
 
 {id:'k10-21-4.2',g:'K10',ch:'Bài 21: Câu lệnh WHILE',lv:'Mức 4',num:'4.2',
 title:'In bảng số 10×10 (1-100)',
-desc:`<b>Đề bài:</b> Dùng vòng while in các số từ 1 đến 100 thành 10 hàng, mỗi hàng 10 số. Các số cách nhau bởi khoảng trắng.`,
+desc:`<b>Đề bài:</b> In các số nguyên từ 1 đến 100 theo định dạng bảng gồm 10 hàng và 10 cột. Mỗi hàng chứa 10 số, và các số trong cùng một hàng được phân tách bằng một khoảng trắng. <br><b>Gợi ý:</b> Để tạo ra cấu trúc bảng này, bạn có thể sử dụng một cấu trúc lặp để duyệt qua các số từ 1 đến 100. Trong quá trình duyệt, hãy theo dõi số lượng số đã in trên mỗi hàng để xuống dòng sau mỗi 10 số.`,
 rb:[
   {desc:'Khởi tạo k = 1 (biến đếm)',kw:'k=1',pts:1,
    hint:'k = 1 trước vòng lặp.'},
@@ -3909,7 +3895,7 @@ rb:[
 
 {id:'k10-21-4.3',g:'K10',ch:'Bài 21: Câu lệnh WHILE',lv:'Mức 4',num:'4.3',
 title:'Kiểm tra số nguyên tố (tối ưu √n)',
-desc:`<b>Đề bài:</b> Nhập số tự nhiên <b>n</b>. Kiểm tra số nguyên tố bằng cách thử chia cho các số từ 2 đến √n (dùng math.sqrt). In kết quả.`,
+desc:`<b>Đề bài:</b> Nhập vào một số tự nhiên <b>n</b>. Xác định xem số <b>n</b> có phải là số nguyên tố hay không. Để kiểm tra, cần thử chia <b>n</b> cho các số nguyên bắt đầu từ 2 cho đến phần nguyên của căn bậc hai của <b>n</b>. Thông báo kết quả kiểm tra.<br><b>Gợi ý:</b> Để tìm căn bậc hai của một số, bạn có thể sử dụng một phép toán để tính giá trị này. Sau đó, duyệt qua các số từ 2 đến giá trị vừa tìm được và kiểm tra xem <b>n</b> có chia hết cho bất kỳ số nào trong khoảng đó không.`,
 rb:[
   {desc:'import math để dùng math.sqrt',kw:'math',pts:1,
    hint:'import math ở đầu chương trình.'},
@@ -3928,7 +3914,7 @@ rb:[
 /* Tổng hợp K10: Bài 19+20+21 */
 {id:'k10-th-1.1',g:'K10',ch:'Tổng hợp Bài 19+20+21',lv:'Mức 1',num:'1.1',
 title:'Kiểm tra số âm/dương',
-desc:`<b>Đề bài:</b> Nhập vào một số thực <b>a</b>. Kiểm tra xem a là số dương hay số không dương. In kết quả tương ứng.`,
+desc:`<b>Đề bài:</b> Yêu cầu người dùng cung cấp một số thực, gọi là <b>a</b>. Dựa vào giá trị của <b>a</b>, xác định xem nó là số dương hay không phải số dương. Hiển thị thông báo phù hợp với kết quả kiểm tra.<br><br><b>Gợi ý:</b> So sánh giá trị của <b>a</b> với số 0 để đưa ra kết luận.`,
 rb:[
   {desc:'Nhập a bằng float() và input()',kw:'float,input',pts:2,mode:'any',
    hint:'a = float(input("Nhập a: ")) để nhận số thực.'},
@@ -3944,7 +3930,7 @@ rb:[
 
 {id:'k10-th-1.2',g:'K10',ch:'Tổng hợp Bài 19+20+21',lv:'Mức 1',num:'1.2',
 title:'Liệt kê số từ 1 đến N',
-desc:`<b>Đề bài:</b> Nhập số tự nhiên <b>n</b>. Sử dụng lệnh <b>for</b> và <b>range()</b> để in các số từ 1 đến n.`,
+desc:`<b>Đề bài:</b> Nhập một số tự nhiên <b>n</b>. Hiển thị tất cả các số nguyên liên tiếp, bắt đầu từ 1 và kết thúc tại <b>n</b>.<br><b>Gợi ý:</b> Để thực hiện việc này, bạn có thể lặp lại một hành động nào đó một cách tuần tự. Bắt đầu với số 1, sau đó tăng dần giá trị lên 1 cho đến khi đạt đến số <b>n</b>. Mỗi lần lặp, hãy hiển thị số hiện tại.`,
 rb:[
   {desc:'Nhập n bằng input() và int()',kw:'input,int',pts:2,mode:'any',
    hint:'n = int(input("Nhập n: "))'},
@@ -3958,7 +3944,7 @@ rb:[
 
 {id:'k10-th-1.3',g:'K10',ch:'Tổng hợp Bài 19+20+21',lv:'Mức 1',num:'1.3',
 title:'Vòng lặp đếm ngược 10→1',
-desc:`<b>Đề bài:</b> Sử dụng <b>while</b> để in ra các số từ 10 lui về 1 trên cùng một hàng.`,
+desc:`<b>Đề bài:</b> Viết chương trình in ra các số nguyên từ 10 về 1 trên cùng một hàng.<b>Gợi ý:</b> Bạn có thể bắt đầu với một giá trị ban đầu là 10, sau đó lặp lại việc in giá trị hiện tại và giảm giá trị đó đi 1 cho đến khi đạt đến 1.`,
 rb:[
   {desc:'Khởi tạo k = 10',kw:'k=10',pts:2,
    hint:'k = 10 trước vòng lặp.'},
@@ -3972,7 +3958,7 @@ rb:[
 
 {id:'k10-th-2.1',g:'K10',ch:'Tổng hợp Bài 19+20+21',lv:'Mức 2',num:'2.1',
 title:'Kiểm tra điều kiện kết hợp',
-desc:`<b>Đề bài:</b> Nhập vào một số <b>x</b>. Kiểm tra xem x có đồng thời chia hết cho 3 <b>và</b> lớn hơn 10 hay không. In kết quả.`,
+desc:`<b>Đề bài:</b> Yêu cầu người dùng nhập một số nguyên <b>x</b>. Kiểm tra xem số <b>x</b> này có đồng thời chia hết cho 3 và lớn hơn 10 hay không. In ra kết quả kiểm tra.<br><br><b>Gợi ý:</b> Để kiểm tra một số có chia hết cho số khác, bạn có thể xem xét phần dư của phép chia. Để kiểm tra hai điều kiện cùng lúc, bạn cần một cấu trúc điều kiện kết hợp.`,
 rb:[
   {desc:'Nhập x bằng input() và int()',kw:'input,int',pts:2,mode:'any',
    hint:'x = int(input("Nhập x: "))'},
@@ -3986,7 +3972,7 @@ rb:[
 
 {id:'k10-th-2.2',g:'K10',ch:'Tổng hợp Bài 19+20+21',lv:'Mức 2',num:'2.2',
 title:'Tính tổng các bội số của 5',
-desc:`<b>Đề bài:</b> Nhập số nguyên <b>n</b>. Tính tổng các số là bội của 5 trong khoảng từ 1 đến n.`,
+desc:`<b>Đề bài:</b><br>Yêu cầu:<br>• Nhập vào một số nguyên dương <b>n</b>.<br>• Tính tổng tất cả các số nguyên dương nhỏ hơn hoặc bằng <b>n</b> mà là bội số của 5.<br><br><b>Gợi ý:</b><br>• Bạn có thể xem xét từng số nguyên từ 1 đến <b>n</b>.<br>• Với mỗi số, kiểm tra xem nó có chia hết cho 5 hay không.<br>• Nếu có, hãy cộng số đó vào tổng.`,
 rb:[
   {desc:'Nhập n bằng input() và int()',kw:'input,int',pts:1,mode:'any',
    hint:'n = int(input("Nhập n: "))'},
@@ -4002,7 +3988,7 @@ rb:[
 
 {id:'k10-th-2.3',g:'K10',ch:'Tổng hợp Bài 19+20+21',lv:'Mức 2',num:'2.3',
 title:'Tìm k nhỏ nhất: S = 1+2+...+k > 100',
-desc:`<b>Đề bài:</b> Dùng while tìm số tự nhiên <b>k</b> nhỏ nhất sao cho tổng S = 1+2+...+k > 100.`,
+desc:`<b>Đề bài:</b> Tìm số tự nhiên <b>k</b> nhỏ nhất sao cho tổng S = 1+2+...+<b>k</b> lớn hơn 100.<br><b>Gợi ý:</b> Bắt đầu với <b>k</b> bằng 1 và tổng S bằng 0. Lặp lại việc tăng <b>k</b> và cộng <b>k</b> vào S cho đến khi S vượt quá 100.`,
 rb:[
   {desc:'Khởi tạo s = 0 và k = 0',kw:'s=0',pts:2,
    hint:'s = 0 (biến tổng) và k = 0 (biến đếm) trước vòng lặp.'},
@@ -4016,7 +4002,7 @@ rb:[
 
 {id:'k10-th-3.1',g:'K10',ch:'Tổng hợp Bài 19+20+21',lv:'Mức 3 – Vận dụng',num:'3.1',
 title:'Liệt kê và đếm ước số',
-desc:`<b>Đề bài:</b> Nhập số tự nhiên <b>n</b>. In ra các ước số của n và cho biết có bao nhiêu ước số.`,
+desc:`<b>Đề bài:</b> Nhập vào một số tự nhiên <b>n</b>.<br>• Yêu cầu 1: Liệt kê tất cả các số là ước của <b>n</b>.<br>• Yêu cầu 2: Đếm tổng số lượng các ước số của <b>n</b>.<br><br><b>Gợi ý:</b> Để tìm các ước số của một số, bạn có thể kiểm tra lần lượt các số từ 1 đến chính số đó. Nếu một số chia hết cho số tự nhiên <b>n</b> mà không có số dư, thì đó là một ước số.`,
 rb:[
   {desc:'Nhập n bằng input() và int()',kw:'input,int',pts:1,mode:'any',
    hint:'n = int(input("Nhập n: "))'},
@@ -4032,7 +4018,7 @@ rb:[
 
 {id:'k10-th-3.2',g:'K10',ch:'Tổng hợp Bài 19+20+21',lv:'Mức 3',num:'3.2',
 title:'Nhập điểm hợp lệ (0-10)',
-desc:`<b>Đề bài:</b> Viết chương trình yêu cầu nhập một số điểm trong khoảng 0 đến 10. Nếu nhập sai, yêu cầu nhập lại cho đến khi đúng. In điểm đã nhận.`,
+desc:`<b>Đề bài:</b> Yêu cầu người dùng nhập một giá trị điểm số.<br>•   Điểm số phải là một số nằm trong khoảng từ 0 đến 10 (bao gồm cả 0 và 10).<br>•   Nếu giá trị nhập vào không hợp lệ, chương trình cần thông báo và yêu cầu người dùng nhập lại cho đến khi nhận được một điểm số hợp lệ.<br>•   Sau khi nhận được điểm số hợp lệ, hiển thị điểm số đó.<br><br><b>Gợi ý:</b><br>Kiểm tra xem giá trị điểm số vừa nhập có thỏa mãn điều kiện nằm trong khoảng từ 0 đến 10 hay không. Nếu không, lặp lại quá trình yêu cầu nhập cho đến khi điều kiện được đáp ứng.`,
 rb:[
   {desc:'Nhập diem bằng float() và input()',kw:'float,input',pts:1,mode:'any',
    hint:'diem = float(input("Nhập điểm: ")) trước vòng lặp.'},
@@ -4048,7 +4034,7 @@ rb:[
 
 {id:'k10-th-3.3',g:'K10',ch:'Tổng hợp Bài 19+20+21',lv:'Mức 3',num:'3.3',
 title:'Tính tiền mua sách (giảm giá)',
-desc:`<b>Đề bài:</b> Giá một quyển vở là 5.000đ. Nếu mua từ 20 quyển trở lên sẽ được giảm giá 10% trên tổng hóa đơn. Nhập số lượng, tính và in số tiền phải trả.`,
+desc:`<b>Đề bài:</b> Cho số lượng sách <b>n</b> và giá mỗi cuốn <b>p</b>. Tính tổng tiền phải trả sau khi áp dụng chính sách giảm giá:<br>• Nếu mua từ <b>10</b> cuốn trở lên, giảm <b>20%</b> tổng giá trị.<br>• Nếu mua từ <b>5</b> đến dưới <b>10</b> cuốn, giảm <b>10%</b> tổng giá trị.<br>• Nếu mua dưới <b>5</b> cuốn, không giảm giá.<br>In ra tổng tiền cuối cùng.<br><b>Gợi ý:</b> Kiểm tra số lượng sách để xác định mức giảm giá phù hợp, sau đó tính toán tổng tiền.`,
 rb:[
   {desc:'Nhập so_luong bằng input() và int()',kw:'input,int',pts:2,mode:'any',
    hint:'so_luong = int(input("Nhập số lượng: "))'},
@@ -4064,7 +4050,7 @@ rb:[
 
 {id:'k10-th-4.1',g:'K10',ch:'Tổng hợp Bài 19+20+21',lv:'Mức 4 – Phân tích',num:'4.1',
 title:'Kiểm tra số nguyên tố (Tổng hợp)',
-desc:`<b>Đề bài:</b> Nhập số cần kiểm tra. Dùng vòng while và math.sqrt để kiểm tra số nguyên tố tối ưu. In kết quả.`,
+desc:`<b>Đề bài:</b> Chương trình nhận vào một số nguyên dương. Kiểm tra xem số đó có phải là số nguyên tố hay không và đưa ra thông báo tương ứng. Số nguyên tố là số tự nhiên lớn hơn 1 và chỉ có hai ước số dương phân biệt là 1 và chính nó.<br><b>Gợi ý:</b> Để kiểm tra một số có phải là số nguyên tố, bạn có thể duyệt các số từ 2 đến phần nguyên của căn bậc hai của số đó. Nếu số đó chia hết cho bất kỳ số nào trong khoảng này, thì nó không phải là số nguyên tố. Nếu không, nó là số nguyên tố.`,
 rb:[
   {desc:'import math để dùng math.sqrt',kw:'math',pts:1,
    hint:'import math ở đầu chương trình.'},
@@ -4082,7 +4068,7 @@ rb:[
 
 {id:'k10-th-4.2',g:'K10',ch:'Tổng hợp Bài 19+20+21',lv:'Mức 4',num:'4.2',
 title:'In hình mẫu bảng số 10×10',
-desc:`<b>Đề bài:</b> In ra một hình vuông bằng các số theo hàng và cột (bảng số 10×10 từ 1 đến 100).`,
+desc:`<b>Đề bài:</b> Hãy viết chương trình in ra một bảng số gồm các số nguyên liên tiếp từ 1 đến 100. Mỗi hàng của bảng phải hiển thị chính xác 10 số. Các số trong cùng một hàng cần được phân tách với nhau bằng một ký tự khoảng trắng.<br><b>Gợi ý:</b> Bạn có thể dùng một quy trình lặp để xử lý từng số từ 1 đến 100. Trong quá trình này, hãy đếm số lượng số đã in trên mỗi hàng. Khi số lượng đạt đến 10, hãy chuyển sang hàng mới trước khi in số tiếp theo.`,
 rb:[
   {desc:'Dùng hai vòng lặp for lồng nhau',kw:'for',pts:3,
    hint:'for hang in range(10): for cot in range(10): — hai vòng for lồng nhau.'},
@@ -4096,7 +4082,7 @@ rb:[
 
 {id:'k10-th-4.3',g:'K10',ch:'Tổng hợp Bài 19+20+21',lv:'Mức 4',num:'4.3',
 title:'Bài toán lãi suất kép — Gấp đôi',
-desc:`<b>Đề bài:</b> Nhập số tiền ban đầu <b>a</b> (triệu) và lãi suất <b>r</b> (%/năm). Tính sau bao nhiêu năm số tiền gấp đôi số tiền ban đầu.`,
+desc:`<b>Đề bài:</b> Một người gửi tiết kiệm với lãi suất <b>r%/năm</b>. Hãy xác định số năm tối thiểu để số tiền gửi ban đầu tăng gấp đôi. In ra số năm cần thiết.<br><br><b>Gợi ý:</b> Bạn có thể bắt đầu với một số tiền ban đầu và một số năm bằng 0. Sau đó, lặp lại việc tăng số năm lên 1 và tính toán số tiền mới sau mỗi năm dựa trên lãi suất đã cho. Dừng lại khi số tiền đạt hoặc vượt quá hai lần số tiền ban đầu.`,
 rb:[
   {desc:'Nhập a và r bằng input()',kw:'input',pts:1,
    hint:'a = float(input("Nhập tiền ban đầu: ")) và r = float(input("Nhập lãi suất: "))'},
@@ -4114,8 +4100,7 @@ rb:[
 /* Bài 17: Mảng một chiều */
 {id:'k11-17-1.1',g:'K11',ch:'Bài 17: Dữ liệu mảng một chiều',lv:'Mức 1 – Nhớ',num:'1.1',
 title:'Khởi tạo mảng City',
-desc:`<b>Đề bài:</b> Khởi tạo một mảng tên <b>City</b> chứa tên 3 thành phố: "Hà Nội", "Đà Nẵng", "Sài Gòn". In phần tử thứ 2 ra màn hình.
-<i>Lưu ý: Chỉ số bắt đầu từ 0 nên phần tử thứ 2 là index 1.</i>`,
+desc:`<b>Đề bài:</b> Yêu cầu tạo một cấu trúc dữ liệu có tên <b>City</b> để lưu trữ ba chuỗi ký tự là tên các thành phố: "Hà Nội", "Đà Nẵng", "TP.HCM". Sau đó, hiển thị toàn bộ nội dung của cấu trúc dữ liệu <b>City</b> này ra màn hình.<br><br><b>Gợi ý:</b> Để tạo cấu trúc dữ liệu chứa nhiều phần tử, bạn có thể khởi tạo nó với các giá trị đã cho. Sau đó, sử dụng một thao tác để xuất các phần tử này ra thiết bị hiển thị.`,
 rb:[
   {desc:'Khởi tạo City = [...] với 3 thành phố',kw:'City=',pts:3,
    hint:'City = ["Hà Nội", "Đà Nẵng", "Sài Gòn"] — đặt tên biến đúng là City.'},
@@ -4129,7 +4114,7 @@ rb:[
 
 {id:'k11-17-1.2',g:'K11',ch:'Bài 17: Dữ liệu mảng một chiều',lv:'Mức 1',num:'1.2',
 title:'Thay đổi phần tử đầu tiên',
-desc:`<b>Đề bài:</b> Cho mảng số nguyên <b>A = [10, 20, 30, 40, 50]</b>. Viết lệnh thay đổi giá trị phần tử đầu tiên thành <b>99</b> và in mảng sau khi đổi.`,
+desc:`<b>Đề bài:</b> Cho một dãy số <b>A = [10, 20, 30]</b>. Yêu cầu thay đổi giá trị của phần tử đầu tiên trong dãy thành <b>99</b>. Sau đó, hiển thị dãy số <b>A</b> sau khi đã được cập nhật.`,
 rb:[
   {desc:'Khai báo A = [10, 20, 30, 40, 50]',kw:'A=[10',pts:2,
    hint:'A = [10, 20, 30, 40, 50] — đặt đúng giá trị ban đầu.'},
@@ -4143,7 +4128,7 @@ rb:[
 
 {id:'k11-17-1.3',g:'K11',ch:'Bài 17: Dữ liệu mảng một chiều',lv:'Mức 1',num:'1.3',
 title:'Tạo mảng bằng vòng lặp for',
-desc:`<b>Đề bài:</b> Viết chương trình tạo một mảng rỗng tên là <b>Arr</b>. Sử dụng vòng lặp <b>for</b> để thêm các số nguyên từ 1 đến 5 vào mảng. In mảng ra màn hình.`,
+desc:`<b>Đề bài:</b> Yêu cầu tạo một cấu trúc dữ liệu dạng danh sách rỗng, đặt tên là <b>B</b>. Sau đó, lần lượt bổ sung các số nguyên từ 1 đến 5 vào cấu trúc dữ liệu này. Cuối cùng, hiển thị nội dung của cấu trúc dữ liệu <b>B</b> ra màn hình.<br><br><b>Gợi ý:</b> Để thêm các số vào cấu trúc dữ liệu, bạn có thể thực hiện một quá trình lặp qua từng số trong khoảng từ 1 đến 5 và thực hiện thao tác thêm vào.`,
 rb:[
   {desc:'Khởi tạo Arr = [] (mảng rỗng)',kw:'Arr=[]',pts:3,
    hint:'Arr = [] để tạo mảng rỗng trước vòng lặp.'},
@@ -4157,7 +4142,7 @@ rb:[
 
 {id:'k11-17-2.1',g:'K11',ch:'Bài 17: Dữ liệu mảng một chiều',lv:'Mức 2 – Hiểu',num:'2.1',
 title:'Tính tổng các số dương',
-desc:`<b>Đề bài:</b> Cho mảng <b>A = [5, -2, 9, -1, 10]</b>. Viết chương trình tính tổng các số dương trong mảng.`,
+desc:`<b>Đề bài:</b> Cho một mảng số nguyên <b>A</b>. Yêu cầu tính tổng tất cả các phần tử có giá trị dương trong mảng <b>A</b>.<br><b>Gợi ý:</b> Duyệt qua từng phần tử của mảng. Với mỗi phần tử, kiểm tra xem nó có lớn hơn 0 hay không. Nếu có, cộng giá trị của phần tử đó vào một biến tổng.`,
 rb:[
   {desc:'Khai báo A = [5, -2, 9, -1, 10]',kw:'A=[5',pts:2,
    hint:'A = [5, -2, 9, -1, 10] — đặt đúng giá trị mảng.'},
@@ -4173,7 +4158,7 @@ rb:[
 
 {id:'k11-17-2.2',g:'K11',ch:'Bài 17: Dữ liệu mảng một chiều',lv:'Mức 2',num:'2.2',
 title:'In số chẵn trong mảng',
-desc:`<b>Đề bài:</b> Cho mảng <b>Numbers = [1, 2, 3, 4, 5, 6, 7, 8]</b>. Viết chương trình in ra các số chẵn trong mảng trên cùng một hàng.`,
+desc:`<b>Đề bài:</b> Cho một dãy số nguyên <b>A = [1, 4, 7, 8, 3, 6]</b>. Yêu cầu hiển thị tất cả các số chẵn có trong dãy số này.<br><b>Gợi ý:</b> Duyệt qua từng phần tử trong dãy số. Với mỗi phần tử, kiểm tra xem nó có chia hết cho 2 hay không. Nếu có, hiển thị phần tử đó.`,
 rb:[
   {desc:'Khai báo Numbers = [1, 2, 3, 4, 5, 6, 7, 8]',kw:'Numbers=',pts:2,
    hint:'Numbers = [1, 2, 3, 4, 5, 6, 7, 8] — đặt đúng tên biến.'},
@@ -4189,9 +4174,7 @@ rb:[
 
 {id:'k11-17-2.3',g:'K11',ch:'Bài 17: Dữ liệu mảng một chiều',lv:'Mức 2',num:'2.3',
 title:'Kiểm tra có điểm dưới 5.0',
-desc:`<b>Đề bài:</b> Cho mảng <b>Diem = [8.5, 9.0, 7.5, 6.0, 4.0]</b>. Kiểm tra xem trong mảng có điểm nào dưới 5.0 không?
-  • Có → in <b>"Cần học lại"</b>
-  • Không → in <b>"Đạt"</b>`,
+desc:`<b>Đề bài:</b> Cho danh sách điểm <b>Diem = [8.5, 4.0, 7.0, 9.5, 3.5]</b>. Xác định xem trong danh sách này có bất kỳ điểm nào có giá trị nhỏ hơn 5.0 hay không. Xuất ra thông báo tương ứng.<b>Gợi ý:</b> Duyệt qua từng phần tử trong danh sách điểm. Với mỗi phần tử, so sánh giá trị của nó với 5.0. Nếu tìm thấy một điểm nhỏ hơn 5.0, có thể kết luận ngay.`,
 rb:[
   {desc:'Khai báo Diem = [8.5, 9.0, 7.5, 6.0, 4.0]',kw:'Diem=',pts:2,
    hint:'Diem = [8.5, 9.0, 7.5, 6.0, 4.0] — đặt đúng tên biến.'},
@@ -4207,7 +4190,7 @@ rb:[
 
 {id:'k11-17-3.1',g:'K11',ch:'Bài 17: Dữ liệu mảng một chiều',lv:'Mức 3 – Vận dụng',num:'3.1',
 title:'Nhập mảng, tìm Max và Min',
-desc:`<b>Đề bài:</b> Nhập n số nguyên vào mảng. Tìm và in giá trị lớn nhất (<b>max</b>) và nhỏ nhất (<b>min</b>) trong mảng đó.`,
+desc:`<b>Đề bài:</b> Yêu cầu người dùng nhập một số nguyên dương <b>n</b>, sau đó nhập <b>n</b> giá trị số nguyên để tạo thành một dãy số. Chương trình cần tìm và hiển thị giá trị lớn nhất và giá trị nhỏ nhất trong dãy số đã nhập.<br><b>Gợi ý:</b> Duyệt qua từng phần tử của dãy số, so sánh và cập nhật giá trị lớn nhất và nhỏ nhất đã tìm thấy.`,
 rb:[
   {desc:'Nhập n bằng input() và int()',kw:'input,int',pts:1,mode:'any',
    hint:'n = int(input("Nhập số phần tử: "))'},
@@ -4223,7 +4206,7 @@ rb:[
 
 {id:'k11-17-3.2',g:'K11',ch:'Bài 17: Dữ liệu mảng một chiều',lv:'Mức 3',num:'3.2',
 title:'Tách mảng Chẵn/Lẻ',
-desc:`<b>Đề bài:</b> Cho mảng <b>A = [12, 4, 5, 7, 10, 33, 2]</b>. Tạo ra hai mảng mới: <b>Chan</b> (chứa số chẵn từ A) và <b>Le</b> (chứa số lẻ từ A). In cả hai mảng.`,
+desc:`<b>Đề bài:</b> Cho một dãy số nguyên <b>A</b>. Yêu cầu phân loại các phần tử của dãy số <b>A</b> thành hai nhóm: một nhóm chứa các số chẵn (gọi là <b>Chan</b>) và một nhóm chứa các số lẻ (gọi là <b>Le</b>). Sau đó, hiển thị nội dung của cả hai nhóm <b>Chan</b> và <b>Le</b>. Ví dụ: Với <b>A = [1, 2, 3, 4, 5, 6]</b>, kết quả mong muốn là <b>Chan = [2, 4, 6]</b> và <b>Le = [1, 3, 5]</b>.<br><b>Gợi ý:</b> Duyệt qua từng phần tử trong dãy số ban đầu. Với mỗi phần tử, kiểm tra xem nó là số chẵn hay số lẻ để thêm vào nhóm tương ứng.`,
 rb:[
   {desc:'Khai báo A = [12, 4, 5, 7, 10, 33, 2]',kw:'A=[12',pts:1,
    hint:'A = [12, 4, 5, 7, 10, 33, 2]'},
@@ -4241,7 +4224,7 @@ rb:[
 
 {id:'k11-17-3.3',g:'K11',ch:'Bài 17: Dữ liệu mảng một chiều',lv:'Mức 3',num:'3.3',
 title:'Tìm kiếm tất cả vị trí của x',
-desc:`<b>Đề bài:</b> Cho mảng <b>A = [10, 20, 10, 30, 40, 10]</b>. Nhập vào một số <b>x</b>. In ra tất cả các vị trí (chỉ số) mà x xuất hiện trong mảng.`,
+desc:`<b>Đề bài:</b> Cho một dãy số nguyên <b>A</b> và một giá trị số nguyên <b>x</b>. Ví dụ: <b>A = [3, 7, 3, 5, 3, 9]</b> và <b>x = 3</b>. Yêu cầu tìm tất cả các vị trí (chỉ số) mà giá trị <b>x</b> xuất hiện trong dãy số <b>A</b>. Kết quả cần in ra là các chỉ số này.<b>Gợi ý:</b> Duyệt qua từng phần tử của dãy số, so sánh giá trị của phần tử đó với <b>x</b>. Nếu chúng bằng nhau, ghi lại vị trí hiện tại.`,
 rb:[
   {desc:'Khai báo A = [...] định sẵn',kw:'A=[',pts:1,
    hint:'A = [10, 20, 10, 30, 40, 10]'},
@@ -4257,7 +4240,7 @@ rb:[
 
 {id:'k11-17-4.1',g:'K11',ch:'Bài 17: Dữ liệu mảng một chiều',lv:'Mức 4 – Phân tích',num:'4.1',
 title:'Kiểm tra mảng tăng dần',
-desc:`<b>Đề bài:</b> Kiểm tra xem mảng <b>A</b> có phải là mảng tăng dần không (phần tử sau ≥ phần tử trước). In <b>"Mảng tăng dần"</b> hoặc <b>"Mảng KHÔNG tăng dần"</b>.`,
+desc:`<b>Đề bài:</b> Cho một mảng các số nguyên <b>A</b>. Yêu cầu kiểm tra xem các phần tử trong mảng có được sắp xếp theo thứ tự tăng dần hay không. Ví dụ, với <b>A = [1, 3, 5, 7, 9]</b>, kết quả là mảng được sắp xếp tăng dần. Với <b>A = [1, 5, 3, 7, 9]</b>, kết quả là mảng không được sắp xếp tăng dần.<br><b>Gợi ý:</b> Duyệt qua các phần tử của mảng, so sánh từng cặp phần tử liền kề.`,
 rb:[
   {desc:'Khởi tạo cờ tang_dan = True',kw:'tang_dan=True',pts:2,
    hint:'tang_dan = True trước vòng lặp.'},
@@ -4273,7 +4256,7 @@ rb:[
 
 {id:'k11-17-4.2',g:'K11',ch:'Bài 17: Dữ liệu mảng một chiều',lv:'Mức 4',num:'4.2',
 title:'Tìm số cô đơn',
-desc:`<b>Đề bài:</b> Cho mảng <b>A = [4, 1, 2, 1, 2]</b>. Tìm số xuất hiện đúng 1 lần trong mảng (số cô đơn) và in ra. Dùng A.count(x).`,
+desc:`<b>Đề bài:</b> Cho một dãy số nguyên <b>A</b>. Ví dụ: <b>A = [2, 3, 2, 4, 3, 5, 4]</b>. Hãy tìm và liệt kê tất cả các phần tử chỉ xuất hiện đúng một lần trong dãy số đó (gọi là số "cô đơn").<br><br><b>Gợi ý:</b> Có thể đếm số lần xuất hiện của từng phần tử trong dãy. Sau đó, chọn ra những phần tử có số lần xuất hiện là 1.`,
 rb:[
   {desc:'Khai báo A = [4, 1, 2, 1, 2]',kw:'A=[4',pts:2,
    hint:'A = [4, 1, 2, 1, 2]'},
@@ -4289,7 +4272,7 @@ rb:[
 
 {id:'k11-17-4.3',g:'K11',ch:'Bài 17: Dữ liệu mảng một chiều',lv:'Mức 4',num:'4.3',
 title:'Kiểm tra Palindrome',
-desc:`<b>Đề bài:</b> Cho mảng <b>A = [1, 2, 3, 2, 1]</b>. Kiểm tra xem mảng có phải là đối xứng (Palindrome) không — đọc xuôi hay ngược đều giống nhau.`,
+desc:`<b>Đề bài:</b> Cho một mảng các số nguyên. Hãy xác định xem mảng đó có phải là mảng đối xứng (Palindrome) hay không. Một mảng đối xứng là mảng mà thứ tự các phần tử đọc từ đầu đến cuối giống như đọc từ cuối về đầu.<br>Ví dụ: Với mảng <b>A = [1, 2, 3, 2, 1]</b>, mảng này là đối xứng.<br><br><b>Gợi ý:</b> Bạn có thể xem xét từng cặp phần tử ở hai đầu của mảng và di chuyển dần vào giữa.`,
 rb:[
   {desc:'Khai báo A = [...] có dữ liệu',kw:'A=',pts:1,
    hint:'A = [1, 2, 3, 2, 1] hoặc nhập từ bàn phím.'},
@@ -4308,7 +4291,7 @@ rb:[
 /* Bài 22: Kiểu dữ liệu danh sách */
 {id:'k11-22-1.1',g:'K11',ch:'Bài 22: Kiểu dữ liệu danh sách',lv:'Mức 1 – Nhớ',num:'1.1',
 title:'Tạo danh sách MonHoc',
-desc:`<b>Đề bài:</b> Viết lệnh tạo một danh sách tên <b>MonHoc</b> chứa tên 3 môn học: "Toán", "Văn", "Anh". Sau đó in danh sách này ra màn hình.`,
+desc:`<b>Đề bài:</b> Tạo một cấu trúc dữ liệu dạng danh sách có tên <b>MonHoc</b>. Danh sách này cần chứa ba phần tử là các chuỗi ký tự đại diện cho tên môn học: "Toán", "Văn", "Anh". Sau đó, hiển thị toàn bộ nội dung của danh sách <b>MonHoc</b> ra màn hình.`,
 rb:[
   {desc:'Khai báo MonHoc = ["Toán", "Văn", "Anh"]',kw:'MonHoc',pts:4,
    hint:'MonHoc = ["Toán", "Văn", "Anh"] — đặt đúng tên biến MonHoc.'},
@@ -4322,7 +4305,7 @@ rb:[
 
 {id:'k11-22-1.2',g:'K11',ch:'Bài 22: Kiểu dữ liệu danh sách',lv:'Mức 1',num:'1.2',
 title:'In phần tử đầu và cuối',
-desc:`<b>Đề bài:</b> Cho danh sách <b>Diem = [8, 9, 7, 10]</b>. Viết lệnh in ra phần tử đầu tiên và phần tử cuối cùng của danh sách.`,
+desc:`<b>Đề bài:</b> Cho một danh sách các số nguyên, ví dụ <b>Diem = [8, 9, 7, 10]</b>. Yêu cầu là hiển thị giá trị của phần tử đầu tiên và phần tử cuối cùng trong danh sách này.<br><br><b>Gợi ý:</b> Để xác định phần tử đầu tiên, bạn có thể truy cập vào vị trí bắt đầu của danh sách. Đối với phần tử cuối cùng, bạn có thể truy cập vào vị trí kết thúc của danh sách.`,
 rb:[
   {desc:'Khai báo Diem = [8, 9, 7, 10]',kw:'Diem=[8',pts:3,
    hint:'Diem = [8, 9, 7, 10]'},
@@ -4336,10 +4319,11 @@ rb:[
 
 {id:'k11-22-1.3',g:'K11',ch:'Bài 22: Kiểu dữ liệu danh sách',lv:'Mức 1',num:'1.3',
 title:'Thêm và xóa phần tử',
-desc:`<b>Đề bài:</b> Cho danh sách <b>A = [1, 2, 3]</b>. Hãy:
-  1. Thêm số <b>4</b> vào cuối danh sách
-  2. Xóa số <b>2</b> (ở vị trí index 1) khỏi danh sách
-  3. In danh sách kết quả (phải là <b>[1, 3, 4]</b>)`,
+desc:`<b>Đề bài:</b> Cho một danh sách ban đầu là <b>A = [1, 2, 3]</b>. Thực hiện các thao tác sau:
+  • Thêm giá trị <b>4</b> vào vị trí cuối cùng của danh sách.
+  • Loại bỏ giá trị <b>2</b> khỏi danh sách (giá trị này đang ở vị trí thứ 1, tính từ 0).
+  • Hiển thị danh sách sau khi đã thực hiện các thao tác trên. Danh sách kết quả mong muốn là <b>[1, 3, 4]</b>.
+<b>Gợi ý:</b> Để thêm một phần tử vào cuối danh sách, bạn cần tìm cách mở rộng danh sách. Để loại bỏ một phần tử, bạn có thể dựa vào giá trị của nó hoặc vị trí của nó trong danh sách.`,
 rb:[
   {desc:'Khai báo A = [1, 2, 3]',kw:'A=[1, 2, 3]',pts:2,
    hint:'A = [1, 2, 3]'},
@@ -4353,7 +4337,7 @@ rb:[
 
 {id:'k11-22-2.1',g:'K11',ch:'Bài 22: Kiểu dữ liệu danh sách',lv:'Mức 2 – Hiểu',num:'2.1',
 title:'In các số lớn hơn 4',
-desc:`<b>Đề bài:</b> Cho danh sách <b>A = [1, 5, 2, 8, 3]</b>. Viết chương trình in ra các số trong danh sách lớn hơn 4 trên cùng một hàng.`,
+desc:`<b>Đề bài:</b> Cho một danh sách các số nguyên, ví dụ <b>A = [1, 5, 2, 8, 3]</b>. Yêu cầu: • Tìm và hiển thị tất cả các số trong danh sách đó mà có giá trị lớn hơn 4. • Các số tìm được phải được in ra trên cùng một dòng, cách nhau bởi một khoảng trắng. <b>Gợi ý:</b> Để giải quyết bài toán này, bạn có thể xem xét từng phần tử trong danh sách. Với mỗi phần tử, hãy kiểm tra xem nó có thỏa mãn điều kiện lớn hơn 4 hay không. Nếu có, hãy lưu trữ hoặc hiển thị phần tử đó. Sau khi đã xử lý tất cả các phần tử, đảm bảo rằng các số được hiển thị theo đúng định dạng yêu cầu.`,
 rb:[
   {desc:'Khai báo A = [1, 5, 2, 8, 3]',kw:'A=[1, 5',pts:2,
    hint:'A = [1, 5, 2, 8, 3]'},
@@ -4369,7 +4353,7 @@ rb:[
 
 {id:'k11-22-2.2',g:'K11',ch:'Bài 22: Kiểu dữ liệu danh sách',lv:'Mức 2',num:'2.2',
 title:'Tính tích các phần tử',
-desc:`<b>Đề bài:</b> Cho danh sách <b>So = [2, 3, 4]</b>. Viết chương trình tính tích của tất cả các phần tử trong danh sách.`,
+desc:`<b>Đề bài:</b> Cho một danh sách các số nguyên có tên là <b>So</b>. Ví dụ: <b>So = [2, 3, 4]</b>. Yêu cầu viết chương trình tính tích của tất cả các phần tử có trong danh sách này.<br><b>Gợi ý:</b> Khởi tạo một biến với giá trị ban đầu là 1. Sau đó, lần lượt lấy từng phần tử trong danh sách và nhân với giá trị của biến đã khởi tạo. Cập nhật biến này sau mỗi phép nhân.`,
 rb:[
   {desc:'Khai báo So = [2, 3, 4]',kw:'So=[2',pts:2,
    hint:'So = [2, 3, 4]'},
@@ -4383,7 +4367,7 @@ rb:[
 
 {id:'k11-22-2.3',g:'K11',ch:'Bài 22: Kiểu dữ liệu danh sách',lv:'Mức 2',num:'2.3',
 title:'Giảm giá trị mỗi phần tử 10 đơn vị',
-desc:`<b>Đề bài:</b> Cho danh sách <b>Gia = [100, 200, 300]</b>. Giảm giá trị mỗi phần tử đi 10 đơn vị (cập nhật trực tiếp vào danh sách). In danh sách mới.`,
+desc:`<b>Đề bài:</b> Cho một danh sách các số nguyên, ví dụ <b>Gia = [100, 200, 300]</b>. Yêu cầu giảm giá trị của mỗi phần tử trong danh sách đi 10 đơn vị. Kết quả cần được cập nhật trực tiếp vào danh sách ban đầu. Sau đó, hiển thị danh sách đã được cập nhật.`,
 rb:[
   {desc:'Khai báo Gia = [100, 200, 300]',kw:'Gia=[100',pts:2,
    hint:'Gia = [100, 200, 300]'},
@@ -4397,7 +4381,7 @@ rb:[
 
 {id:'k11-22-3.1',g:'K11',ch:'Bài 22: Kiểu dữ liệu danh sách',lv:'Mức 3 – Vận dụng',num:'3.1',
 title:'Đếm số chẵn và số lẻ',
-desc:`<b>Đề bài:</b> Nhập vào một danh sách số nguyên (tự định sẵn hoặc nhập). Đếm xem trong danh sách có bao nhiêu số chẵn và bao nhiêu số lẻ. In kết quả.`,
+desc:`<b>Đề bài:</b> Cho một tập hợp các số nguyên. Yêu cầu là xác định tổng số lượng các số chẵn và tổng số lượng các số lẻ có trong tập hợp đó. Kết quả cần được hiển thị rõ ràng.<br><br><b>Gợi ý:</b> Để giải quyết bài toán này, bạn có thể xem xét từng phần tử trong tập hợp số nguyên. Với mỗi số, hãy kiểm tra xem nó có chia hết cho 2 hay không. Nếu có, đó là số chẵn; ngược lại, đó là số lẻ. Bạn có thể sử dụng hai bộ đếm riêng biệt, một cho số chẵn và một cho số lẻ, và tăng giá trị của bộ đếm tương ứng sau mỗi lần kiểm tra.`,
 rb:[
   {desc:'Khai báo hoặc nhập danh sách A',kw:'A=',pts:1,
    hint:'A = [1, 2, 3, 4, 5] hoặc nhập từ bàn phím.'},
@@ -4415,7 +4399,7 @@ rb:[
 
 {id:'k11-22-3.2',g:'K11',ch:'Bài 22: Kiểu dữ liệu danh sách',lv:'Mức 3',num:'3.2',
 title:'Tách danh sách dương/âm',
-desc:`<b>Đề bài:</b> Cho danh sách <b>A = [10, -5, 0, 3, -2, 8]</b>. Tách thành 2 danh sách con: <b>Duong</b> (số > 0) và <b>Am</b> (số < 0). Các số 0 bỏ qua. In cả hai danh sách.`,
+desc:`<b>Đề bài:</b> Cho một danh sách các số nguyên <b>A</b>. Yêu cầu tách danh sách này thành hai danh sách con: một danh sách chứa các số dương (gọi là <b>Duong</b>) và một danh sách chứa các số âm (gọi là <b>Am</b>). Các số có giá trị bằng 0 sẽ không được đưa vào bất kỳ danh sách con nào. Sau đó, hiển thị nội dung của cả hai danh sách <b>Duong</b> và <b>Am</b>.<br>Ví dụ: Với <b>A = [10, -5, 0, 3, -2, 8]</b>, kết quả mong muốn là <b>Duong = [10, 3, 8]</b> và <b>Am = [-5, -2]</b>.<br><b>Gợi ý:</b> Duyệt qua từng phần tử trong danh sách ban đầu. Với mỗi phần tử, kiểm tra xem nó là số dương hay số âm để thêm vào danh sách tương ứng.`,
 rb:[
   {desc:'Khai báo A = [10, -5, 0, 3, -2, 8]',kw:'A=[10',pts:1,
    hint:'A = [10, -5, 0, 3, -2, 8]'},
@@ -4433,7 +4417,7 @@ rb:[
 
 {id:'k11-22-3.3',g:'K11',ch:'Bài 22: Kiểu dữ liệu danh sách',lv:'Mức 3',num:'3.3',
 title:'Đảo ngược danh sách (không dùng reverse())',
-desc:`<b>Đề bài:</b> Cho danh sách <b>A = [1, 2, 3, 4, 5]</b>. Viết chương trình đảo ngược thứ tự các phần tử mà <b>KHÔNG</b> dùng hàm reverse() có sẵn. Dùng vòng lặp để tạo danh sách mới.`,
+desc:`<b>Đề bài:</b> Cho một danh sách các phần tử, ví dụ <b>A = [1, 2, 3, 4, 5]</b>. Yêu cầu viết một chương trình để tạo ra một danh sách mới có thứ tự các phần tử đảo ngược so với danh sách ban đầu. Chương trình không được sử dụng bất kỳ chức năng đảo ngược danh sách có sẵn nào. Thay vào đó, hãy xây dựng danh sách mới bằng cách lặp qua các phần tử.<br><br><b>Gợi ý:</b> Duyệt qua danh sách ban đầu từ cuối về đầu và thêm từng phần tử vào danh sách mới.`,
 rb:[
   {desc:'Khai báo A = [1, 2, 3, 4, 5]',kw:'A=[1, 2, 3',pts:1,
    hint:'A = [1, 2, 3, 4, 5]'},
@@ -4449,7 +4433,7 @@ rb:[
 
 {id:'k11-22-4.1',g:'K11',ch:'Bài 22: Kiểu dữ liệu danh sách',lv:'Mức 4 – Phân tích',num:'4.1',
 title:'Tìm số lớn thứ hai',
-desc:`<b>Đề bài:</b> Cho danh sách <b>A = [10, 20, 5, 20, 8]</b>. Tìm số lớn thứ hai trong danh sách (giả sử có ít nhất 2 phần tử khác nhau).`,
+desc:`<b>Đề bài:</b> Cho một danh sách các số nguyên, ví dụ <b>A = [10, 20, 5, 20, 8]</b>. Hãy tìm và trả về giá trị của số lớn thứ hai trong danh sách này. Giả sử danh sách luôn có ít nhất hai phần tử khác nhau.<br><br><b>Gợi ý:</b> Có thể tìm phần tử lớn nhất trong danh sách trước. Sau đó, loại bỏ tất cả các lần xuất hiện của phần tử lớn nhất đó và tìm phần tử lớn nhất trong danh sách còn lại. Một cách khác là xác định tất cả các giá trị duy nhất trong danh sách, sau đó sắp xếp chúng theo thứ tự giảm dần và chọn giá trị ở vị trí thứ hai.`,
 rb:[
   {desc:'Khai báo A = [10, 20, 5, 20, 8]',kw:'A=[10',pts:1,
    hint:'A = [10, 20, 5, 20, 8]'},
@@ -4465,7 +4449,7 @@ rb:[
 
 {id:'k11-22-4.2',g:'K11',ch:'Bài 22: Kiểu dữ liệu danh sách',lv:'Mức 4',num:'4.2',
 title:'Kiểm tra danh sách đối xứng (Palindrome)',
-desc:`<b>Đề bài:</b> Cho danh sách <b>A = [1, 2, 3, 2, 1]</b>. Kiểm tra xem danh sách có phải là danh sách đối xứng (Palindrome) hay không. Ví dụ [1, 2, 3, 2, 1] là đối xứng.`,
+desc:`<b>Đề bài:</b> Cho một danh sách <b>A</b> gồm các phần tử. Hãy xác định xem danh sách <b>A</b> có phải là danh sách đối xứng (Palindrome) hay không. Một danh sách được gọi là đối xứng nếu các phần tử của nó khi đọc từ đầu đến cuối và từ cuối về đầu là như nhau. Ví dụ: danh sách <b>[1, 2, 3, 2, 1]</b> là đối xứng.<br><b>Gợi ý:</b> Bạn có thể so sánh phần tử đầu tiên với phần tử cuối cùng, phần tử thứ hai với phần tử gần cuối, và cứ thế tiếp tục cho đến khi gặp nhau ở giữa danh sách.`,
 rb:[
   {desc:'Khai báo A = [1, 2, 3, 2, 1]',kw:'A=[1, 2, 3',pts:1,
    hint:'A = [1, 2, 3, 2, 1]'},
@@ -4483,7 +4467,7 @@ rb:[
 
 {id:'k11-22-4.3',g:'K11',ch:'Bài 22: Kiểu dữ liệu danh sách',lv:'Mức 4',num:'4.3',
 title:'Xóa phần tử trùng lặp',
-desc:`<b>Đề bài:</b> Cho danh sách <b>A = [1, 2, 2, 3, 1, 4, 5, 3]</b>. Tạo một danh sách mới chỉ chứa các phần tử duy nhất (giữ nguyên thứ tự xuất hiện đầu tiên). <b>KHÔNG</b> dùng hàm set().`,
+desc:`<b>Đề bài:</b> Cho một danh sách các số nguyên, ví dụ <b>A = [1, 2, 2, 3, 1, 4, 5, 3]</b>. Yêu cầu tạo một danh sách mới sao cho danh sách này chỉ chứa các phần tử xuất hiện một lần duy nhất, đồng thời giữ nguyên thứ tự xuất hiện đầu tiên của chúng. Không sử dụng các chức năng có sẵn để tự động lọc bỏ các phần tử trùng lặp.<br><b>Gợi ý:</b> Duyệt qua từng phần tử trong danh sách ban đầu. Với mỗi phần tử, kiểm tra xem nó đã có mặt trong danh sách kết quả mới hay chưa. Nếu chưa, hãy thêm phần tử đó vào danh sách kết quả.`,
 rb:[
   {desc:'Khai báo A = [1, 2, 2, 3, 1, 4, 5, 3]',kw:'A=[1, 2, 2',pts:1,
    hint:'A = [1, 2, 2, 3, 1, 4, 5, 3]'},
@@ -4502,10 +4486,7 @@ rb:[
 /* Tổng hợp K11: Bài 17 & 22 */
 {id:'k11-th-1.1',g:'K11',ch:'Tổng hợp Bài 17 & 22',lv:'Mức 1 – Nhớ',num:'1.1',
 title:'Khởi tạo và Truy cập danh sách trái cây',
-desc:`<b>Đề bài:</b> Viết chương trình thực hiện:
-  1. Khởi tạo danh sách <b>TraiCay</b> gồm 3 phần tử: "Cam", "Xoài", "Nho"
-  2. In ra phần tử thứ 2 trong danh sách
-  3. Thay đổi phần tử đầu tiên thành "Táo" và in lại danh sách`,
+desc:`<b>Đề bài:</b> Hãy xây dựng một chương trình thực hiện các yêu cầu sau:<br>• Khởi tạo một danh sách có tên <b>TraiCay</b> với 3 phần tử ban đầu là "Cam", "Xoài", "Nho".<br>• Hiển thị giá trị của phần tử ở vị trí thứ 2 trong danh sách <b>TraiCay</b>.<br>• Cập nhật phần tử đầu tiên của danh sách <b>TraiCay</b> thành "Táo", sau đó hiển thị toàn bộ danh sách <b>TraiCay</b> sau khi đã thay đổi.`,
 rb:[
   {desc:'Khai báo TraiCay = ["Cam", "Xoài", "Nho"]',kw:'TraiCay',pts:2,
    hint:'TraiCay = ["Cam", "Xoài", "Nho"]'},
@@ -4519,10 +4500,11 @@ rb:[
 
 {id:'k11-th-1.2',g:'K11',ch:'Tổng hợp Bài 17 & 22',lv:'Mức 1',num:'1.2',
 title:'Thao tác Thêm và Xóa',
-desc:`<b>Đề bài:</b> Cho danh sách <b>A = [10, 20, 30]</b>. Hãy:
-  1. Thêm số 40 vào cuối danh sách
-  2. Xóa phần tử ở vị trí thứ 1 (số 20)
-  3. In danh sách hiện tại và độ dài của nó`,
+desc:`<b>Đề bài:</b> Cho một tập hợp các số được sắp xếp là <b>A = [10, 20, 30]</b>. Thực hiện các yêu cầu sau:
+• Thêm giá trị 40 vào cuối tập hợp.
+• Loại bỏ phần tử ở vị trí thứ 1 (giá trị 20) khỏi tập hợp.
+• Hiển thị toàn bộ tập hợp hiện tại và tổng số phần tử của nó.
+<b>Gợi ý:</b> Để thêm một phần tử vào cuối tập hợp, bạn có thể sử dụng một thao tác bổ sung. Để loại bỏ một phần tử tại một vị trí cụ thể, bạn có thể sử dụng một thao tác xóa theo chỉ số. Sau đó, để hiển thị tập hợp và số lượng phần tử, bạn cần truy cập các giá trị trong tập hợp và đếm số lượng phần tử.`,
 rb:[
   {desc:'Khai báo A = [10, 20, 30]',kw:'A=[10, 20, 30]',pts:2,
    hint:'A = [10, 20, 30]'},
@@ -4536,7 +4518,7 @@ rb:[
 
 {id:'k11-th-1.3',g:'K11',ch:'Tổng hợp Bài 17 & 22',lv:'Mức 1',num:'1.3',
 title:'Tạo danh sách Numbers bằng vòng lặp',
-desc:`<b>Đề bài:</b> Viết chương trình tạo một danh sách rỗng tên <b>Numbers</b>. Sử dụng vòng lặp <b>for</b> để thêm các số nguyên từ 1 đến 5. In danh sách ra màn hình.`,
+desc:`<b>Đề bài:</b> Tạo một danh sách trống có tên <b>Numbers</b>. Sau đó, điền vào danh sách này các số nguyên liên tiếp bắt đầu từ 1 và kết thúc ở 5. Cuối cùng, hiển thị toàn bộ nội dung của danh sách <b>Numbers</b>.<br><br><b>Gợi ý:</b> Để điền các số vào danh sách, bạn có thể thực hiện một quá trình lặp đi lặp lại, mỗi lần thêm một số vào danh sách cho đến khi đạt được số cuối cùng.`,
 rb:[
   {desc:'Khởi tạo Numbers = []',kw:'Numbers=[]',pts:3,
    hint:'Numbers = [] để tạo danh sách rỗng.'},
@@ -4550,7 +4532,7 @@ rb:[
 
 {id:'k11-th-2.1',g:'K11',ch:'Tổng hợp Bài 17 & 22',lv:'Mức 2 – Hiểu',num:'2.1',
 title:'Tính tổng các số lẻ',
-desc:`<b>Đề bài:</b> Cho danh sách <b>A = [1, 4, 5, 8, 10, 3]</b>. Duyệt qua danh sách và tính tổng các số lẻ.`,
+desc:`<b>Đề bài:</b> Cho một danh sách các số nguyên, ví dụ <b>A = [1, 4, 5, 8, 10, 3]</b>. Yêu cầu là tính tổng tất cả các số lẻ có trong danh sách này. <br><b>Gợi ý:</b> Bạn có thể xem xét từng phần tử trong danh sách. Với mỗi phần tử, hãy kiểm tra xem nó có phải là số lẻ hay không. Nếu là số lẻ, hãy cộng giá trị đó vào một biến tổng.`,
 rb:[
   {desc:'Khai báo A = [1, 4, 5, 8, 10, 3]',kw:'A=[1, 4',pts:2,
    hint:'A = [1, 4, 5, 8, 10, 3]'},
@@ -4566,7 +4548,7 @@ rb:[
 
 {id:'k11-th-2.2',g:'K11',ch:'Tổng hợp Bài 17 & 22',lv:'Mức 2',num:'2.2',
 title:'Lọc điểm số đạt yêu cầu',
-desc:`<b>Đề bài:</b> Cho danh sách <b>DiemThi = [8.5, 4.0, 6.5, 9.0, 3.5, 7.0]</b>. In ra danh sách các điểm số đạt yêu cầu (≥ 5.0) trên cùng một hàng.`,
+desc:`<b>Đề bài:</b> Cho một danh sách các điểm số, ví dụ: <b>DiemThi = [8.5, 4.0, 6.5, 9.0, 3.5, 7.0]</b>. Một điểm số được coi là đạt yêu cầu nếu lớn hơn hoặc bằng 5.0. Hãy hiển thị tất cả các điểm số đạt yêu cầu từ danh sách đã cho trên cùng một dòng.<br><br><b>Gợi ý:</b> Để giải quyết bài toán này, bạn có thể xem xét từng điểm số trong danh sách. Với mỗi điểm số, hãy kiểm tra xem nó có thỏa mãn điều kiện đạt yêu cầu hay không. Nếu có, hãy ghi nhận điểm số đó. Sau khi đã xác định được tất cả các điểm số đạt yêu cầu, hãy trình bày chúng theo yêu cầu.`,
 rb:[
   {desc:'Khai báo DiemThi = [8.5, 4.0, 6.5, 9.0, 3.5, 7.0]',kw:'DiemThi=',pts:2,
    hint:'DiemThi = [8.5, 4.0, 6.5, 9.0, 3.5, 7.0]'},
@@ -4582,7 +4564,7 @@ rb:[
 
 {id:'k11-th-2.3',g:'K11',ch:'Tổng hợp Bài 17 & 22',lv:'Mức 2',num:'2.3',
 title:'Sửa giá trị âm thành 0',
-desc:`<b>Đề bài:</b> Cho danh sách giá tiền <b>Gia = [10, -5, 20, -2, 30]</b>. Do lỗi nhập liệu, có số âm. Duyệt danh sách và sửa tất cả các số âm thành 0. In danh sách sau khi sửa.`,
+desc:`<b>Đề bài:</b> Cho một danh sách các giá trị số, ví dụ <b>Gia = [10, -5, 20, -2, 30]</b>. Trong danh sách này có thể xuất hiện các giá trị âm do lỗi nhập liệu. Yêu cầu là thay thế tất cả các giá trị âm trong danh sách bằng số 0. Sau đó, hiển thị danh sách đã được điều chỉnh.<br><br><b>Gợi ý:</b> Để thực hiện việc này, bạn có thể xem xét từng phần tử trong danh sách. Với mỗi phần tử, hãy kiểm tra xem nó có nhỏ hơn 0 hay không. Nếu có, hãy cập nhật giá trị của phần tử đó thành 0.`,
 rb:[
   {desc:'Khai báo Gia = [10, -5, 20, -2, 30]',kw:'Gia=[10',pts:2,
    hint:'Gia = [10, -5, 20, -2, 30]'},
@@ -4598,7 +4580,7 @@ rb:[
 
 {id:'k11-th-3.1',g:'K11',ch:'Tổng hợp Bài 17 & 22',lv:'Mức 3 – Vận dụng',num:'3.1',
 title:'Nhập mảng và Tìm Min/Max',
-desc:`<b>Đề bài:</b> Nhập vào số lượng phần tử n, sau đó nhập n số nguyên vào danh sách. Tìm và in giá trị lớn nhất và nhỏ nhất trong danh sách đó.`,
+desc:`<b>Đề bài:</b> Bạn cần nhập vào một số nguyên dương <b>n</b> là số lượng phần tử. Sau đó, hãy nhập <b>n</b> số nguyên để tạo thành một danh sách. Nhiệm vụ của bạn là tìm ra và hiển thị giá trị lớn nhất cùng với giá trị nhỏ nhất có trong danh sách đã nhập.<br><br><b>Gợi ý:</b> Để tìm giá trị lớn nhất và nhỏ nhất, bạn có thể khởi tạo hai biến ban đầu để lưu trữ giá trị lớn nhất và nhỏ nhất tạm thời. Sau đó, duyệt qua từng phần tử trong danh sách. Với mỗi phần tử, hãy so sánh nó với giá trị lớn nhất tạm thời hiện có và cập nhật nếu tìm thấy giá trị lớn hơn. Tương tự, so sánh với giá trị nhỏ nhất tạm thời và cập nhật nếu tìm thấy giá trị nhỏ hơn.`,
 rb:[
   {desc:'Nhập n bằng input() và int()',kw:'input,int',pts:1,mode:'any',
    hint:'n = int(input("Nhập số phần tử: "))'},
@@ -4614,7 +4596,7 @@ rb:[
 
 {id:'k11-th-3.2',g:'K11',ch:'Tổng hợp Bài 17 & 22',lv:'Mức 3',num:'3.2',
 title:'Tìm kiếm tên trong danh sách',
-desc:`<b>Đề bài:</b> Cho danh sách <b>Names = ["An", "Bình", "Cường", "An", "Dũng"]</b>. Nhập tên cần tìm. In ra tất cả các vị trí (chỉ số) mà tên đó xuất hiện.`,
+desc:`<b>Đề bài:</b> Cho một danh sách các tên là <b>Names = ["An", "Bình", "Cường", "An", "Dũng"]</b>. Yêu cầu người dùng cung cấp một tên bất kỳ. Tìm và hiển thị tất cả các vị trí (chỉ số) mà tên đã cung cấp xuất hiện trong danh sách <b>Names</b>.<br><br><b>Gợi ý:</b> Để giải quyết bài toán này, bạn có thể xem xét từng phần tử trong danh sách từ đầu đến cuối. Với mỗi phần tử, hãy so sánh nó với tên cần tìm. Nếu chúng giống nhau, hãy ghi lại vị trí hiện tại của phần tử đó.`,
 rb:[
   {desc:'Khai báo Names = ["An", "Bình", "Cường", "An", "Dũng"]',kw:'Names=',pts:1,
    hint:'Names = ["An", "Bình", "Cường", "An", "Dũng"]'},
@@ -4632,7 +4614,7 @@ rb:[
 
 {id:'k11-th-3.3',g:'K11',ch:'Tổng hợp Bài 17 & 22',lv:'Mức 3',num:'3.3',
 title:'Tách danh sách Chẵn/Lẻ từ nhập liệu',
-desc:`<b>Đề bài:</b> Nhập vào một dãy số nguyên (tự định sẵn hoặc nhập). Tách dãy đó thành 2 danh sách mới: <b>Chan</b> (số chẵn) và <b>Le</b> (số lẻ). In cả hai danh sách.`,
+desc:`<b>Đề bài:</b> Người dùng cung cấp một dãy các số nguyên. Yêu cầu phân loại các số trong dãy đã cho thành hai nhóm riêng biệt: một nhóm chứa các số chẵn, gọi là <b>Chan</b>, và một nhóm chứa các số lẻ, gọi là <b>Le</b>. Sau đó, hiển thị nội dung của cả hai nhóm <b>Chan</b> và <b>Le</b>.<br><b>Gợi ý:</b> Duyệt qua từng số trong dãy ban đầu. Với mỗi số, kiểm tra xem nó là số chẵn hay số lẻ để thêm vào nhóm tương ứng.`,
 rb:[
   {desc:'Khai báo hoặc nhập danh sách A',kw:'A=',pts:1,
    hint:'A = [1, 2, 3, 4, 5] hoặc nhập từ bàn phím.'},
@@ -4650,7 +4632,7 @@ rb:[
 
 {id:'k11-th-4.1',g:'K11',ch:'Tổng hợp Bài 17 & 22',lv:'Mức 4 – Phân tích',num:'4.1',
 title:'Kiểm tra mảng đối xứng (Palindrome)',
-desc:`<b>Đề bài:</b> Viết chương trình kiểm tra xem một danh sách có phải là đối xứng hay không (đọc xuôi hay ngược đều giống nhau). Ví dụ: <b>[1, 2, 3, 2, 1]</b> là đối xứng.`,
+desc:`<b>Đề bài:</b> Cho một danh sách các phần tử. Hãy xác định xem danh sách đó có phải là đối xứng hay không. Một danh sách được coi là đối xứng nếu trình tự các phần tử khi đọc từ đầu đến cuối giống hệt như khi đọc từ cuối về đầu. Ví dụ: danh sách <b>[1, 2, 3, 2, 1]</b> là đối xứng.<b>Gợi ý:</b> Có thể so sánh phần tử đầu tiên với phần tử cuối cùng, phần tử thứ hai với phần tử kế cuối, và cứ thế tiếp tục cho đến khi gặp nhau ở giữa danh sách.`,
 rb:[
   {desc:'Khai báo A = [...] có dữ liệu',kw:'A=[',pts:1,
    hint:'A = [1, 2, 3, 2, 1] hoặc nhập từ bàn phím.'},
@@ -4668,7 +4650,7 @@ rb:[
 
 {id:'k11-th-4.2',g:'K11',ch:'Tổng hợp Bài 17 & 22',lv:'Mức 4',num:'4.2',
 title:'Tìm số lớn thứ hai',
-desc:`<b>Đề bài:</b> Cho danh sách <b>A = [10, 5, 20, 8, 20, 15]</b>. Tìm số lớn thứ hai (giả sử có ít nhất 2 giá trị khác nhau). Không dùng hàm sort() hoặc sorted().`,
+desc:`<b>Đề bài:</b> Cho một danh sách các số nguyên <b>A</b>. Yêu cầu tìm và in ra số lớn thứ hai trong danh sách đó. Giả sử danh sách <b>A</b> luôn có ít nhất hai giá trị khác nhau. Ví dụ: Với <b>A = [10, 5, 20, 8, 20, 15]</b>, kết quả mong muốn là 15.<br><br><b>Gợi ý:</b> Bạn có thể duyệt qua từng phần tử của danh sách. Trong quá trình duyệt, hãy duy trì hai giá trị: một cho số lớn nhất hiện tại và một cho số lớn thứ hai hiện tại. Cập nhật hai giá trị này một cách thích hợp khi bạn gặp các số mới.`,
 rb:[
   {desc:'Khai báo A = [10, 5, 20, 8, 20, 15]',kw:'A=[10, 5',pts:1,
    hint:'A = [10, 5, 20, 8, 20, 15]'},
@@ -4684,7 +4666,7 @@ rb:[
 
 {id:'k11-th-4.3',g:'K11',ch:'Tổng hợp Bài 17 & 22',lv:'Mức 4',num:'4.3',
 title:'Xóa phần tử trùng lặp (Giữ nguyên thứ tự)',
-desc:`<b>Đề bài:</b> Cho danh sách <b>A = [1, 2, 2, 3, 1, 4]</b>. Tạo danh sách mới <b>Unique_List</b> chỉ chứa các phần tử duy nhất, giữ nguyên thứ tự xuất hiện đầu tiên. <b>KHÔNG</b> dùng set().`,
+desc:`<b>Đề bài:</b> Cho một danh sách các số nguyên, ví dụ <b>A = [1, 2, 2, 3, 1, 4]</b>. Yêu cầu: Tạo một danh sách mới, gọi là <b>Unique_List</b>, sao cho danh sách này chỉ chứa các phần tử xuất hiện một lần duy nhất từ danh sách ban đầu. Các phần tử trong <b>Unique_List</b> phải giữ nguyên thứ tự xuất hiện đầu tiên của chúng trong danh sách <b>A</b>. Lưu ý: Không sử dụng các công cụ có sẵn để tự động loại bỏ phần tử trùng lặp.<br><br><b>Gợi ý:</b> Để giải quyết bài toán này, bạn có thể duyệt qua từng phần tử trong danh sách ban đầu. Với mỗi phần tử, hãy kiểm tra xem nó đã có mặt trong danh sách <b>Unique_List</b> đang xây dựng hay chưa. Nếu chưa có, hãy thêm phần tử đó vào <b>Unique_List</b>.`,
 rb:[
   {desc:'Khai báo A = [1, 2, 2, 3, 1, 4]',kw:'A=[1, 2, 2',pts:1,
    hint:'A = [1, 2, 2, 3, 1, 4]'},
@@ -5311,7 +5293,7 @@ window.addEventListener('load', () => {
 //    → APIs & Services → Credentials → Create OAuth 2.0 Client ID
 //    → Application type: Web → Authorised origins: domain trường
 //
-const APP_VERSION = 'v4.9.26'; // tự động tăng mỗi lần cập nhật
+const APP_VERSION = 'v4.9.27'; // tự động tăng mỗi lần cập nhật
 // Cập nhật badge version từ APP_VERSION
 document.addEventListener('DOMContentLoaded', function() {
   const vb = document.getElementById('ver-badge');
