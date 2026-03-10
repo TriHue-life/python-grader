@@ -677,7 +677,7 @@
   </div>
   <div style="display:flex;align-items:center;gap:10px">
     <button onclick="window.location.reload(true)" title="Cập nhật phiên bản mới" style="background:none;border:none;cursor:pointer;font-size:14px;padding:4px;opacity:0.6;color:var(--text2);" id="reload-btn">🔄</button>
-    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.27</span>
+    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.28</span>
     <!-- Google auth area (hidden — login via AI panel only) -->
     <div id="google-auth-area" style="display:none">
       <div id="g-signin-wrap"></div>
@@ -777,11 +777,7 @@
     <div class="editor-wrap">
       <div class="lnums" id="lnums"><span class="al">1</span></div>
       <div id="hl-overlay" aria-hidden="true"></div>
-      <textarea id="code-input" dir="ltr" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="none" inputmode="text" placeholder="# Nhập code Python tại đây...
-# Ví dụ:
-name = input('Nhập tên: ')
-print('Xin chào,', name)
-print('Số ký tự:', len(name))"></textarea>
+      <textarea id="code-input" dir="ltr" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="none" inputmode="text" placeholder="# Nhập code Python của bạn vào đây..."></textarea>
     </div>
     <!-- Mobile keyboard shortcut bar (Python keys) -->
     <div class="mob-keys" id="mob-keys">
@@ -3296,29 +3292,7 @@ function switchTab(name) {
 }
 
 function loadExample() {
-  ci.value = `# Ví dụ: Tính tổng và trung bình
-def tinh_trung_binh(so_list):
-    if len(so_list) == 0:
-        return 0
-    tong = sum(so_list)
-    return tong / len(so_list)
-
-# Nhập số lượng phần tử
-n = int(input("Nhập số lượng: "))
-numbers = []
-
-for i in range(n):
-    x = float(input(f"Nhập số thứ {i+1}: "))
-    numbers.append(x)
-
-tb = tinh_trung_binh(numbers)
-print(f"Danh sách: {numbers}")
-print(f"Tổng: {sum(numbers)}")
-print(f"Trung bình: {tb:.2f}")
-
-# Sắp xếp và hiển thị
-numbers.sort()
-print(f"Sau khi sắp xếp: {numbers}")`;
+  ci.value = `# Nhập code Python của bạn vào đây...`;
   updLN(); updateHighlight(); toast('📋 Đã tải ví dụ');
 }
 
@@ -3340,13 +3314,13 @@ title:'Kiểm tra mật khẩu',
 desc:`<b>Đề bài:</b> Chương trình yêu cầu người dùng nhập vào một chuỗi ký tự. Sau đó, chương trình sẽ kiểm tra xem chuỗi ký tự vừa nhập có khớp với mật khẩu định sẵn là <b>"123456"</b> hay không.<br>• Nếu chuỗi nhập vào trùng khớp với mật khẩu, hiển thị thông báo <b>"Truy cập thành công!"</b>.<br>• Nếu chuỗi nhập vào không trùng khớp với mật khẩu, hiển thị thông báo <b>"Mật khẩu sai!"</b>.<br><br><b>Gợi ý:</b> Để kiểm tra sự trùng khớp giữa hai chuỗi, bạn có thể thực hiện phép so sánh từng ký tự hoặc so sánh toàn bộ chuỗi.`,
 rb:[
   {desc:'Dùng input() nhập chuỗi mật khẩu',kw:'input',pts:2,
-   hint:'Dùng input() để nhận chuỗi từ bàn phím. Không cần int() vì mật khẩu là chuỗi.'},
+   hint:''},
   {desc:'Câu lệnh if...else kiểm tra điều kiện',kw:'if,else',pts:3,mode:'any',
-   hint:'Cần cả if và else để xử lý 2 trường hợp: đúng và sai.'},
+   hint:''},
   {desc:'So sánh với chuỗi "123456"',kw:'123456',pts:2,
-   hint:'Dùng == để so sánh chuỗi: if mat_khau == "123456"'},
+   hint:'Dùng == để so sánh chuỗi.'},
   {desc:'In kết quả đúng/sai bằng print()',kw:'print',pts:2,
-   hint:'Cần 2 lệnh print(): một trong if, một trong else.'},
+   hint:''},
   {desc:'Có chú thích # giải thích code',kw:'#',pts:1,
    hint:'Thêm ít nhất 1 dòng chú thích bắt đầu bằng #'}
 ]},
@@ -3356,13 +3330,13 @@ title:'Kiểm tra số dương',
 desc:`<b>Đề bài:</b> Cho một số nguyên <b>a</b>. Hãy xác định xem <b>a</b> có phải là số dương hay không. Nếu <b>a</b> là số dương, hiển thị thông báo "<b>a là số dương</b>".`,
 rb:[
   {desc:'Dùng input() nhập biến a',kw:'input',pts:2,
-   hint:'Dùng input() để nhận dữ liệu từ bàn phím.'},
+   hint:'Nhận dữ liệu từ bàn phím.'},
   {desc:'Chuyển kiểu int() để so sánh số',kw:'int',pts:2,
-   hint:'input() trả về chuỗi, cần int() để chuyển thành số nguyên: a = int(input(...))'},
+   hint:''},
   {desc:'Kiểm tra điều kiện a > 0',kw:'> 0',pts:3,
-   hint:'Dùng if a > 0: để kiểm tra số dương.'},
+   hint:'Kiểm tra a > 0: để kiểm tra số dương.'},
   {desc:'In kết quả bằng print()',kw:'print',pts:2,
-   hint:'Dùng print("a là số dương") khi điều kiện đúng.'},
+   hint:''},
   {desc:'Có chú thích # trong code',kw:'#',pts:1,
    hint:'Thêm ít nhất 1 dòng chú thích.'}
 ]},
@@ -3372,9 +3346,9 @@ title:'Kiểm tra chia hết cho 5',
 desc:`<b>Đề bài:</b> Yêu cầu người dùng cung cấp một số nguyên <b>n</b>. Thực hiện kiểm tra để xác định liệu số <b>n</b> này có chia hết cho 5 hay không. Sau đó, hiển thị kết quả tương ứng ra màn hình.<b>Gợi ý:</b> Để kiểm tra một số có chia hết cho số khác hay không, bạn có thể xem xét phần dư của phép chia. Nếu phần dư bằng 0, số đó chia hết.`,
 rb:[
   {desc:'Dùng input() và int() nhập n',kw:'input,int',pts:2,mode:'any',
-   hint:'n = int(input("Nhập n: ")) để nhận số nguyên từ bàn phím.'},
+   hint:'để nhận số nguyên từ bàn phím.'},
   {desc:'Dùng toán tử % 5 kiểm tra chia hết',kw:'% 5,%5',pts:3,mode:'any',
-   hint:'Dùng n % 5 == 0 để kiểm tra n có chia hết cho 5 không.'},
+   hint:'Dùng.'},
   {desc:'Có nhánh else xử lý trường hợp không chia hết',kw:'else',pts:2,
    hint:'Cần else để xử lý khi n không chia hết cho 5.'},
   {desc:'In kết quả bằng print()',kw:'print',pts:2,
@@ -3388,11 +3362,11 @@ title:'Số chẵn hay số lẻ',
 desc:`<b>Đề bài:</b> Yêu cầu người dùng nhập vào một số nguyên <b>n</b>. Sau đó, hãy xác định xem số <b>n</b> này là số chẵn hay số lẻ và hiển thị kết quả ra màn hình.<br><b>Gợi ý:</b> Một số được coi là số chẵn nếu nó chia hết cho 2 mà không có số dư. Ngược lại, nếu chia cho 2 có số dư, đó là số lẻ.`,
 rb:[
   {desc:'Dùng input() nhập n',kw:'input',pts:1,
-   hint:'Dùng input() để nhận dữ liệu từ bàn phím.'},
+   hint:'Nhận dữ liệu từ bàn phím.'},
   {desc:'Chuyển kiểu int() cho n',kw:'int',pts:1,
-   hint:'n = int(input(...)) để chuyển chuỗi thành số nguyên.'},
+   hint:'để chuyển chuỗi thành số nguyên.'},
   {desc:'Dùng % 2 kiểm tra chẵn/lẻ',kw:'%2,% 2',pts:3,mode:'any',
-   hint:'n % 2 == 0 nghĩa là n chia hết cho 2 → số chẵn.'},
+   hint:'.'},
   {desc:'Cấu trúc if...else đầy đủ',kw:'else',pts:3,
    hint:'Cần else để xử lý trường hợp số lẻ.'},
   {desc:'In kết quả đúng với print()',kw:'print',pts:2,
@@ -3404,9 +3378,9 @@ title:'Kiểm tra khoảng giá trị',
 desc:`<b>Đề bài:</b> Nhập vào một số thực <b>x</b>. Xác định xem giá trị của <b>x</b> có thuộc đoạn từ 0 đến 100 (bao gồm cả 0 và 100) hay không. Thông báo kết quả xác định được. <b>Gợi ý:</b> So sánh giá trị của <b>x</b> với các mốc 0 và 100.`,
 rb:[
   {desc:'Dùng float() và input() nhập x',kw:'float,input',pts:2,mode:'any',
-   hint:'x = float(input("Nhập x: ")) để nhận số thực.'},
+   hint:'để nhận số thực.'},
   {desc:'Dùng and kết hợp 2 điều kiện',kw:'and',pts:3,
-   hint:'Dùng and để kết hợp: if x > 0 and x < 100'},
+   hint:''},
   {desc:'Kiểm tra x > 0',kw:'> 0',pts:2,
    hint:'Điều kiện thứ nhất: x > 0 (khoảng mở, không bao gồm 0).'},
   {desc:'Kiểm tra x < 100',kw:'< 100',pts:2,
@@ -3420,11 +3394,11 @@ title:'Tìm số lớn hơn trong hai số',
 desc:`<b>Đề bài:</b> Cho hai số thực <b>a</b> và <b>b</b>. Hãy xác định và hiển thị số có giá trị lớn hơn trong hai số này.<b>Gợi ý:</b> So sánh hai số với nhau để tìm ra số lớn hơn.`,
 rb:[
   {desc:'Dùng input() nhập a và b',kw:'input',pts:2,
-   hint:'Cần 2 lần gọi input() để nhập a và b.'},
+   hint:''},
   {desc:'Chuyển kiểu float() cho a, b',kw:'float',pts:1,
-   hint:'a = float(input(...)) và b = float(input(...)) để nhận số thực.'},
+   hint:'và để nhận số thực.'},
   {desc:'Kiểm tra if a > b',kw:'if',pts:3,
-   hint:'Dùng if a > b: để so sánh hai số.'},
+   hint:'Kiểm tra a > b: để so sánh hai số.'},
   {desc:'Có nhánh else xử lý trường hợp b >= a',kw:'else',pts:2,
    hint:'Cần else để xử lý khi b lớn hơn hoặc bằng a.'},
   {desc:'In số lớn nhất bằng print()',kw:'print',pts:2,
@@ -3436,11 +3410,11 @@ title:'Tính tiền mua cam',
 desc:`<b>Đề bài:</b> Chương trình cần nhận vào một số nguyên hoặc số thực biểu thị khối lượng cam tính bằng kilogam, ký hiệu là <b>k</b>.<br>Dựa trên khối lượng <b>k</b> này, chương trình sẽ tính tổng số tiền phải trả theo quy tắc sau:<br>• Nếu khối lượng <b>k</b> từ 5 kg trở lên: giá mỗi kilogam là <b>15.000 đ</b>.<br>• Nếu khối lượng <b>k</b> nhỏ hơn 5 kg: giá mỗi kilogam là <b>18.000 đ</b>.<br>Cuối cùng, chương trình phải hiển thị tổng số tiền cần thanh toán.<br><br><b>Gợi ý:</b> Để xác định giá tiền, chương trình cần kiểm tra điều kiện về khối lượng <b>k</b>. Sau đó, áp dụng mức giá tương ứng để tính tổng tiền.`,
 rb:[
   {desc:'Nhập khối lượng bằng input()',kw:'input',pts:1,
-   hint:'Dùng input() để nhận khối lượng từ bàn phím.'},
+   hint:'Nhận khối lượng từ bàn phím.'},
   {desc:'Chuyển kiểu float() cho khối lượng',kw:'float',pts:1,
-   hint:'khoi_luong = float(input(...)) vì khối lượng có thể là số thực.'},
+   hint:'vì khối lượng có thể là số thực.'},
   {desc:'Kiểm tra điều kiện if khoi_luong < 5',kw:'if',pts:2,
-   hint:'Dùng if khoi_luong < 5: để phân biệt 2 mức giá.'},
+   hint:'Kiểm tra khoi_luong < 5: để phân biệt 2 mức giá.'},
   {desc:'Tính tong_tien = khoi_luong * đơn giá',kw:'tong_tien',pts:3,
    hint:'tong_tien = khoi_luong * 12000 (dưới 5kg) hoặc khoi_luong * 10000 (từ 5kg).'},
   {desc:'Có nhánh else cho trường hợp >= 5kg',kw:'else',pts:1,
@@ -3454,11 +3428,11 @@ title:'Kiểm tra bộ ba cạnh tam giác',
 desc:`<b>Đề bài:</b> Cho ba số thực dương <b>a, b, c</b>. Xác định xem ba số này có thể tạo thành độ dài ba cạnh của một tam giác hay không.<br><b>Gợi ý:</b> Để ba đoạn thẳng có độ dài <b>a, b, c</b> tạo thành một tam giác, tổng độ dài của hai đoạn thẳng bất kỳ phải lớn hơn độ dài đoạn thẳng còn lại.`,
 rb:[
   {desc:'Nhập a, b, c bằng input()',kw:'input',pts:1,
-   hint:'Cần 3 lần gọi input() để nhập a, b, c.'},
+   hint:''},
   {desc:'Dùng and kết hợp 3 điều kiện tam giác',kw:'and',pts:4,
-   hint:'if a+b>c and a+c>b and b+c>a: — cần cả 3 điều kiện với and.'},
+   hint:''},
   {desc:'Câu lệnh if kiểm tra điều kiện tam giác',kw:'if',pts:2,
-   hint:'Dùng if để kiểm tra 3 điều kiện cùng lúc.'},
+   hint:'Kiểm tra để kiểm tra 3 điều kiện cùng lúc.'},
   {desc:'In kết quả là/không là tam giác',kw:'print',pts:2,
    hint:'In thông báo phù hợp trong mỗi nhánh.'},
   {desc:'Có nhánh else xử lý không phải tam giác',kw:'else',pts:1,
@@ -3470,11 +3444,11 @@ title:'Xếp loại học tập',
 desc:`<b>Đề bài:</b> Yêu cầu người dùng cung cấp một giá trị điểm trung bình <b>dtb</b>, nằm trong khoảng từ 0 đến 10. Dựa vào giá trị này, hãy xác định và hiển thị xếp loại học tập tương ứng theo các tiêu chí sau:<br>  • Nếu <b>dtb</b> lớn hơn hoặc bằng 8.0, xếp loại là <b>Giỏi</b>.<br>  • Nếu <b>dtb</b> lớn hơn hoặc bằng 6.5 (nhưng nhỏ hơn 8.0), xếp loại là <b>Khá</b>.<br>  • Nếu <b>dtb</b> lớn hơn hoặc bằng 5.0 (nhưng nhỏ hơn 6.5), xếp loại là <b>Trung bình</b>.<br>  • Nếu <b>dtb</b> nhỏ hơn 5.0, xếp loại là <b>Yếu</b>.<br><b>Gợi ý:</b> Bạn có thể kiểm tra các điều kiện xếp loại theo thứ tự từ cao xuống thấp hoặc từ thấp lên cao. Khi một điều kiện được thỏa mãn, hãy xác định xếp loại và không cần kiểm tra các điều kiện còn lại.`,
 rb:[
   {desc:'Nhập dtb bằng input()',kw:'input',pts:1,
-   hint:'Dùng input() để nhận điểm trung bình từ bàn phím.'},
+   hint:'Nhận điểm trung bình từ bàn phím.'},
   {desc:'Chuyển kiểu float() cho dtb',kw:'float',pts:1,
-   hint:'dtb = float(input(...)) vì điểm có thể là số thực như 7.5.'},
+   hint:'vì điểm có thể là số thực như 7.5.'},
   {desc:'Kiểm tra dtb >= 5.0 (hoặc >= 5)',kw:'>=5,>=5.0',pts:4,mode:'any',
-   hint:'if dtb >= 5.0: — dùng >= để bao gồm cả điểm 5.0.'},
+   hint:''},
   {desc:'Cấu trúc if...else đầy đủ',kw:'else',pts:2,
    hint:'Cần else để xử lý trường hợp điểm dưới 5.'},
   {desc:'In kết quả "Đạt" hoặc "Không đạt"',kw:'print',pts:2,
@@ -3486,15 +3460,15 @@ title:'Kiểm tra năm nhuận',
 desc:`<b>Đề bài:</b> Nhập một số nguyên dương <b>y</b> đại diện cho một năm. Yêu cầu kiểm tra và thông báo liệu năm <b>y</b> có phải là năm nhuận hay không. Một năm được coi là năm nhuận nếu nó thỏa mãn một trong hai điều kiện sau:<br>• Năm đó chia hết cho 4 nhưng không chia hết cho 100.<br>• Hoặc năm đó chia hết cho 400.<br><br><b>Gợi ý:</b> Để kiểm tra một số có chia hết cho số khác hay không, bạn có thể sử dụng phép toán lấy phần dư. Nếu phần dư bằng 0, tức là chia hết. Áp dụng các điều kiện đã cho để xác định năm nhuận.`,
 rb:[
   {desc:'Nhập năm bằng input() và int()',kw:'input,int',pts:1,mode:'any',
-   hint:'n = int(input("Nhập năm: ")) để nhận năm từ bàn phím.'},
+   hint:'để nhận năm từ bàn phím.'},
   {desc:'Kiểm tra chia hết cho 400 (% 400 == 0)',kw:'% 400,%400',pts:2,mode:'any',
-   hint:'n % 400 == 0 là điều kiện đầu tiên của năm nhuận.'},
+   hint:'.'},
   {desc:'Kiểm tra chia hết cho 4 (% 4 == 0)',kw:'% 4,%4',pts:2,mode:'any',
-   hint:'n % 4 == 0 là điều kiện thứ hai (kết hợp với not % 100).'},
+   hint:'.'},
   {desc:'Kiểm tra KHÔNG chia hết cho 100 (% 100 != 0)',kw:'% 100,%100',pts:2,mode:'any',
-   hint:'n % 100 != 0 để loại trừ các năm chia hết cho 100 nhưng không chia hết cho 400.'},
+   hint:''},
   {desc:'Kết hợp điều kiện bằng or và and',kw:'or,and',pts:2,mode:'any',
-   hint:'Công thức: (n % 400 == 0) or (n % 4 == 0 and n % 100 != 0)'},
+   hint:'Công thức: ('},
   {desc:'In kết quả bằng print()',kw:'print',pts:1,
    hint:'In thông báo năm nhuận hoặc không phải năm nhuận.'}
 ]},
@@ -3504,11 +3478,11 @@ title:'Tính tiền điện lũy kế',
 desc:`<b>Đề bài:</b> Cho một số nguyên <b>k</b> là số kWh điện tiêu thụ. Hãy tính tổng số tiền điện phải trả dựa trên các bậc thang lũy kế sau: • 1–50 kWh: 1.678 đ/kWh • 51–100 kWh: 50×1.678 + (<b>k</b>-50)×1.734 • > 100 kWh: 50×1.678 + 50×1.734 + (<b>k</b>-100)×2.014 Kết quả tính toán cần được làm tròn đến 3 chữ số thập phân.<b>Gợi ý:</b> Xác định <b>k</b> thuộc bậc thang nào để áp dụng công thức tính tiền tương ứng.`,
 rb:[
   {desc:'Nhập k bằng input() và float()/int()',kw:'input,float,int',pts:1,mode:'any',
-   hint:'k = float(input("Nhập số kWh: ")) để nhận số kWh.'},
+   hint:'để nhận số kWh.'},
   {desc:'Kiểm tra if k <= 50 (mức 1)',kw:'<=50,<= 50',pts:2,mode:'any',
-   hint:'if k <= 50: tien = k * 1678 (hoặc 1.678 nếu tính bằng đồng).'},
+   hint:''},
   {desc:'Kiểm tra elif k <= 100 (mức 2)',kw:'<=100,<= 100',pts:2,mode:'any',
-   hint:'elif k <= 100: tien = 50*1678 + (k-50)*1734'},
+   hint:''},
   {desc:'Tính tiền đúng công thức với 1.678',kw:'1.678,1678',pts:2,mode:'any',
    hint:'Bậc 1: k*1678. Bậc 2: 50*1678+(k-50)*1734. Bậc 3: 50*1678+50*1734+(k-100)*2014'},
   {desc:'Dùng round() làm tròn kết quả',kw:'round',pts:2,
@@ -3522,13 +3496,13 @@ title:'Xác định góc phần tư',
 desc:`<b>Đề bài:</b> Nhập vào hai số nguyên <b>x</b> và <b>y</b>, là tọa độ của một điểm trong mặt phẳng tọa độ Descartes. (Giả sử <b>x</b>, <b>y</b> khác 0). Xác định điểm đó thuộc góc phần tư nào (I, II, III hoặc IV).<br><br><b>Gợi ý:</b> Dựa vào dấu của từng tọa độ <b>x</b> và <b>y</b> để xác định vị trí của điểm trong các góc phần tư. Ví dụ, nếu <b>x</b> dương và <b>y</b> dương thì điểm nằm ở góc phần tư thứ I.`,
 rb:[
   {desc:'Nhập x, y bằng input()',kw:'input',pts:1,
-   hint:'Cần 2 lần gọi input() để nhập x và y.'},
+   hint:''},
   {desc:'Chuyển kiểu float() cho x, y',kw:'float',pts:1,
-   hint:'x = float(input(...)) và y = float(input(...))'},
+   hint:'và'},
   {desc:'Kiểm tra x > 0 để phân biệt trái/phải',kw:'x > 0',pts:2,
-   hint:'if x > 0: điểm nằm bên phải trục Oy (góc I hoặc IV).'},
+   hint:''},
   {desc:'Kiểm tra y > 0 để phân biệt trên/dưới',kw:'y > 0',pts:2,
-   hint:'if y > 0: điểm nằm phía trên trục Ox (góc I hoặc II).'},
+   hint:''},
   {desc:'Xác định đúng cả 4 góc phần tư (I, II, III, IV)',kw:'góc phần tư,phần tư,I,II,III,IV',pts:2,mode:'any',
    hint:'Góc I: x>0,y>0 | Góc II: x<0,y>0 | Góc III: x<0,y<0 | Góc IV: x>0,y<0'},
   {desc:'In kết quả góc phần tư bằng print()',kw:'print',pts:2,
@@ -3541,11 +3515,11 @@ title:'In dãy số 0 đến 9',
 desc:`<b>Đề bài:</b> In các số nguyên từ 0 đến 9. Các số phải được in trên cùng một dòng và cách nhau bởi một dấu cách.<br><br><b>Gợi ý:</b> Bạn có thể duyệt qua từng số trong một khoảng xác định và hiển thị chúng.`,
 rb:[
   {desc:'Dùng vòng lặp for',kw:'for',pts:3,
-   hint:'for i in range(...): để lặp qua các số.'},
+   hint:''},
   {desc:'Dùng range(10) để tạo dãy 0-9',kw:'range(10)',pts:3,
-   hint:'range(10) tạo dãy số từ 0 đến 9 (không bao gồm 10).'},
+   hint:'.'},
   {desc:'Dùng end=" " để in cùng hàng',kw:'end=',pts:3,
-   hint:'print(i, end=" ") để in số cách nhau bởi dấu cách trên cùng hàng.'},
+   hint:''},
   {desc:'Có chú thích # trong code',kw:'#',pts:1,
    hint:'Thêm ít nhất 1 dòng chú thích.'}
 ]},
@@ -3555,13 +3529,13 @@ title:'Lặp lại thông điệp n lần',
 desc:`<b>Đề bài:</b> Yêu cầu người dùng nhập một số nguyên dương <b>n</b>. Sau đó, hiển thị dòng chữ <b>"Học lập trình Python"</b> lặp lại chính xác <b>n</b> lần.<br><br><b>Gợi ý:</b> Để lặp lại một hành động nhiều lần, hãy nghĩ đến một cấu trúc cho phép thực hiện một công việc cụ thể theo số lượng đã định.`,
 rb:[
   {desc:'Nhập n bằng input()',kw:'input',pts:1,
-   hint:'Dùng input() để nhận n từ bàn phím.'},
+   hint:'Nhận n từ bàn phím.'},
   {desc:'Chuyển kiểu int() cho n',kw:'int',pts:1,
-   hint:'n = int(input(...)) để chuyển chuỗi thành số nguyên.'},
+   hint:'để chuyển chuỗi thành số nguyên.'},
   {desc:'Dùng for i in range(n) để lặp n lần',kw:'range',pts:3,
-   hint:'for i in range(n): lặp đúng n lần (từ 0 đến n-1).'},
+   hint:''},
   {desc:'In đúng chuỗi "Học lập trình Python"',kw:'Học lập trình Python',pts:4,
-   hint:'print("Học lập trình Python") bên trong vòng lặp.'},
+   hint:''},
   {desc:'Có chú thích # trong code',kw:'#',pts:1,
    hint:'Thêm ít nhất 1 dòng chú thích.'}
 ]},
@@ -3571,13 +3545,13 @@ title:'In dãy số từ 1 đến n',
 desc:`<b>Đề bài:</b> Viết chương trình nhận vào một số nguyên dương <b>n</b>. Sau đó, hiển thị tất cả các số nguyên từ 1 đến <b>n</b> trên cùng một dòng, cách nhau bởi một khoảng trắng.<b>Gợi ý:</b> Để hiển thị các số theo thứ tự, bạn có thể lặp qua từng giá trị từ 1 đến <b>n</b> và xuất chúng ra màn hình.`,
 rb:[
   {desc:'Nhập n bằng input()',kw:'input',pts:1,
-   hint:'Dùng input() để nhận n từ bàn phím.'},
+   hint:'Nhận n từ bàn phím.'},
   {desc:'Chuyển kiểu int() cho n',kw:'int',pts:1,
-   hint:'n = int(input(...)) để chuyển chuỗi thành số nguyên.'},
+   hint:'để chuyển chuỗi thành số nguyên.'},
   {desc:'Dùng range(1, n+1) để bắt đầu từ 1',kw:'range',pts:4,
-   hint:'range(1, n+1) tạo dãy từ 1 đến n (bao gồm n). Chú ý: range(n) chỉ từ 0 đến n-1.'},
+   hint:'. Chú ý:.'},
   {desc:'In số trên cùng hàng bằng print()',kw:'print',pts:3,
-   hint:'print(i, end=" ") để in các số cách nhau trên cùng hàng.'},
+   hint:''},
   {desc:'Có chú thích # trong code',kw:'#',pts:1,
    hint:'Thêm ít nhất 1 dòng chú thích.'}
 ]},
@@ -3587,15 +3561,15 @@ title:'Tính tổng S = 1+2+...+n',
 desc:`<b>Đề bài:</b> Nhập vào một số nguyên dương <b>n</b>. Yêu cầu tính tổng S = 1 + 2 + 3 + ... + <b>n</b>.<br><b>Gợi ý:</b> Để tính tổng, bạn có thể bắt đầu với một giá trị tổng ban đầu là 0. Sau đó, lần lượt cộng các số từ 1 đến <b>n</b> vào tổng đó.`,
 rb:[
   {desc:'Nhập n bằng input() và int()',kw:'input,int',pts:1,mode:'any',
-   hint:'n = int(input("Nhập n: "))'},
+   hint:''},
   {desc:'Khởi tạo biến tích lũy s = 0',kw:'s=0',pts:2,
    hint:'s = 0 trước vòng lặp để tích lũy tổng.'},
   {desc:'Dùng for k in range(1, n+1)',kw:'range',pts:3,
-   hint:'range(1, n+1) để lặp từ 1 đến n.'},
+   hint:'.'},
   {desc:'Cộng dồn s = s + k (hoặc s += k)',kw:'s=s,s+=',pts:3,mode:'any',
    hint:'s = s + k hoặc s += k bên trong vòng lặp để cộng dồn.'},
   {desc:'In tổng S bằng print()',kw:'print',pts:1,
-   hint:'print("Tổng S =", s) sau vòng lặp.'}
+   hint:''}
 ]},
 
 {id:'k10-20-2.2',g:'K10',ch:'Bài 20: Câu lệnh FOR',lv:'Mức 2',num:'2.2',
@@ -3603,13 +3577,13 @@ title:'In số chẵn từ 1 đến 20',
 desc:`<b>Đề bài:</b> Viết chương trình hiển thị tất cả các số nguyên chẵn trong khoảng từ 1 đến 20. Các số này phải được in ra trên cùng một dòng, cách nhau bởi dấu cách.<b>Gợi ý:</b> Bạn có thể xem xét từng số nguyên trong khoảng đã cho. Với mỗi số, hãy kiểm tra xem nó có chia hết cho 2 hay không. Nếu có, hãy hiển thị số đó.`,
 rb:[
   {desc:'Dùng for k in range(1, 21) hoặc range(2, 21, 2)',kw:'range',pts:3,
-   hint:'range(1, 21) duyệt từ 1 đến 20, hoặc range(2, 21, 2) chỉ lấy số chẵn.'},
+   hint:'.'},
   {desc:'Kiểm tra % 2 == 0 để lọc số chẵn',kw:'%2,% 2',pts:3,mode:'any',
-   hint:'if k % 2 == 0: để kiểm tra số chẵn.'},
+   hint:'if.'},
   {desc:'Dùng if để kiểm tra điều kiện chẵn',kw:'if',pts:2,
-   hint:'if k % 2 == 0: bên trong vòng lặp.'},
+   hint:'if.'},
   {desc:'Dùng end=" " để in cùng hàng',kw:'end=',pts:2,
-   hint:'print(k, end=" ") để in số chẵn cách nhau trên cùng hàng.'}
+   hint:''}
 ]},
 
 {id:'k10-20-2.3',g:'K10',ch:'Bài 20: Câu lệnh FOR',lv:'Mức 2',num:'2.3',
@@ -3617,15 +3591,15 @@ title:'Đếm số bội của 3',
 desc:`<b>Đề bài:</b> Cho một số nguyên dương <b>n</b>. Hãy xác định có bao nhiêu số nguyên trong khoảng từ 1 đến <b>n</b> (bao gồm cả 1 và <b>n</b>) là bội của 3.<br><br><b>Gợi ý:</b> Bạn có thể duyệt qua từng số từ 1 đến <b>n</b> và kiểm tra xem số đó có chia hết cho 3 hay không. Một cách khác là sử dụng phép tính để tìm ra số lượng bội của 3 một cách trực tiếp.`,
 rb:[
   {desc:'Nhập n bằng input() và int()',kw:'input,int',pts:1,mode:'any',
-   hint:'n = int(input("Nhập n: "))'},
+   hint:''},
   {desc:'Khởi tạo biến đếm count = 0',kw:'count=0',pts:2,
    hint:'count = 0 trước vòng lặp để đếm số bội của 3.'},
   {desc:'Dùng for và range(1, n+1)',kw:'range',pts:3,
-   hint:'for i in range(1, n+1): để duyệt từ 1 đến n.'},
+   hint:''},
   {desc:'Kiểm tra % 3 == 0 để tìm bội của 3',kw:'%3,% 3',pts:3,mode:'any',
-   hint:'if i % 3 == 0: để kiểm tra i có phải bội của 3 không.'},
+   hint:'if.'},
   {desc:'Tăng count += 1 khi tìm thấy bội',kw:'count',pts:1,
-   hint:'count += 1 bên trong if để đếm.'}
+   hint:''}
 ]},
 
 {id:'k10-20-3.1',g:'K10',ch:'Bài 20: Câu lệnh FOR',lv:'Mức 3 – Vận dụng',num:'3.1',
@@ -3633,15 +3607,15 @@ title:'Tính giai thừa n!',
 desc:`<b>Đề bài:</b> Nhập một số nguyên dương <b>n</b>. Yêu cầu tính giá trị của tích P, trong đó P là kết quả của phép nhân tất cả các số nguyên từ 1 đến <b>n</b> (được gọi là giai thừa của <b>n</b>, ký hiệu là n!). Sau đó, hiển thị kết quả P đã tính được. <br><b>Gợi ý:</b> Bạn có thể bắt đầu với một giá trị tích ban đầu là 1. Lặp lại việc nhân giá trị tích này với từng số nguyên tăng dần, bắt đầu từ 1 cho đến khi đạt đến <b>n</b>.`,
 rb:[
   {desc:'Nhập n bằng input() và int()',kw:'input,int',pts:1,mode:'any',
-   hint:'n = int(input("Nhập n: "))'},
+   hint:''},
   {desc:'Khởi tạo biến nhân p = 1',kw:'p=1',pts:2,
    hint:'p = 1 trước vòng lặp. Chú ý: phải là 1, không phải 0 (vì nhân với 0 sẽ cho kết quả 0).'},
   {desc:'Dùng for i in range(1, n+1)',kw:'range',pts:3,
-   hint:'range(1, n+1) để lặp từ 1 đến n.'},
+   hint:'.'},
   {desc:'Nhân dồn p = p * i (hoặc p *= i)',kw:'p=p,p*=',pts:3,mode:'any',
    hint:'p = p * i hoặc p *= i bên trong vòng lặp để nhân dồn.'},
   {desc:'In kết quả giai thừa bằng print()',kw:'print',pts:1,
-   hint:'print("n! =", p) sau vòng lặp.'}
+   hint:''}
 ]},
 
 {id:'k10-20-3.2',g:'K10',ch:'Bài 20: Câu lệnh FOR',lv:'Mức 3',num:'3.2',
@@ -3649,13 +3623,13 @@ title:'Liệt kê các ước số',
 desc:`<b>Đề bài:</b> Nhập vào một số tự nhiên <b>n</b>. Hãy xuất ra tất cả các số là ước của <b>n</b>, mỗi số cách nhau một khoảng trắng.<b>Gợi ý:</b> Bạn có thể kiểm tra lần lượt các số từ 1 đến <b>n</b>. Nếu một số chia hết cho <b>n</b> thì đó là ước số.`,
 rb:[
   {desc:'Nhập n bằng input() và int()',kw:'input,int',pts:1,mode:'any',
-   hint:'n = int(input("Nhập n: "))'},
+   hint:''},
   {desc:'Dùng for k in range(1, n+1)',kw:'range',pts:3,
-   hint:'range(1, n+1) để kiểm tra tất cả số từ 1 đến n.'},
+   hint:'.'},
   {desc:'Kiểm tra % k == 0 để tìm ước',kw:'%k,% k',pts:3,mode:'any',
-   hint:'if n % k == 0: nghĩa là k là ước của n.'},
+   hint:''},
   {desc:'In ước số bằng print()',kw:'print',pts:2,
-   hint:'print(k, end=" ") để in ước số trên cùng hàng.'},
+   hint:''},
   {desc:'Có tiêu đề kết quả (từ "ước")',kw:'ước',pts:1,
    hint:'In tiêu đề như "Các ước của n:" trước khi in ước số.'}
 ]},
@@ -3665,11 +3639,11 @@ title:'Tính tổng nghịch đảo S = 1 + 1/2 + ... + 1/n',
 desc:`<b>Đề bài:</b> Nhập một số nguyên dương <b>n</b>. Tính tổng S theo công thức: S = 1 + 1/2 + 1/3 + ... + 1/n. Hiển thị kết quả của tổng S, làm tròn đến 4 chữ số sau dấu phẩy.<br><br><b>Gợi ý:</b> Để tính tổng này, bạn có thể bắt đầu với tổng ban đầu bằng 0. Sau đó, lặp lại việc cộng thêm các phân số 1/i vào tổng, với i tăng dần từ 1 đến <b>n</b>.`,
 rb:[
   {desc:'Nhập n bằng input() và int()',kw:'input,int',pts:1,mode:'any',
-   hint:'n = int(input("Nhập n: "))'},
+   hint:''},
   {desc:'Khởi tạo biến tổng s = 0',kw:'s=0',pts:1,
    hint:'s = 0 trước vòng lặp.'},
   {desc:'Dùng for i in range(1, n+1)',kw:'range',pts:3,
-   hint:'range(1, n+1) để lặp từ 1 đến n.'},
+   hint:'.'},
   {desc:'Cộng dồn 1/i vào s',kw:'1/i',pts:3,
    hint:'s += 1/i hoặc s = s + 1/i. Trong Python 3, phép chia / luôn cho kết quả số thực.'},
   {desc:'Dùng round(s, 4) làm tròn 4 chữ số',kw:'round',pts:2,
@@ -3681,11 +3655,11 @@ title:'Kiểm tra số nguyên tố',
 desc:`<b>Đề bài:</b> Nhập một số tự nhiên <b>n</b>. Xác định xem <b>n</b> có phải là số nguyên tố hay không. Một số nguyên tố là số tự nhiên lớn hơn 1 và chỉ có hai ước số dương là 1 và chính nó.<br><br><b>Gợi ý:</b> Để kiểm tra một số có phải là số nguyên tố, bạn có thể thử chia số đó cho các số nguyên dương bắt đầu từ 2 và nhỏ hơn chính nó. Nếu số đó chỉ chia hết cho 1 và chính nó, thì đó là số nguyên tố.`,
 rb:[
   {desc:'Nhập n bằng input() và int()',kw:'input,int',pts:1,mode:'any',
-   hint:'n = int(input("Nhập n: "))'},
+   hint:''},
   {desc:'Xử lý trường hợp n < 2 (không phải số nguyên tố)',kw:'< 2,<2',pts:2,mode:'any',
-   hint:'if n < 2: không phải số nguyên tố (0 và 1 không phải số nguyên tố).'},
+   hint:''},
   {desc:'Đếm ước số bằng vòng for và count',kw:'for,count',pts:3,mode:'any',
-   hint:'for k in range(1, n+1): if n % k == 0: count += 1 để đếm ước.'},
+   hint:''},
   {desc:'Kiểm tra count == 2 để xác định nguyên tố',kw:'count==2,count ==2',pts:3,mode:'any',
    hint:'Số nguyên tố có đúng 2 ước: 1 và chính nó. count == 2 là điều kiện.'},
   {desc:'In kết quả "nguyên tố" hoặc không',kw:'nguyên tố',pts:1,
@@ -3697,15 +3671,15 @@ title:'Tổng các lập phương S = 1³+2³+...+n³',
 desc:`<b>Đề bài:</b> Nhập vào một số nguyên dương <b>n</b>. Yêu cầu tính tổng S của các lập phương từ 1 đến <b>n</b>, theo công thức S = 1³ + 2³ + ... + <b>n</b>³.<b>Gợi ý:</b> Để tính tổng này, bạn có thể xem xét việc thực hiện một quá trình lặp, bắt đầu từ 1 và kết thúc ở <b>n</b>. Trong mỗi bước lặp, hãy tính giá trị lập phương của số hiện tại và thêm nó vào một tổng đang được tích lũy.`,
 rb:[
   {desc:'Nhập n bằng input() và int()',kw:'input,int',pts:1,mode:'any',
-   hint:'n = int(input("Nhập n: "))'},
+   hint:''},
   {desc:'Khởi tạo biến tổng s = 0',kw:'s=0',pts:1,
    hint:'s = 0 trước vòng lặp.'},
   {desc:'Dùng for i in range(1, n+1)',kw:'range',pts:3,
-   hint:'range(1, n+1) để lặp từ 1 đến n.'},
+   hint:'.'},
   {desc:'Tính lập phương bằng i**3 hoặc i*i*i',kw:'**3,i*i*i',pts:3,mode:'any',
    hint:'i**3 là cách viết lũy thừa trong Python. Hoặc dùng i*i*i.'},
   {desc:'In kết quả tổng bằng print()',kw:'print',pts:2,
-   hint:'print("Tổng S =", s) sau vòng lặp.'}
+   hint:''}
 ]},
 
 {id:'k10-20-4.3',g:'K10',ch:'Bài 20: Câu lệnh FOR',lv:'Mức 4',num:'4.3',
@@ -3713,15 +3687,15 @@ title:'Đếm ước số thực sự và tính tổng',
 desc:`<b>Đề bài:</b> Nhập vào một số nguyên dương <b>n</b>. Nhiệm vụ là tìm tất cả các ước số nguyên dương của <b>n</b> mà nhỏ hơn chính <b>n</b> (gọi là ước số thực sự). Sau đó, tính tổng của các ước số thực sự này và hiển thị kết quả.<br><br><b>Gợi ý:</b> Để tìm các ước số thực sự, bạn có thể xem xét từng số nguyên dương bắt đầu từ 1 và tăng dần lên, dừng lại trước khi đạt đến <b>n</b>. Với mỗi số đang xét, hãy kiểm tra xem <b>n</b> có chia hết cho số đó hay không. Nếu có, số đó là một ước số thực sự. Bạn cần thu thập tất cả các ước số thực sự này và sau đó tính tổng của chúng.`,
 rb:[
   {desc:'Nhập n bằng input() và int()',kw:'input,int',pts:1,mode:'any',
-   hint:'n = int(input("Nhập n: "))'},
+   hint:''},
   {desc:'Khởi tạo count = 0 và tong = 0',kw:'count=0,tong=0',pts:2,mode:'any',
    hint:'count = 0 để đếm ước, tong = 0 để tính tổng.'},
   {desc:'Dùng for k in range(1, n) — không bao gồm n',kw:'range(1, n)',pts:3,
-   hint:'range(1, n) để duyệt từ 1 đến n-1 (ước thực sự không bao gồm chính n).'},
+   hint:'.'},
   {desc:'Kiểm tra % k == 0 để tìm ước',kw:'%k,% k',pts:2,mode:'any',
-   hint:'if n % k == 0: k là ước thực sự của n.'},
+   hint:''},
   {desc:'Tính tổng ước bằng tong += k',kw:'tong',pts:2,
-   hint:'tong += k bên trong if để cộng dồn tổng ước.'}
+   hint:''}
 ]},
 
 /* Bài 21: Câu lệnh WHILE */
@@ -3732,9 +3706,9 @@ rb:[
   {desc:'Khởi tạo biến đếm k = 1',kw:'k=1',pts:2,
    hint:'k = 1 trước vòng lặp để bắt đầu từ 1.'},
   {desc:'Dùng while k <= 5 làm điều kiện',kw:'while',pts:3,
-   hint:'while k <= 5: lặp khi k còn nhỏ hơn hoặc bằng 5.'},
+   hint:''},
   {desc:'In k bằng print()',kw:'print',pts:2,
-   hint:'print(k, end=" ") để in số trên cùng hàng.'},
+   hint:''},
   {desc:'Tăng k sau mỗi lần lặp (k += 1)',kw:'k=k,k+=',pts:3,mode:'any',
    hint:'k = k + 1 hoặc k += 1 bên trong while. Thiếu dòng này sẽ gây vòng lặp vô tận!'}
 ]},
@@ -3746,13 +3720,13 @@ rb:[
   {desc:'Khởi tạo count = 5',kw:'count=5',pts:2,
    hint:'count = 5 trước vòng lặp để bắt đầu đếm ngược từ 5.'},
   {desc:'Dùng while count > 0',kw:'while',pts:3,
-   hint:'while count > 0: lặp khi count còn lớn hơn 0.'},
+   hint:''},
   {desc:'In count bằng print()',kw:'print',pts:2,
-   hint:'print(count) bên trong vòng lặp.'},
+   hint:''},
   {desc:'Giảm count sau mỗi lần lặp (count -= 1)',kw:'count=count,count-=',pts:2,mode:'any',
    hint:'count = count - 1 hoặc count -= 1 bên trong while.'},
   {desc:'In "Bắt đầu!" sau vòng lặp',kw:'Bắt đầu',pts:1,
-   hint:'print("Bắt đầu!") sau khi vòng lặp kết thúc.'}
+   hint:''}
 ]},
 
 {id:'k10-21-1.3',g:'K10',ch:'Bài 21: Câu lệnh WHILE',lv:'Mức 1',num:'1.3',
@@ -3762,13 +3736,13 @@ rb:[
   {desc:'Khởi tạo i = 0',kw:'i=0',pts:1,
    hint:'i = 0 trước vòng lặp.'},
   {desc:'Dùng while i <= 10',kw:'while',pts:2,
-   hint:'while i <= 10: để lặp từ 0 đến 10.'},
+   hint:''},
   {desc:'Dùng break khi i == 5 để dừng',kw:'break',pts:4,
-   hint:'if i == 5: break để thoát vòng lặp khi gặp số 5.'},
+   hint:''},
   {desc:'In i bằng print()',kw:'print',pts:2,
-   hint:'print(i, end=" ") để in số trên cùng hàng.'},
+   hint:''},
   {desc:'Tăng i += 1 sau mỗi lần lặp',kw:'i+=1,i +=1,i=i+1',pts:1,mode:'any',
-   hint:'i += 1 bên trong while để tăng biến đếm.'}
+   hint:''}
 ]},
 
 {id:'k10-21-2.1',g:'K10',ch:'Bài 21: Câu lệnh WHILE',lv:'Mức 2 – Thông hiểu',num:'2.1',
@@ -3778,7 +3752,7 @@ rb:[
   {desc:'Khởi tạo s = 0 và k = 1',kw:'s=0',pts:2,
    hint:'s = 0 (biến tổng) và k = 1 (số cộng tiếp theo) trước vòng lặp.'},
   {desc:'Dùng while s < 50 làm điều kiện',kw:'whiles<50,whiles <50',pts:3,mode:'any',
-   hint:'while s < 50: lặp khi tổng chưa đạt 50.'},
+   hint:''},
   {desc:'Cộng dồn s = s + k',kw:'s=s',pts:2,
    hint:'s = s + k hoặc s += k bên trong vòng lặp.'},
   {desc:'Tăng k = k + 1 sau mỗi lần lặp',kw:'k=k',pts:2,
@@ -3794,9 +3768,9 @@ rb:[
   {desc:'Khởi tạo k = 2 (số đầu tiên)',kw:'k=2',pts:2,
    hint:'k = 2 trước vòng lặp.'},
   {desc:'Dùng while k < 30 làm điều kiện',kw:'while',pts:3,
-   hint:'while k < 30: lặp khi k còn nhỏ hơn 30.'},
+   hint:''},
   {desc:'In k bằng print()',kw:'print',pts:2,
-   hint:'print(k, end=" ") để in số trên cùng hàng.'},
+   hint:''},
   {desc:'Tăng k += 3 sau mỗi lần lặp',kw:'k=k+3,k+=3',pts:3,mode:'any',
    hint:'k = k + 3 hoặc k += 3 để tăng theo bước 3.'}
 ]},
@@ -3808,11 +3782,11 @@ rb:[
   {desc:'Khởi tạo k = 0',kw:'k=0',pts:2,
    hint:'k = 0 trước vòng lặp.'},
   {desc:'Dùng while 2**k <= 1000 làm điều kiện',kw:'while2',pts:4,mode:'any',
-   hint:'while 2**k <= 1000: lặp khi 2^k chưa vượt quá 1000.'},
+   hint:''},
   {desc:'Tăng k += 1 sau mỗi lần lặp',kw:'k+=1,k +=1,k=k+1',pts:3,mode:'any',
    hint:'k += 1 bên trong while.'},
   {desc:'In kết quả k nhỏ nhất bằng print()',kw:'print',pts:1,
-   hint:'print("k nhỏ nhất là:", k) sau vòng lặp.'}
+   hint:''}
 ]},
 
 {id:'k10-21-3.1',g:'K10',ch:'Bài 21: Câu lệnh WHILE',lv:'Mức 3 – Vận dụng',num:'3.1',
@@ -3820,13 +3794,13 @@ title:'Nhập số dương (kiểm tra hợp lệ)',
 desc:`<b>Đề bài:</b> Yêu cầu người dùng nhập một số nguyên. Nếu số nhập vào là số âm hoặc bằng 0, chương trình cần yêu cầu người dùng nhập lại. Quá trình này tiếp diễn cho đến khi nhận được một số nguyên dương hợp lệ. Cuối cùng, in ra số nguyên dương đó.<b>Gợi ý:</b> Lặp lại việc nhận giá trị từ người dùng và kiểm tra điều kiện của giá trị đó. Chỉ dừng lại khi giá trị thỏa mãn yêu cầu.`,
 rb:[
   {desc:'Nhập n lần đầu bằng int(input(...))',kw:'input',pts:2,
-   hint:'n = int(input("Nhập số dương: ")) trước vòng lặp.'},
+   hint:'trước vòng lặp.'},
   {desc:'Dùng while n <= 0 để kiểm tra hợp lệ',kw:'whilen<=0,whilen <=0',pts:4,mode:'any',
-   hint:'while n <= 0: lặp khi n không phải số dương.'},
+   hint:''},
   {desc:'Nhập lại n bên trong vòng while',kw:'input',pts:2,
-   hint:'n = int(input("Nhập lại: ")) bên trong while để nhập lại.'},
+   hint:''},
   {desc:'In số dương đã nhận bằng print()',kw:'print',pts:2,
-   hint:'print("Số dương:", n) sau khi thoát vòng lặp.'}
+   hint:''}
 ]},
 
 {id:'k10-21-3.2',g:'K10',ch:'Bài 21: Câu lệnh WHILE',lv:'Mức 3',num:'3.2',
@@ -3834,15 +3808,15 @@ title:'Thuật toán Euclid tìm UCLN',
 desc:`<b>Đề bài:</b> Cho hai số nguyên dương <b>a</b> và <b>b</b>. Yêu cầu tìm ước chung lớn nhất (UCLN) của hai số này.<br><b>Gợi ý:</b> Bạn có thể lặp lại việc lấy số lớn trừ đi số nhỏ cho đến khi hai số bằng nhau. Giá trị cuối cùng đó chính là UCLN.`,
 rb:[
   {desc:'Nhập a, b bằng input()',kw:'input',pts:1,
-   hint:'Cần 2 lần gọi input() để nhập a và b.'},
+   hint:''},
   {desc:'Chuyển kiểu int() cho a, b',kw:'int',pts:1,
-   hint:'a = int(input(...)) và b = int(input(...))'},
+   hint:'và'},
   {desc:'Dùng while a != b làm điều kiện',kw:'whilea!=b,whilea !=b',pts:4,mode:'any',
-   hint:'while a != b: lặp cho đến khi a và b bằng nhau.'},
+   hint:''},
   {desc:'Trừ số lớn cho số nhỏ (a=a-b hoặc b=b-a)',kw:'a=a-b,a=a - b,b=b-a,b=b - a',pts:3,mode:'any',
-   hint:'if a > b: a = a - b else: b = b - a'},
+   hint:''},
   {desc:'In UCLN bằng print()',kw:'print',pts:1,
-   hint:'print("UCLN:", a) sau vòng lặp (a == b lúc này).'}
+   hint:''}
 ]},
 
 {id:'k10-21-3.3',g:'K10',ch:'Bài 21: Câu lệnh WHILE',lv:'Mức 3',num:'3.3',
@@ -3852,9 +3826,9 @@ rb:[
   {desc:'Khởi tạo tong = 0 và dem = 0',kw:'tong=0',pts:1,
    hint:'tong = 0 (tổng) và dem = 0 (đếm số lượng) trước vòng lặp.'},
   {desc:'Nhập số đầu tiên trước vòng lặp',kw:'input,float',pts:1,mode:'any',
-   hint:'n = float(input("Nhập số (0 để dừng): ")) trước while.'},
+   hint:''},
   {desc:'Dùng while n != 0 làm điều kiện',kw:'while n',pts:3,
-   hint:'while n != 0: lặp khi n khác 0.'},
+   hint:''},
   {desc:'Cộng dồn tong += n và tăng dem += 1',kw:'dem',pts:3,
    hint:'tong += n và dem += 1 bên trong while.'},
   {desc:'Tính trung bình = tong / dem',kw:'/ dem',pts:2,
@@ -3868,11 +3842,11 @@ rb:[
   {desc:'Khởi tạo tien_goc = 100 và lai_suat = 0.06',kw:'lai_suat',pts:2,
    hint:'tien_goc = 100 (triệu) và lai_suat = 0.06 (6%).'},
   {desc:'Dùng while tien_goc <= 150 làm điều kiện',kw:'while',pts:3,
-   hint:'while tien_goc <= 150: lặp khi chưa đạt 150 triệu.'},
+   hint:''},
   {desc:'Tính lãi: tien_goc = tien_goc + tien_goc * lai_suat',kw:'lai_suat',pts:3,
    hint:'tien_goc = tien_goc * (1 + lai_suat) hoặc tien_goc += tien_goc * lai_suat'},
   {desc:'Đếm số năm bằng nam += 1',kw:'nam',pts:1,
-   hint:'nam += 1 bên trong while để đếm số năm.'},
+   hint:''},
   {desc:'In số năm và số tiền bằng print()',kw:'print',pts:1,
    hint:'In nam và tien_goc sau vòng lặp.'}
 ]},
@@ -3884,11 +3858,11 @@ rb:[
   {desc:'Khởi tạo k = 1 (biến đếm)',kw:'k=1',pts:1,
    hint:'k = 1 trước vòng lặp.'},
   {desc:'Dùng while k <= 100 làm điều kiện',kw:'while k',pts:3,
-   hint:'while k <= 100: lặp từ 1 đến 100.'},
+   hint:''},
   {desc:'Kiểm tra % 10 == 0 để xuống dòng',kw:'% 10,%10',pts:3,mode:'any',
-   hint:'if k % 10 == 0: print(k) else: print(k, end=" ") để xuống dòng sau mỗi 10 số.'},
+   hint:'if.'},
   {desc:'In k bằng print()',kw:'print',pts:2,
-   hint:'print(k, end=" ") để in số trên cùng hàng, print(k) để xuống dòng.'},
+   hint:''},
   {desc:'Tăng k += 1 sau mỗi lần lặp',kw:'k +=1,k+=1',pts:1,mode:'any',
    hint:'k += 1 bên trong while.'}
 ]},
@@ -3900,13 +3874,13 @@ rb:[
   {desc:'import math để dùng math.sqrt',kw:'math',pts:1,
    hint:'import math ở đầu chương trình.'},
   {desc:'Nhập n bằng input() và int()',kw:'input,int',pts:1,mode:'any',
-   hint:'n = int(input("Nhập n: "))'},
+   hint:''},
   {desc:'Xử lý n < 2 (không phải số nguyên tố)',kw:'< 2',pts:1,
-   hint:'if n < 2: print("Không phải số nguyên tố")'},
+   hint:''},
   {desc:'Dùng while i <= math.sqrt(n) để kiểm tra',kw:'sqrt',pts:4,
-   hint:'i = 2; while i <= math.sqrt(n): — chỉ cần kiểm tra đến căn bậc hai của n.'},
+   hint:''},
   {desc:'Đặt cờ check = False khi tìm thấy ước',kw:'check=False',pts:2,
-   hint:'if n % i == 0: check = False; break để đánh dấu không phải nguyên tố.'},
+   hint:''},
   {desc:'In kết quả "nguyên tố" hoặc không',kw:'nguyên tố',pts:1,
    hint:'In thông báo dựa trên giá trị của check.'}
 ]},
@@ -3917,9 +3891,9 @@ title:'Kiểm tra số âm/dương',
 desc:`<b>Đề bài:</b> Yêu cầu người dùng cung cấp một số thực, gọi là <b>a</b>. Dựa vào giá trị của <b>a</b>, xác định xem nó là số dương hay không phải số dương. Hiển thị thông báo phù hợp với kết quả kiểm tra.<br><br><b>Gợi ý:</b> So sánh giá trị của <b>a</b> với số 0 để đưa ra kết luận.`,
 rb:[
   {desc:'Nhập a bằng float() và input()',kw:'float,input',pts:2,mode:'any',
-   hint:'a = float(input("Nhập a: ")) để nhận số thực.'},
+   hint:'để nhận số thực.'},
   {desc:'Kiểm tra if a > 0',kw:'> 0',pts:3,
-   hint:'if a > 0: để kiểm tra số dương.'},
+   hint:''},
   {desc:'Có nhánh else xử lý số không dương',kw:'else',pts:2,
    hint:'else: để xử lý khi a <= 0.'},
   {desc:'In kết quả bằng print()',kw:'print',pts:2,
@@ -3933,11 +3907,11 @@ title:'Liệt kê số từ 1 đến N',
 desc:`<b>Đề bài:</b> Nhập một số tự nhiên <b>n</b>. Hiển thị tất cả các số nguyên liên tiếp, bắt đầu từ 1 và kết thúc tại <b>n</b>.<br><b>Gợi ý:</b> Để thực hiện việc này, bạn có thể lặp lại một hành động nào đó một cách tuần tự. Bắt đầu với số 1, sau đó tăng dần giá trị lên 1 cho đến khi đạt đến số <b>n</b>. Mỗi lần lặp, hãy hiển thị số hiện tại.`,
 rb:[
   {desc:'Nhập n bằng input() và int()',kw:'input,int',pts:2,mode:'any',
-   hint:'n = int(input("Nhập n: "))'},
+   hint:''},
   {desc:'Dùng for i in range(1, n+1)',kw:'range',pts:4,
-   hint:'range(1, n+1) để bắt đầu từ 1 và bao gồm n.'},
+   hint:'.'},
   {desc:'In i bằng print()',kw:'print',pts:3,
-   hint:'print(i, end=" ") để in trên cùng hàng.'},
+   hint:''},
   {desc:'Có chú thích # trong code',kw:'#',pts:1,
    hint:'Thêm ít nhất 1 dòng chú thích.'}
 ]},
@@ -3949,9 +3923,9 @@ rb:[
   {desc:'Khởi tạo k = 10',kw:'k=10',pts:2,
    hint:'k = 10 trước vòng lặp.'},
   {desc:'Dùng while k >= 1 làm điều kiện',kw:'while',pts:3,
-   hint:'while k >= 1: lặp khi k còn lớn hơn hoặc bằng 1.'},
+   hint:''},
   {desc:'In k bằng print()',kw:'print',pts:3,
-   hint:'print(k, end=" ") để in trên cùng hàng.'},
+   hint:''},
   {desc:'Giảm k = k - 1 sau mỗi lần lặp',kw:'k=k',pts:2,
    hint:'k = k - 1 hoặc k -= 1 bên trong while.'}
 ]},
@@ -3961,11 +3935,11 @@ title:'Kiểm tra điều kiện kết hợp',
 desc:`<b>Đề bài:</b> Yêu cầu người dùng nhập một số nguyên <b>x</b>. Kiểm tra xem số <b>x</b> này có đồng thời chia hết cho 3 và lớn hơn 10 hay không. In ra kết quả kiểm tra.<br><br><b>Gợi ý:</b> Để kiểm tra một số có chia hết cho số khác, bạn có thể xem xét phần dư của phép chia. Để kiểm tra hai điều kiện cùng lúc, bạn cần một cấu trúc điều kiện kết hợp.`,
 rb:[
   {desc:'Nhập x bằng input() và int()',kw:'input,int',pts:2,mode:'any',
-   hint:'x = int(input("Nhập x: "))'},
+   hint:''},
   {desc:'Kiểm tra % 3 == 0 (chia hết cho 3)',kw:'% 3==0,%3==0',pts:3,mode:'any',
-   hint:'x % 3 == 0 để kiểm tra chia hết cho 3.'},
+   hint:'.'},
   {desc:'Kết hợp and x > 10',kw:'and x',pts:3,
-   hint:'if x % 3 == 0 and x > 10: — cần cả hai điều kiện đúng.'},
+   hint:'if.'},
   {desc:'In kết quả bằng print()',kw:'print',pts:2,
    hint:'In thông báo phù hợp.'}
 ]},
@@ -3975,15 +3949,15 @@ title:'Tính tổng các bội số của 5',
 desc:`<b>Đề bài:</b><br>Yêu cầu:<br>• Nhập vào một số nguyên dương <b>n</b>.<br>• Tính tổng tất cả các số nguyên dương nhỏ hơn hoặc bằng <b>n</b> mà là bội số của 5.<br><br><b>Gợi ý:</b><br>• Bạn có thể xem xét từng số nguyên từ 1 đến <b>n</b>.<br>• Với mỗi số, kiểm tra xem nó có chia hết cho 5 hay không.<br>• Nếu có, hãy cộng số đó vào tổng.`,
 rb:[
   {desc:'Nhập n bằng input() và int()',kw:'input,int',pts:1,mode:'any',
-   hint:'n = int(input("Nhập n: "))'},
+   hint:''},
   {desc:'Khởi tạo biến tổng tong = 0',kw:'tong=0',pts:2,
    hint:'tong = 0 trước vòng lặp.'},
   {desc:'Dùng for i in range(1, n+1)',kw:'range',pts:3,
-   hint:'range(1, n+1) để duyệt từ 1 đến n.'},
+   hint:'.'},
   {desc:'Kiểm tra % 5 == 0 để tìm bội của 5',kw:'% 5,%5',pts:3,mode:'any',
-   hint:'if i % 5 == 0: tong += i để cộng dồn bội của 5.'},
+   hint:'if.'},
   {desc:'In tổng bằng print()',kw:'print',pts:1,
-   hint:'print("Tổng:", tong) sau vòng lặp.'}
+   hint:''}
 ]},
 
 {id:'k10-th-2.3',g:'K10',ch:'Tổng hợp Bài 19+20+21',lv:'Mức 2',num:'2.3',
@@ -3993,11 +3967,11 @@ rb:[
   {desc:'Khởi tạo s = 0 và k = 0',kw:'s=0',pts:2,
    hint:'s = 0 (biến tổng) và k = 0 (biến đếm) trước vòng lặp.'},
   {desc:'Dùng while s <= 100 làm điều kiện',kw:'while s',pts:4,
-   hint:'while s <= 100: lặp khi tổng chưa vượt 100.'},
+   hint:''},
   {desc:'Tăng k và cộng vào s: k+=1; s+=k',kw:'k=k',pts:2,
    hint:'k += 1 rồi s += k bên trong while.'},
   {desc:'In k nhỏ nhất bằng print()',kw:'print',pts:2,
-   hint:'print("k nhỏ nhất:", k) sau vòng lặp.'}
+   hint:''}
 ]},
 
 {id:'k10-th-3.1',g:'K10',ch:'Tổng hợp Bài 19+20+21',lv:'Mức 3 – Vận dụng',num:'3.1',
@@ -4005,15 +3979,15 @@ title:'Liệt kê và đếm ước số',
 desc:`<b>Đề bài:</b> Nhập vào một số tự nhiên <b>n</b>.<br>• Yêu cầu 1: Liệt kê tất cả các số là ước của <b>n</b>.<br>• Yêu cầu 2: Đếm tổng số lượng các ước số của <b>n</b>.<br><br><b>Gợi ý:</b> Để tìm các ước số của một số, bạn có thể kiểm tra lần lượt các số từ 1 đến chính số đó. Nếu một số chia hết cho số tự nhiên <b>n</b> mà không có số dư, thì đó là một ước số.`,
 rb:[
   {desc:'Nhập n bằng input() và int()',kw:'input,int',pts:1,mode:'any',
-   hint:'n = int(input("Nhập n: "))'},
+   hint:''},
   {desc:'Khởi tạo biến đếm count = 0',kw:'count=0',pts:1,
    hint:'count = 0 trước vòng lặp để đếm số lượng ước.'},
   {desc:'Dùng for i in range(1, n+1)',kw:'range',pts:3,
-   hint:'range(1, n+1) để kiểm tra tất cả số từ 1 đến n.'},
+   hint:'.'},
   {desc:'Kiểm tra % i == 0 để tìm ước',kw:'% i',pts:3,
-   hint:'if n % i == 0: i là ước của n.'},
+   hint:''},
   {desc:'In số lượng ước bằng count',kw:'count',pts:2,
-   hint:'print("Số lượng ước:", count) sau vòng lặp.'}
+   hint:''}
 ]},
 
 {id:'k10-th-3.2',g:'K10',ch:'Tổng hợp Bài 19+20+21',lv:'Mức 3',num:'3.2',
@@ -4021,15 +3995,15 @@ title:'Nhập điểm hợp lệ (0-10)',
 desc:`<b>Đề bài:</b> Yêu cầu người dùng nhập một giá trị điểm số.<br>•   Điểm số phải là một số nằm trong khoảng từ 0 đến 10 (bao gồm cả 0 và 10).<br>•   Nếu giá trị nhập vào không hợp lệ, chương trình cần thông báo và yêu cầu người dùng nhập lại cho đến khi nhận được một điểm số hợp lệ.<br>•   Sau khi nhận được điểm số hợp lệ, hiển thị điểm số đó.<br><br><b>Gợi ý:</b><br>Kiểm tra xem giá trị điểm số vừa nhập có thỏa mãn điều kiện nằm trong khoảng từ 0 đến 10 hay không. Nếu không, lặp lại quá trình yêu cầu nhập cho đến khi điều kiện được đáp ứng.`,
 rb:[
   {desc:'Nhập diem bằng float() và input()',kw:'float,input',pts:1,mode:'any',
-   hint:'diem = float(input("Nhập điểm: ")) trước vòng lặp.'},
+   hint:'trước vòng lặp.'},
   {desc:'Dùng while diem < 0 or diem > 10',kw:'while',pts:4,
-   hint:'while diem < 0 or diem > 10: lặp khi điểm không hợp lệ.'},
+   hint:''},
   {desc:'Nhập lại diem bên trong while',kw:'input',pts:2,
-   hint:'diem = float(input("Nhập lại: ")) bên trong while.'},
+   hint:'bên trong while.'},
   {desc:'In điểm hợp lệ bằng print()',kw:'print',pts:2,
-   hint:'print("Điểm đã nhận:", diem) sau vòng lặp.'},
+   hint:''},
   {desc:'Dùng or để kết hợp 2 điều kiện không hợp lệ',kw:'or',pts:1,
-   hint:'diem < 0 or diem > 10 — dùng or vì chỉ cần một điều kiện sai là không hợp lệ.'}
+   hint:''}
 ]},
 
 {id:'k10-th-3.3',g:'K10',ch:'Tổng hợp Bài 19+20+21',lv:'Mức 3',num:'3.3',
@@ -4037,15 +4011,15 @@ title:'Tính tiền mua sách (giảm giá)',
 desc:`<b>Đề bài:</b> Cho số lượng sách <b>n</b> và giá mỗi cuốn <b>p</b>. Tính tổng tiền phải trả sau khi áp dụng chính sách giảm giá:<br>• Nếu mua từ <b>10</b> cuốn trở lên, giảm <b>20%</b> tổng giá trị.<br>• Nếu mua từ <b>5</b> đến dưới <b>10</b> cuốn, giảm <b>10%</b> tổng giá trị.<br>• Nếu mua dưới <b>5</b> cuốn, không giảm giá.<br>In ra tổng tiền cuối cùng.<br><b>Gợi ý:</b> Kiểm tra số lượng sách để xác định mức giảm giá phù hợp, sau đó tính toán tổng tiền.`,
 rb:[
   {desc:'Nhập so_luong bằng input() và int()',kw:'input,int',pts:2,mode:'any',
-   hint:'so_luong = int(input("Nhập số lượng: "))'},
+   hint:''},
   {desc:'Tính thanh_tien = so_luong * 5000',kw:'5000',pts:3,
    hint:'thanh_tien = so_luong * 5000 (giá gốc).'},
   {desc:'Kiểm tra if so_luong >= 20 để giảm giá',kw:'>=20,>=20.0',pts:3,mode:'any',
-   hint:'if so_luong >= 20: thanh_tien = thanh_tien * 0.9 (giảm 10%).'},
+   hint:''},
   {desc:'Nhân 0.9 để giảm 10%',kw:'0.9',pts:1,
    hint:'thanh_tien *= 0.9 hoặc thanh_tien = thanh_tien * 0.9'},
   {desc:'In kết quả tiền phải trả bằng print()',kw:'print',pts:1,
-   hint:'print("Tiền phải trả:", thanh_tien) sau khi tính.'}
+   hint:''}
 ]},
 
 {id:'k10-th-4.1',g:'K10',ch:'Tổng hợp Bài 19+20+21',lv:'Mức 4 – Phân tích',num:'4.1',
@@ -4055,15 +4029,15 @@ rb:[
   {desc:'import math để dùng math.sqrt',kw:'math',pts:1,
    hint:'import math ở đầu chương trình.'},
   {desc:'Nhập n bằng input() và int()',kw:'input,int',pts:1,mode:'any',
-   hint:'n = int(input("Nhập n: "))'},
+   hint:''},
   {desc:'Khởi tạo cờ is_prime = True',kw:'is_prime=True',pts:1,
    hint:'is_prime = True trước vòng lặp.'},
   {desc:'Dùng while i <= math.sqrt(n)',kw:'sqrt',pts:3,
-   hint:'i = 2; while i <= math.sqrt(n): — chỉ kiểm tra đến √n.'},
+   hint:''},
   {desc:'Kiểm tra % i == 0 để tìm ước',kw:'% i',pts:2,
-   hint:'if n % i == 0: is_prime = False; break'},
+   hint:''},
   {desc:'In kết quả "nguyên tố" hoặc không',kw:'nguyên tố',pts:2,
-   hint:'if is_prime: print("Là số nguyên tố") else: print("Không phải số nguyên tố")'}
+   hint:''}
 ]},
 
 {id:'k10-th-4.2',g:'K10',ch:'Tổng hợp Bài 19+20+21',lv:'Mức 4',num:'4.2',
@@ -4071,13 +4045,13 @@ title:'In hình mẫu bảng số 10×10',
 desc:`<b>Đề bài:</b> Hãy viết chương trình in ra một bảng số gồm các số nguyên liên tiếp từ 1 đến 100. Mỗi hàng của bảng phải hiển thị chính xác 10 số. Các số trong cùng một hàng cần được phân tách với nhau bằng một ký tự khoảng trắng.<br><b>Gợi ý:</b> Bạn có thể dùng một quy trình lặp để xử lý từng số từ 1 đến 100. Trong quá trình này, hãy đếm số lượng số đã in trên mỗi hàng. Khi số lượng đạt đến 10, hãy chuyển sang hàng mới trước khi in số tiếp theo.`,
 rb:[
   {desc:'Dùng hai vòng lặp for lồng nhau',kw:'for',pts:3,
-   hint:'for hang in range(10): for cot in range(10): — hai vòng for lồng nhau.'},
+   hint:''},
   {desc:'Dùng range(10) cho cả hai vòng',kw:'range(10)',pts:2,
-   hint:'range(10) tạo dãy 0-9 cho cả hàng và cột.'},
+   hint:'.'},
   {desc:'Tính số = hang * 10 + cot + 1',kw:'hang * 10,hang*10',pts:3,mode:'any',
    hint:'so = hang * 10 + cot + 1 để tính số tương ứng với vị trí (hàng, cột).'},
   {desc:'In số và xuống dòng đúng cách',kw:'print',pts:2,
-   hint:'print(so, end=" ") bên trong vòng cot, print() sau vòng cot để xuống dòng.'}
+   hint:''}
 ]},
 
 {id:'k10-th-4.3',g:'K10',ch:'Tổng hợp Bài 19+20+21',lv:'Mức 4',num:'4.3',
@@ -4085,11 +4059,11 @@ title:'Bài toán lãi suất kép — Gấp đôi',
 desc:`<b>Đề bài:</b> Một người gửi tiết kiệm với lãi suất <b>r%/năm</b>. Hãy xác định số năm tối thiểu để số tiền gửi ban đầu tăng gấp đôi. In ra số năm cần thiết.<br><br><b>Gợi ý:</b> Bạn có thể bắt đầu với một số tiền ban đầu và một số năm bằng 0. Sau đó, lặp lại việc tăng số năm lên 1 và tính toán số tiền mới sau mỗi năm dựa trên lãi suất đã cho. Dừng lại khi số tiền đạt hoặc vượt quá hai lần số tiền ban đầu.`,
 rb:[
   {desc:'Nhập a và r bằng input()',kw:'input',pts:1,
-   hint:'a = float(input("Nhập tiền ban đầu: ")) và r = float(input("Nhập lãi suất: "))'},
+   hint:'và'},
   {desc:'Tính muc_tieu = a * 2',kw:'a * 2,a*2',pts:2,mode:'any',
    hint:'muc_tieu = a * 2 để biết khi nào đạt gấp đôi.'},
   {desc:'Dùng while hien_tai < muc_tieu',kw:'while',pts:3,
-   hint:'while hien_tai < muc_tieu: lặp khi chưa gấp đôi.'},
+   hint:''},
   {desc:'Tính lãi: hien_tai = hien_tai * (1 + r/100)',kw:'r/100',pts:3,
    hint:'hien_tai = hien_tai * (1 + r/100) mỗi năm.'},
   {desc:'In số năm và số tiền bằng print()',kw:'print',pts:1,
@@ -4107,7 +4081,7 @@ rb:[
   {desc:'Có "Hà Nội", "Đà Nẵng", "Sài Gòn" trong mảng',kw:'Hà Nội,Đà Nẵng,Sài Gòn',pts:3,mode:'any',
    hint:'Đảm bảo đúng tên 3 thành phố trong mảng.'},
   {desc:'In City[1] (phần tử thứ 2)',kw:'City[1]',pts:3,
-   hint:'print(City[1]) — chỉ số 1 là phần tử thứ 2 (vì bắt đầu từ 0).'},
+   hint:''},
   {desc:'Có chú thích # trong code',kw:'#',pts:1,
    hint:'Thêm ít nhất 1 dòng chú thích.'}
 ]},
@@ -4121,7 +4095,7 @@ rb:[
   {desc:'Gán A[0] = 99 để thay đổi phần tử đầu',kw:'A[0]=99',pts:5,
    hint:'A[0] = 99 — chỉ số 0 là phần tử đầu tiên.'},
   {desc:'In mảng A sau khi thay đổi',kw:'print(A)',pts:2,
-   hint:'print(A) để in toàn bộ mảng sau khi thay đổi.'},
+   hint:''},
   {desc:'Có chú thích # trong code',kw:'#',pts:1,
    hint:'Thêm ít nhất 1 dòng chú thích.'}
 ]},
@@ -4133,11 +4107,11 @@ rb:[
   {desc:'Khởi tạo Arr = [] (mảng rỗng)',kw:'Arr=[]',pts:3,
    hint:'Arr = [] để tạo mảng rỗng trước vòng lặp.'},
   {desc:'Dùng for i in range(1, 6)',kw:'range(1',pts:3,
-   hint:'range(1, 6) tạo dãy từ 1 đến 5.'},
+   hint:'.'},
   {desc:'Dùng Arr.append(i) để thêm phần tử',kw:'append',pts:3,
-   hint:'Arr.append(i) bên trong vòng lặp để thêm từng số vào mảng.'},
+   hint:'bên trong vòng lặp để thêm từng số vào mảng.'},
   {desc:'In mảng Arr bằng print()',kw:'print',pts:1,
-   hint:'print(Arr) sau vòng lặp.'}
+   hint:''}
 ]},
 
 {id:'k11-17-2.1',g:'K11',ch:'Bài 17: Dữ liệu mảng một chiều',lv:'Mức 2 – Hiểu',num:'2.1',
@@ -4149,11 +4123,11 @@ rb:[
   {desc:'Khởi tạo tong_duong = 0',kw:'tong_duong=0',pts:2,
    hint:'tong_duong = 0 trước vòng lặp.'},
   {desc:'Dùng for x in A để duyệt mảng',kw:'for x in A',pts:2,
-   hint:'for x in A: để duyệt qua từng phần tử.'},
+   hint:''},
   {desc:'Kiểm tra if x > 0 để lọc số dương',kw:'> 0',pts:3,
-   hint:'if x > 0: tong_duong += x để cộng dồn số dương.'},
+   hint:''},
   {desc:'In tổng số dương bằng print()',kw:'print',pts:1,
-   hint:'print("Tổng số dương:", tong_duong) sau vòng lặp.'}
+   hint:''}
 ]},
 
 {id:'k11-17-2.2',g:'K11',ch:'Bài 17: Dữ liệu mảng một chiều',lv:'Mức 2',num:'2.2',
@@ -4163,13 +4137,13 @@ rb:[
   {desc:'Khai báo Numbers = [1, 2, 3, 4, 5, 6, 7, 8]',kw:'Numbers=',pts:2,
    hint:'Numbers = [1, 2, 3, 4, 5, 6, 7, 8] — đặt đúng tên biến.'},
   {desc:'Dùng for x in Numbers để duyệt',kw:'for x in Numbers',pts:2,
-   hint:'for x in Numbers: để duyệt qua từng phần tử.'},
+   hint:''},
   {desc:'Kiểm tra % 2 == 0 để lọc số chẵn',kw:'% 2==0,%2==0',pts:3,mode:'any',
-   hint:'if x % 2 == 0: để kiểm tra số chẵn.'},
+   hint:'if.'},
   {desc:'Dùng if để kiểm tra điều kiện',kw:'if',pts:1,
-   hint:'if x % 2 == 0: bên trong vòng lặp.'},
+   hint:'if.'},
   {desc:'Dùng end=" " để in cùng hàng',kw:'end=',pts:2,
-   hint:'print(x, end=" ") để in số chẵn trên cùng hàng.'}
+   hint:''}
 ]},
 
 {id:'k11-17-2.3',g:'K11',ch:'Bài 17: Dữ liệu mảng một chiều',lv:'Mức 2',num:'2.3',
@@ -4181,11 +4155,11 @@ rb:[
   {desc:'Khởi tạo cờ co_rot = False',kw:'co_rot=False',pts:2,
    hint:'co_rot = False trước vòng lặp để đánh dấu có điểm rớt không.'},
   {desc:'Dùng for d in Diem để duyệt',kw:'for d in',pts:1,
-   hint:'for d in Diem: để duyệt qua từng điểm.'},
+   hint:''},
   {desc:'Kiểm tra if d < 5.0',kw:'< 5.0',pts:3,
-   hint:'if d < 5.0: co_rot = True để đánh dấu có điểm dưới 5.'},
+   hint:''},
   {desc:'In "Cần học lại" hoặc "Đạt"',kw:'Cần học lại,Đạt',pts:2,mode:'any',
-   hint:'if co_rot: print("Cần học lại") else: print("Đạt")'}
+   hint:''}
 ]},
 
 {id:'k11-17-3.1',g:'K11',ch:'Bài 17: Dữ liệu mảng một chiều',lv:'Mức 3 – Vận dụng',num:'3.1',
@@ -4193,15 +4167,15 @@ title:'Nhập mảng, tìm Max và Min',
 desc:`<b>Đề bài:</b> Yêu cầu người dùng nhập một số nguyên dương <b>n</b>, sau đó nhập <b>n</b> giá trị số nguyên để tạo thành một dãy số. Chương trình cần tìm và hiển thị giá trị lớn nhất và giá trị nhỏ nhất trong dãy số đã nhập.<br><b>Gợi ý:</b> Duyệt qua từng phần tử của dãy số, so sánh và cập nhật giá trị lớn nhất và nhỏ nhất đã tìm thấy.`,
 rb:[
   {desc:'Nhập n bằng input() và int()',kw:'input,int',pts:1,mode:'any',
-   hint:'n = int(input("Nhập số phần tử: "))'},
+   hint:''},
   {desc:'Dùng vòng for nhập và append vào mảng',kw:'append',pts:2,
-   hint:'for i in range(n): A.append(int(input(...))) để nhập từng phần tử.'},
+   hint:''},
   {desc:'Khởi tạo gia_tri_max = A[0]',kw:'A[0]',pts:2,
    hint:'gia_tri_max = A[0] và gia_tri_min = A[0] để bắt đầu so sánh.'},
   {desc:'Duyệt mảng và cập nhật max/min',kw:'if x >,if x <',pts:3,mode:'any',
-   hint:'for x in A: if x > gia_tri_max: gia_tri_max = x; if x < gia_tri_min: gia_tri_min = x'},
+   hint:''},
   {desc:'In Max và Min bằng print()',kw:'print',pts:2,
-   hint:'print("Max:", gia_tri_max) và print("Min:", gia_tri_min)'}
+   hint:''}
 ]},
 
 {id:'k11-17-3.2',g:'K11',ch:'Bài 17: Dữ liệu mảng một chiều',lv:'Mức 3',num:'3.2',
@@ -4213,13 +4187,13 @@ rb:[
   {desc:'Khởi tạo Chan = [] và Le = []',kw:'Chan=[]',pts:2,
    hint:'Chan = [] và Le = [] để chứa số chẵn và số lẻ.'},
   {desc:'Dùng for x in A để duyệt mảng',kw:'for x in A',pts:2,
-   hint:'for x in A: để duyệt qua từng phần tử.'},
+   hint:''},
   {desc:'Kiểm tra % 2 == 0 → Chan.append(x)',kw:'Chan.append',pts:2,
-   hint:'if x % 2 == 0: Chan.append(x) để thêm số chẵn vào Chan.'},
+   hint:'để thêm số chẵn vào Chan.'},
   {desc:'Trường hợp else → Le.append(x)',kw:'Le.append',pts:2,
-   hint:'else: Le.append(x) để thêm số lẻ vào Le.'},
+   hint:'else: để thêm số lẻ vào Le.'},
   {desc:'In cả hai mảng Chan và Le',kw:'print',pts:1,
-   hint:'print("Chẵn:", Chan) và print("Lẻ:", Le)'}
+   hint:''}
 ]},
 
 {id:'k11-17-3.3',g:'K11',ch:'Bài 17: Dữ liệu mảng một chiều',lv:'Mức 3',num:'3.3',
@@ -4229,13 +4203,13 @@ rb:[
   {desc:'Khai báo A = [...] định sẵn',kw:'A=[',pts:1,
    hint:'A = [10, 20, 10, 30, 40, 10]'},
   {desc:'Nhập x bằng input() và int()',kw:'input,int',pts:2,mode:'any',
-   hint:'x = int(input("Nhập số cần tìm: "))'},
+   hint:''},
   {desc:'Dùng for range(len(A)) để duyệt theo chỉ số',kw:'range(len',pts:3,
-   hint:'for i in range(len(A)): để duyệt theo chỉ số i.'},
+   hint:''},
   {desc:'Kiểm tra if A[i] == x để tìm vị trí',kw:'==x',pts:3,
-   hint:'if A[i] == x: print(i) để in vị trí tìm thấy.'},
+   hint:''},
   {desc:'In vị trí tìm thấy bằng print()',kw:'print',pts:1,
-   hint:'print("Vị trí:", i) khi tìm thấy.'}
+   hint:''}
 ]},
 
 {id:'k11-17-4.1',g:'K11',ch:'Bài 17: Dữ liệu mảng một chiều',lv:'Mức 4 – Phân tích',num:'4.1',
@@ -4245,13 +4219,13 @@ rb:[
   {desc:'Khởi tạo cờ tang_dan = True',kw:'tang_dan=True',pts:2,
    hint:'tang_dan = True trước vòng lặp.'},
   {desc:'Dùng for i in range(len(A) - 1)',kw:'range(len(A)',pts:3,
-   hint:'range(len(A) - 1) để so sánh từng cặp phần tử liền kề.'},
+   hint:'.'},
   {desc:'Kiểm tra if A[i] > A[i+1] để phát hiện vi phạm',kw:'A[i] > A[i+1]',pts:3,
-   hint:'if A[i] > A[i+1]: tang_dan = False; break — phần tử trước lớn hơn sau là vi phạm.'},
+   hint:''},
   {desc:'Dùng break để thoát sớm khi phát hiện',kw:'break',pts:1,
    hint:'break sau khi đặt tang_dan = False để thoát vòng lặp sớm.'},
   {desc:'In kết quả tăng dần hoặc không',kw:'print',pts:1,
-   hint:'if tang_dan: print("Mảng tăng dần") else: print("Mảng KHÔNG tăng dần")'}
+   hint:''}
 ]},
 
 {id:'k11-17-4.2',g:'K11',ch:'Bài 17: Dữ liệu mảng một chiều',lv:'Mức 4',num:'4.2',
@@ -4261,11 +4235,11 @@ rb:[
   {desc:'Khai báo A = [4, 1, 2, 1, 2]',kw:'A=[4',pts:2,
    hint:'A = [4, 1, 2, 1, 2]'},
   {desc:'Dùng for x in A để duyệt mảng',kw:'for x in A',pts:2,
-   hint:'for x in A: để duyệt qua từng phần tử.'},
+   hint:''},
   {desc:'Dùng A.count(x) == 1 để kiểm tra',kw:'count(x)==1',pts:4,
-   hint:'if A.count(x) == 1: — A.count(x) đếm số lần x xuất hiện trong A.'},
+   hint:''},
   {desc:'In số cô đơn bằng print()',kw:'print',pts:1,
-   hint:'print("Số cô đơn:", x) khi tìm thấy.'},
+   hint:''},
   {desc:'Dùng break sau khi tìm thấy',kw:'break',pts:1,
    hint:'break để thoát vòng lặp sau khi in số cô đơn.'}
 ]},
@@ -4279,13 +4253,13 @@ rb:[
   {desc:'Khởi tạo cờ la_doi_xung = True',kw:'True',pts:2,
    hint:'la_doi_xung = True trước vòng lặp.'},
   {desc:'Tính n = len(A)',kw:'len(A)',pts:1,
-   hint:'n = len(A) để biết độ dài mảng.'},
+   hint:''},
   {desc:'Dùng for i in range(n // 2)',kw:'n // 2',pts:3,
-   hint:'range(n // 2) để chỉ kiểm tra nửa đầu mảng.'},
+   hint:'.'},
   {desc:'Kiểm tra A[i] != A[n-1-i]',kw:'A[n',pts:2,
-   hint:'if A[i] != A[n-1-i]: la_doi_xung = False; break'},
+   hint:''},
   {desc:'In kết quả đối xứng hoặc không',kw:'đối xứng',pts:1,
-   hint:'if la_doi_xung: print("Mảng đối xứng") else: print("Mảng KHÔNG đối xứng")'}
+   hint:''}
 ]},
 
 /* Bài 22: Kiểu dữ liệu danh sách */
@@ -4298,7 +4272,7 @@ rb:[
   {desc:'Có "Toán", "Văn", "Anh" trong danh sách',kw:'Toán,Văn,Anh',pts:3,mode:'any',
    hint:'Đảm bảo đúng tên 3 môn học trong danh sách.'},
   {desc:'In MonHoc bằng print()',kw:'print',pts:2,
-   hint:'print(MonHoc) để in toàn bộ danh sách.'},
+   hint:''},
   {desc:'Có chú thích # trong code',kw:'#',pts:1,
    hint:'Thêm ít nhất 1 dòng chú thích.'}
 ]},
@@ -4310,9 +4284,9 @@ rb:[
   {desc:'Khai báo Diem = [8, 9, 7, 10]',kw:'Diem=[8',pts:3,
    hint:'Diem = [8, 9, 7, 10]'},
   {desc:'In Diem[0] (phần tử đầu tiên)',kw:'Diem[0]',pts:3,
-   hint:'print(Diem[0]) để in phần tử đầu tiên.'},
+   hint:''},
   {desc:'In Diem[-1] hoặc Diem[len-1] (phần tử cuối)',kw:'Diem[-1],Diem[len',pts:3,mode:'any',
-   hint:'print(Diem[-1]) — chỉ số -1 là phần tử cuối cùng trong Python.'},
+   hint:''},
   {desc:'Có chú thích # trong code',kw:'#',pts:1,
    hint:'Thêm ít nhất 1 dòng chú thích.'}
 ]},
@@ -4328,11 +4302,11 @@ rb:[
   {desc:'Khai báo A = [1, 2, 3]',kw:'A=[1, 2, 3]',pts:2,
    hint:'A = [1, 2, 3]'},
   {desc:'Dùng A.append(4) để thêm số 4',kw:'append(4)',pts:3,
-   hint:'A.append(4) thêm số 4 vào cuối danh sách.'},
+   hint:'thêm số 4 vào cuối danh sách.'},
   {desc:'Dùng del A[1] để xóa phần tử index 1',kw:'del A[1]',pts:3,
    hint:'del A[1] xóa phần tử ở vị trí index 1 (số 2).'},
   {desc:'In danh sách A sau khi thay đổi',kw:'print(A)',pts:2,
-   hint:'print(A) để kiểm tra kết quả [1, 3, 4].'}
+   hint:''}
 ]},
 
 {id:'k11-22-2.1',g:'K11',ch:'Bài 22: Kiểu dữ liệu danh sách',lv:'Mức 2 – Hiểu',num:'2.1',
@@ -4342,11 +4316,11 @@ rb:[
   {desc:'Khai báo A = [1, 5, 2, 8, 3]',kw:'A=[1, 5',pts:2,
    hint:'A = [1, 5, 2, 8, 3]'},
   {desc:'Dùng for i in range(len(A)) để duyệt',kw:'range(len',pts:2,
-   hint:'for i in range(len(A)): để duyệt theo chỉ số.'},
+   hint:''},
   {desc:'Kiểm tra if A[i] > 4',kw:'A[i] > 4',pts:3,
-   hint:'if A[i] > 4: để lọc số lớn hơn 4.'},
+   hint:''},
   {desc:'In A[i] bằng print()',kw:'print',pts:2,
-   hint:'print(A[i], end=" ") để in trên cùng hàng.'},
+   hint:''},
   {desc:'Có tiêu đề "lớn hơn" trong output',kw:'lớn hơn',pts:1,
    hint:'In tiêu đề như "Các số lớn hơn 4:" trước vòng lặp.'}
 ]},
@@ -4360,9 +4334,9 @@ rb:[
   {desc:'Khởi tạo tich = 1 (biến nhân)',kw:'tich=1',pts:3,
    hint:'tich = 1 trước vòng lặp. Chú ý: phải là 1, không phải 0!'},
   {desc:'Duyệt và nhân: for i in range(len(So)): tich *= So[i]',kw:'So[i]',pts:3,
-   hint:'for i in range(len(So)): tich *= So[i] để nhân dồn.'},
+   hint:''},
   {desc:'In tích bằng print()',kw:'print',pts:2,
-   hint:'print("Tích:", tich) sau vòng lặp.'}
+   hint:''}
 ]},
 
 {id:'k11-22-2.3',g:'K11',ch:'Bài 22: Kiểu dữ liệu danh sách',lv:'Mức 2',num:'2.3',
@@ -4372,11 +4346,11 @@ rb:[
   {desc:'Khai báo Gia = [100, 200, 300]',kw:'Gia=[100',pts:2,
    hint:'Gia = [100, 200, 300]'},
   {desc:'Dùng for i in range(len(Gia)) để duyệt',kw:'range(len',pts:3,
-   hint:'for i in range(len(Gia)): để duyệt theo chỉ số (cần chỉ số để cập nhật).'},
+   hint:''},
   {desc:'Cập nhật Gia[i] = Gia[i] - 10',kw:'Gia[i]=Gia[i]',pts:3,
    hint:'Gia[i] = Gia[i] - 10 hoặc Gia[i] -= 10 để giảm 10 đơn vị.'},
   {desc:'In danh sách Gia mới bằng print()',kw:'print',pts:2,
-   hint:'print("Danh sách mới:", Gia) sau vòng lặp.'}
+   hint:''}
 ]},
 
 {id:'k11-22-3.1',g:'K11',ch:'Bài 22: Kiểu dữ liệu danh sách',lv:'Mức 3 – Vận dụng',num:'3.1',
@@ -4388,13 +4362,13 @@ rb:[
   {desc:'Khởi tạo dem_chan = 0 và dem_le = 0',kw:'dem_chan=0',pts:2,
    hint:'dem_chan = 0 và dem_le = 0 trước vòng lặp.'},
   {desc:'Dùng for i in range(len(A)) để duyệt',kw:'range(len',pts:2,
-   hint:'for i in range(len(A)): để duyệt theo chỉ số.'},
+   hint:''},
   {desc:'Kiểm tra % 2 == 0 → tăng dem_chan',kw:'dem_chan',pts:2,
-   hint:'if A[i] % 2 == 0: dem_chan += 1'},
+   hint:''},
   {desc:'Trường hợp else → tăng dem_le',kw:'dem_le',pts:2,
    hint:'else: dem_le += 1'},
   {desc:'In cả hai kết quả bằng print()',kw:'print',pts:1,
-   hint:'print("Số chẵn:", dem_chan) và print("Số lẻ:", dem_le)'}
+   hint:''}
 ]},
 
 {id:'k11-22-3.2',g:'K11',ch:'Bài 22: Kiểu dữ liệu danh sách',lv:'Mức 3',num:'3.2',
@@ -4406,13 +4380,13 @@ rb:[
   {desc:'Khởi tạo Duong = [] và Am = []',kw:'Duong=[]',pts:2,
    hint:'Duong = [] và Am = [] để chứa số dương và số âm.'},
   {desc:'Dùng for i in range(len(A)) để duyệt',kw:'range(len',pts:2,
-   hint:'for i in range(len(A)): để duyệt theo chỉ số.'},
+   hint:''},
   {desc:'if A[i] > 0: Duong.append(A[i])',kw:'Duong.append',pts:2,
-   hint:'if A[i] > 0: Duong.append(A[i]) để thêm số dương.'},
+   hint:''},
   {desc:'elif A[i] < 0: Am.append(A[i])',kw:'Am.append',pts:2,
-   hint:'elif A[i] < 0: Am.append(A[i]) để thêm số âm (bỏ qua 0).'},
+   hint:''},
   {desc:'In cả hai danh sách bằng print()',kw:'print',pts:1,
-   hint:'print("Dương:", Duong) và print("Âm:", Am)'}
+   hint:''}
 ]},
 
 {id:'k11-22-3.3',g:'K11',ch:'Bài 22: Kiểu dữ liệu danh sách',lv:'Mức 3',num:'3.3',
@@ -4424,11 +4398,11 @@ rb:[
   {desc:'Khởi tạo A_dao_nguoc = []',kw:'A_dao_nguoc=[],A_daonguoc=[]',pts:2,mode:'any',
    hint:'A_dao_nguoc = [] để chứa danh sách đảo ngược.'},
   {desc:'Dùng for i in range(len(A)-1, -1, -1)',kw:'range(len(A)-1,range(len(a)-1',pts:4,mode:'any',
-   hint:'range(len(A)-1, -1, -1) duyệt từ cuối về đầu. Ví dụ: range(4, -1, -1) cho [4,3,2,1,0].'},
+   hint:'. Ví dụ:.'},
   {desc:'Dùng A_dao_nguoc.append(A[i])',kw:'append(A[i])',pts:2,
-   hint:'A_dao_nguoc.append(A[i]) để thêm phần tử từ cuối vào danh sách mới.'},
+   hint:'để thêm phần tử từ cuối vào danh sách mới.'},
   {desc:'In kết quả đảo ngược bằng print()',kw:'print',pts:1,
-   hint:'print("Đảo ngược:", A_dao_nguoc)'}
+   hint:''}
 ]},
 
 {id:'k11-22-4.1',g:'K11',ch:'Bài 22: Kiểu dữ liệu danh sách',lv:'Mức 4 – Phân tích',num:'4.1',
@@ -4438,13 +4412,13 @@ rb:[
   {desc:'Khai báo A = [10, 20, 5, 20, 8]',kw:'A=[10',pts:1,
    hint:'A = [10, 20, 5, 20, 8]'},
   {desc:'Tìm max1 (lớn nhất) bằng vòng lặp',kw:'max1',pts:2,
-   hint:'max1 = A[0]; for x in A: if x > max1: max1 = x'},
+   hint:''},
   {desc:'Tìm max2 (lớn thứ hai) bằng vòng lặp',kw:'max2',pts:3,
-   hint:'max2 = None; for x in A: if x < max1 and (max2 is None or x > max2): max2 = x'},
+   hint:''},
   {desc:'Điều kiện max2 < max1 và lớn nhất còn lại',kw:'max2=A',pts:2,
    hint:'max2 phải nhỏ hơn max1 và lớn hơn tất cả số còn lại.'},
   {desc:'In số lớn thứ hai bằng print()',kw:'print',pts:2,
-   hint:'print("Số lớn thứ hai:", max2)'}
+   hint:''}
 ]},
 
 {id:'k11-22-4.2',g:'K11',ch:'Bài 22: Kiểu dữ liệu danh sách',lv:'Mức 4',num:'4.2',
@@ -4456,13 +4430,13 @@ rb:[
   {desc:'Khởi tạo cờ la_doi_xung = True',kw:'la_doi_xung=True,doi_xung=True,palindrome=True',pts:2,mode:'any',
    hint:'la_doi_xung = True trước vòng lặp.'},
   {desc:'Tính n = len(A)',kw:'len(A)',pts:1,
-   hint:'n = len(A) để biết độ dài.'},
+   hint:''},
   {desc:'Dùng for i in range(n // 2)',kw:'n // 2',pts:3,
-   hint:'range(n // 2) để chỉ kiểm tra nửa đầu.'},
+   hint:'.'},
   {desc:'Kiểm tra if A[i] != A[n-1-i]',kw:'A[n-1-i],A[n - 1 - i],a[n-1-i]',pts:2,mode:'any',
-   hint:'if A[i] != A[n-1-i]: la_doi_xung = False; break'},
+   hint:''},
   {desc:'In kết quả đối xứng hoặc không',kw:'đối xứng',pts:1,
-   hint:'if la_doi_xung: print("Đối xứng") else: print("Không đối xứng")'}
+   hint:''}
 ]},
 
 {id:'k11-22-4.3',g:'K11',ch:'Bài 22: Kiểu dữ liệu danh sách',lv:'Mức 4',num:'4.3',
@@ -4474,13 +4448,13 @@ rb:[
   {desc:'Khởi tạo A_unique = []',kw:'A_unique=[]',pts:2,
    hint:'A_unique = [] để chứa phần tử duy nhất.'},
   {desc:'Dùng for i in range(len(A)) để duyệt',kw:'range(len',pts:2,
-   hint:'for i in range(len(A)): để duyệt theo chỉ số.'},
+   hint:''},
   {desc:'Kiểm tra exists/da_co bằng vòng lặp',kw:'exists,da_co,found,co_roi',pts:3,mode:'any',
-   hint:'exists = False; for j in range(len(A_unique)): if A_unique[j] == A[i]: exists = True; break'},
+   hint:''},
   {desc:'Thêm A_unique.append(A[i]) nếu chưa có',kw:'append(A[i])',pts:1,
-   hint:'if not exists: A_unique.append(A[i])'},
+   hint:''},
   {desc:'In kết quả A_unique bằng print()',kw:'print',pts:1,
-   hint:'print("Danh sách duy nhất:", A_unique)'}
+   hint:''}
 ]},
 
 /* Tổng hợp K11: Bài 17 & 22 */
@@ -4491,11 +4465,11 @@ rb:[
   {desc:'Khai báo TraiCay = ["Cam", "Xoài", "Nho"]',kw:'TraiCay',pts:2,
    hint:'TraiCay = ["Cam", "Xoài", "Nho"]'},
   {desc:'In TraiCay[1] (phần tử thứ 2)',kw:'TraiCay[1]',pts:3,
-   hint:'print(TraiCay[1]) — chỉ số 1 là phần tử thứ 2.'},
+   hint:''},
   {desc:'Gán TraiCay[0] = "Táo"',kw:'TraiCay[0]=',pts:3,
    hint:'TraiCay[0] = "Táo" để thay đổi phần tử đầu tiên.'},
   {desc:'In lại danh sách TraiCay sau thay đổi',kw:'print',pts:2,
-   hint:'print(TraiCay) lần 2 sau khi thay đổi.'}
+   hint:''}
 ]},
 
 {id:'k11-th-1.2',g:'K11',ch:'Tổng hợp Bài 17 & 22',lv:'Mức 1',num:'1.2',
@@ -4509,11 +4483,11 @@ rb:[
   {desc:'Khai báo A = [10, 20, 30]',kw:'A=[10, 20, 30]',pts:2,
    hint:'A = [10, 20, 30]'},
   {desc:'Dùng A.append(40) để thêm',kw:'append(40)',pts:3,
-   hint:'A.append(40) thêm 40 vào cuối danh sách.'},
+   hint:'thêm 40 vào cuối danh sách.'},
   {desc:'Dùng del A[1] để xóa phần tử index 1',kw:'del A[1]',pts:3,
    hint:'del A[1] xóa phần tử ở vị trí index 1 (số 20).'},
   {desc:'In A và len(A)',kw:'len(A)',pts:2,
-   hint:'print(A) và print(len(A)) để in danh sách và độ dài.'}
+   hint:''}
 ]},
 
 {id:'k11-th-1.3',g:'K11',ch:'Tổng hợp Bài 17 & 22',lv:'Mức 1',num:'1.3',
@@ -4523,11 +4497,11 @@ rb:[
   {desc:'Khởi tạo Numbers = []',kw:'Numbers=[]',pts:3,
    hint:'Numbers = [] để tạo danh sách rỗng.'},
   {desc:'Dùng for i in range(1, 6)',kw:'range(1, 6)',pts:3,
-   hint:'range(1, 6) tạo dãy từ 1 đến 5.'},
+   hint:'.'},
   {desc:'Dùng Numbers.append(i) để thêm',kw:'Numbers.append',pts:3,
-   hint:'Numbers.append(i) bên trong vòng lặp.'},
+   hint:'bên trong vòng lặp.'},
   {desc:'In Numbers bằng print()',kw:'print',pts:1,
-   hint:'print(Numbers) sau vòng lặp.'}
+   hint:''}
 ]},
 
 {id:'k11-th-2.1',g:'K11',ch:'Tổng hợp Bài 17 & 22',lv:'Mức 2 – Hiểu',num:'2.1',
@@ -4539,11 +4513,11 @@ rb:[
   {desc:'Khởi tạo tong_le = 0',kw:'tong_le=0',pts:2,
    hint:'tong_le = 0 trước vòng lặp.'},
   {desc:'Dùng for x in A để duyệt',kw:'for x in A',pts:2,
-   hint:'for x in A: để duyệt qua từng phần tử.'},
+   hint:''},
   {desc:'Kiểm tra % 2 != 0 để lọc số lẻ',kw:'%2!=0,%2 !=0,% 2!=0,% 2 !=0',pts:3,mode:'any',
-   hint:'if x % 2 != 0: tong_le += x — số lẻ có dư khi chia 2 là 1 (khác 0).'},
+   hint:''},
   {desc:'In tổng số lẻ bằng print()',kw:'print',pts:1,
-   hint:'print("Tổng số lẻ:", tong_le) sau vòng lặp.'}
+   hint:''}
 ]},
 
 {id:'k11-th-2.2',g:'K11',ch:'Tổng hợp Bài 17 & 22',lv:'Mức 2',num:'2.2',
@@ -4553,11 +4527,11 @@ rb:[
   {desc:'Khai báo DiemThi = [8.5, 4.0, 6.5, 9.0, 3.5, 7.0]',kw:'DiemThi=',pts:2,
    hint:'DiemThi = [8.5, 4.0, 6.5, 9.0, 3.5, 7.0]'},
   {desc:'Dùng for diem in DiemThi để duyệt',kw:'for diem in',pts:2,
-   hint:'for diem in DiemThi: để duyệt qua từng điểm.'},
+   hint:''},
   {desc:'Kiểm tra >= 5.0 để lọc điểm đạt',kw:'>=5.0,>=5',pts:3,mode:'any',
-   hint:'if diem >= 5.0: để lọc điểm đạt yêu cầu.'},
+   hint:''},
   {desc:'In diem bằng print()',kw:'print',pts:2,
-   hint:'print(diem, end=" ") để in trên cùng hàng.'},
+   hint:''},
   {desc:'Có tiêu đề "đạt" hoặc "yêu cầu"',kw:'đạt,yêu cầu',pts:1,mode:'any',
    hint:'In tiêu đề trước khi in điểm.'}
 ]},
@@ -4569,13 +4543,13 @@ rb:[
   {desc:'Khai báo Gia = [10, -5, 20, -2, 30]',kw:'Gia=[10',pts:2,
    hint:'Gia = [10, -5, 20, -2, 30]'},
   {desc:'Dùng for i in range(len(Gia)) để duyệt',kw:'range(len',pts:2,
-   hint:'for i in range(len(Gia)): để duyệt theo chỉ số (cần chỉ số để cập nhật).'},
+   hint:''},
   {desc:'Kiểm tra if Gia[i] < 0',kw:'< 0',pts:3,
-   hint:'if Gia[i] < 0: để phát hiện số âm.'},
+   hint:''},
   {desc:'Gán Gia[i] = 0 để sửa số âm',kw:'Gia[i]=0',pts:2,
    hint:'Gia[i] = 0 để thay số âm bằng 0.'},
   {desc:'In danh sách Gia sau khi sửa',kw:'print',pts:1,
-   hint:'print(Gia) sau vòng lặp.'}
+   hint:''}
 ]},
 
 {id:'k11-th-3.1',g:'K11',ch:'Tổng hợp Bài 17 & 22',lv:'Mức 3 – Vận dụng',num:'3.1',
@@ -4583,15 +4557,15 @@ title:'Nhập mảng và Tìm Min/Max',
 desc:`<b>Đề bài:</b> Bạn cần nhập vào một số nguyên dương <b>n</b> là số lượng phần tử. Sau đó, hãy nhập <b>n</b> số nguyên để tạo thành một danh sách. Nhiệm vụ của bạn là tìm ra và hiển thị giá trị lớn nhất cùng với giá trị nhỏ nhất có trong danh sách đã nhập.<br><br><b>Gợi ý:</b> Để tìm giá trị lớn nhất và nhỏ nhất, bạn có thể khởi tạo hai biến ban đầu để lưu trữ giá trị lớn nhất và nhỏ nhất tạm thời. Sau đó, duyệt qua từng phần tử trong danh sách. Với mỗi phần tử, hãy so sánh nó với giá trị lớn nhất tạm thời hiện có và cập nhật nếu tìm thấy giá trị lớn hơn. Tương tự, so sánh với giá trị nhỏ nhất tạm thời và cập nhật nếu tìm thấy giá trị nhỏ hơn.`,
 rb:[
   {desc:'Nhập n bằng input() và int()',kw:'input,int',pts:1,mode:'any',
-   hint:'n = int(input("Nhập số phần tử: "))'},
+   hint:''},
   {desc:'Dùng vòng for nhập và append vào mảng',kw:'append',pts:2,
-   hint:'Arr = []; for i in range(n): Arr.append(int(input(...)))'},
+   hint:''},
   {desc:'Khởi tạo gia_tri_max = Arr[0]',kw:'Arr[0]',pts:2,
    hint:'gia_tri_max = Arr[0] và gia_tri_min = Arr[0] để bắt đầu so sánh.'},
   {desc:'Duyệt mảng và cập nhật max/min',kw:'if x >',pts:3,
-   hint:'for x in Arr: if x > gia_tri_max: gia_tri_max = x; if x < gia_tri_min: gia_tri_min = x'},
+   hint:''},
   {desc:'In Max và Min bằng print()',kw:'print',pts:2,
-   hint:'print("Max:", gia_tri_max) và print("Min:", gia_tri_min)'}
+   hint:''}
 ]},
 
 {id:'k11-th-3.2',g:'K11',ch:'Tổng hợp Bài 17 & 22',lv:'Mức 3',num:'3.2',
@@ -4601,13 +4575,13 @@ rb:[
   {desc:'Khai báo Names = ["An", "Bình", "Cường", "An", "Dũng"]',kw:'Names=',pts:1,
    hint:'Names = ["An", "Bình", "Cường", "An", "Dũng"]'},
   {desc:'Nhập search_name bằng input()',kw:'input',pts:1,
-   hint:'search_name = input("Nhập tên cần tìm: ")'},
+   hint:''},
   {desc:'Dùng for i in range(len(Names)) để duyệt',kw:'range(len',pts:2,
-   hint:'for i in range(len(Names)): để duyệt theo chỉ số.'},
+   hint:''},
   {desc:'Kiểm tra if Names[i] == search_name',kw:'==search_name',pts:3,
-   hint:'if Names[i] == search_name: print(i) để in vị trí tìm thấy.'},
+   hint:''},
   {desc:'In vị trí tìm thấy bằng print()',kw:'print',pts:2,
-   hint:'print("Vị trí:", i) khi tìm thấy.'},
+   hint:''},
   {desc:'Xử lý trường hợp không tìm thấy',kw:'found,Không tìm',pts:1,mode:'any',
    hint:'Dùng biến found để kiểm tra và in thông báo nếu không tìm thấy.'}
 ]},
@@ -4621,13 +4595,13 @@ rb:[
   {desc:'Khởi tạo Chan = [] và Le = []',kw:'Le=[]',pts:2,
    hint:'Chan = [] và Le = [] để chứa số chẵn và số lẻ.'},
   {desc:'Dùng for x in A để duyệt',kw:'for x in A',pts:2,
-   hint:'for x in A: để duyệt qua từng phần tử.'},
+   hint:''},
   {desc:'Kiểm tra % 2 == 0 → Chan.append(x)',kw:'Chan.append',pts:2,
-   hint:'if x % 2 == 0: Chan.append(x)'},
+   hint:''},
   {desc:'Trường hợp else → Le.append(x)',kw:'Le.append',pts:2,
-   hint:'else: Le.append(x)'},
+   hint:'else:'},
   {desc:'In cả hai danh sách bằng print()',kw:'print',pts:1,
-   hint:'print("Chẵn:", Chan) và print("Lẻ:", Le)'}
+   hint:''}
 ]},
 
 {id:'k11-th-4.1',g:'K11',ch:'Tổng hợp Bài 17 & 22',lv:'Mức 4 – Phân tích',num:'4.1',
@@ -4639,13 +4613,13 @@ rb:[
   {desc:'Khởi tạo cờ is_palindrome = True',kw:'is_palindrome=True,palindrome=True,la_doi_xung=True,doi_xung=True',pts:2,mode:'any',
    hint:'is_palindrome = True trước vòng lặp.'},
   {desc:'Tính n = len(A)',kw:'len(A)',pts:1,
-   hint:'n = len(A) để biết độ dài.'},
+   hint:''},
   {desc:'Dùng for i in range(n // 2)',kw:'n // 2',pts:3,
-   hint:'range(n // 2) để chỉ kiểm tra nửa đầu mảng.'},
+   hint:'.'},
   {desc:'Kiểm tra A[i] != A[n-1-i]',kw:'n-1-i,n - 1 - i',pts:2,mode:'any',
-   hint:'if A[i] != A[n-1-i]: is_palindrome = False; break'},
+   hint:''},
   {desc:'In kết quả ĐỐI XỨNG hoặc KHÔNG',kw:'print',pts:1,
-   hint:'if is_palindrome: print("Mảng ĐỐI XỨNG") else: print("Mảng KHÔNG đối xứng")'}
+   hint:''}
 ]},
 
 {id:'k11-th-4.2',g:'K11',ch:'Tổng hợp Bài 17 & 22',lv:'Mức 4',num:'4.2',
@@ -4655,13 +4629,13 @@ rb:[
   {desc:'Khai báo A = [10, 5, 20, 8, 20, 15]',kw:'A=[10, 5',pts:1,
    hint:'A = [10, 5, 20, 8, 20, 15]'},
   {desc:'Tìm max_1 (lớn nhất) bằng vòng lặp',kw:'max_1',pts:2,
-   hint:'max_1 = A[0]; for x in A: if x > max_1: max_1 = x'},
+   hint:''},
   {desc:'Tìm max_2 (lớn thứ hai, nhỏ hơn max_1)',kw:'max_2',pts:3,
-   hint:'max_2 = None; for x in A: if x < max_1 and (max_2 is None or x > max_2): max_2 = x'},
+   hint:''},
   {desc:'Điều kiện x < max_1 khi tìm max_2',kw:'< max_1',pts:2,
    hint:'Điều kiện x < max_1 đảm bảo max_2 nhỏ hơn max_1.'},
   {desc:'In kết quả số lớn thứ hai bằng print()',kw:'print',pts:2,
-   hint:'print("Số lớn thứ hai:", max_2)'}
+   hint:''}
 ]},
 
 {id:'k11-th-4.3',g:'K11',ch:'Tổng hợp Bài 17 & 22',lv:'Mức 4',num:'4.3',
@@ -4673,13 +4647,13 @@ rb:[
   {desc:'Khởi tạo Unique_List = []',kw:'Unique_List=[]',pts:2,
    hint:'Unique_List = [] để chứa phần tử duy nhất.'},
   {desc:'Dùng for x in A để duyệt',kw:'for x in A',pts:2,
-   hint:'for x in A: để duyệt qua từng phần tử.'},
+   hint:''},
   {desc:'Kiểm tra da_co/exists bằng vòng lặp',kw:'da_co=False,exists=False,found=False,co_roi=False',pts:3,mode:'any',
-   hint:'da_co = False; for j in range(len(Unique_List)): if Unique_List[j] == x: da_co = True; break'},
+   hint:''},
   {desc:'Thêm Unique_List.append(x) nếu chưa có',kw:'Unique_List.append',pts:1,
-   hint:'if not da_co: Unique_List.append(x)'},
+   hint:''},
   {desc:'In Unique_List bằng print()',kw:'print',pts:1,
-   hint:'print(Unique_List) sau vòng lặp.'}
+   hint:''}
 ]},
 ];
 
@@ -4967,62 +4941,13 @@ function renderCriteria(e) {
     return '✅';
   }
 
-  // Hàm tạo gợi ý code mẫu dựa trên từ khóa
-  function getCriExample(kw, desc) {
-    const k = (kw + ' ' + desc).toLowerCase();
-    const keywords = kw.split(',').map(s => s.trim()).filter(Boolean);
-    const kw0 = keywords[0] || '';
-
-    if (/input/.test(k)) return `ten = input("Nhập tên: ")\nn = int(input("Nhập số: "))`;
-    if (/for.*range|range.*for/.test(k)) return `for i in range(n):\n    print(i)`;
-    if (/for/.test(k)) return `for i in range(10):\n    # xử lý từng phần tử\n    print(i)`;
-    if (/while/.test(k)) return `while dieu_kien:\n    # lặp cho đến khi điều kiện sai\n    i += 1`;
-    if (/elif/.test(k)) return `if x > 0:\n    print("dương")\nelif x < 0:\n    print("âm")\nelse:\n    print("không")`;
-    if (/else/.test(k)) return `if dieu_kien:\n    print("Đúng")\nelse:\n    print("Sai")`;
-    if (/if/.test(k)) return `if x > 0:\n    print("x là số dương")`;
-    if (/def/.test(k)) return `def ten_ham(tham_so):\n    # thân hàm\n    return ket_qua`;
-    if (/return/.test(k)) return `def tinh_tong(a, b):\n    return a + b`;
-    if (/float/.test(k)) return `x = float(input("Nhập số thực: "))`;
-    if (/int/.test(k)) return `n = int(input("Nhập số nguyên: "))`;
-    if (/print/.test(k)) return `print("Kết quả:", ket_qua)\nprint(f"Giá trị x = {x}")`;
-    if (/#/.test(k)) return `# Đây là chú thích giải thích code\nn = int(input())  # nhập số nguyên`;
-    if (/and/.test(k)) return `if a > 0 and b > 0:\n    print("Cả hai đều dương")`;
-    if (/or/.test(k)) return `if x < 0 or x > 100:\n    print("Ngoài khoảng")`;
-    if (/%/.test(k)) return `if n % 2 == 0:\n    print("Số chẵn")\nif n % 5 == 0:\n    print("Chia hết cho 5")`;
-    if (/round/.test(k)) return `ket_qua = round(so_thuc, 2)  # làm tròn 2 chữ số`;
-    if (/append|list/.test(k)) return `ds = []\nds.append(phan_tu)  # thêm phần tử vào danh sách`;
-    if (/sort/.test(k)) return `ds.sort()  # sắp xếp tăng dần\nds.sort(reverse=True)  # giảm dần`;
-    // Fallback: hiển thị từ khóa cần có
-    if (kw0) return `# Code cần chứa: ${keywords.join(', ')}`;
-    return '';
-  }
+  // Đã xóa getCriExample - không hiển thị code snippet trong tab đề bài
+  function getCriExample(kw, desc) { return ''; }
 
   // Hàm tạo mô tả chi tiết
   function getCriDetail(kw, desc, pts) {
-    const k = (kw + ' ' + desc).toLowerCase();
-    const keywords = kw.split(',').map(s => s.trim()).filter(Boolean);
-    const kwList = keywords.map(k => `<code>${esc(k)}</code>`).join(', ');
-
-    let detail = `Code của bạn cần chứa từ khóa: ${kwList}`;
-
-    if (/input/.test(k)) detail = `Dùng hàm <code>input()</code> để nhận dữ liệu từ bàn phím. Thường kết hợp với <code>int()</code> hoặc <code>float()</code> để chuyển kiểu.`;
-    else if (/for.*range|range.*for/.test(k)) detail = `Dùng vòng lặp <code>for i in range(...)</code> để lặp một số lần xác định. <code>range(n)</code> tạo dãy từ 0 đến n-1.`;
-    else if (/for/.test(k)) detail = `Dùng vòng lặp <code>for</code> để duyệt qua từng phần tử. Thường dùng với <code>range()</code> hoặc danh sách.`;
-    else if (/while/.test(k)) detail = `Dùng vòng lặp <code>while</code> khi không biết trước số lần lặp. Cần đảm bảo điều kiện sẽ trở thành False để thoát vòng lặp.`;
-    else if (/elif/.test(k)) detail = `Dùng <code>elif</code> để kiểm tra thêm điều kiện sau <code>if</code>. Cấu trúc: <code>if ... elif ... else ...</code>`;
-    else if (/else/.test(k)) detail = `Dùng <code>else</code> để xử lý trường hợp ngược lại khi điều kiện <code>if</code> sai.`;
-    else if (/if/.test(k)) detail = `Dùng câu lệnh <code>if</code> để kiểm tra điều kiện. Chỉ thực thi khối lệnh bên trong khi điều kiện đúng.`;
-    else if (/def/.test(k)) detail = `Dùng <code>def</code> để định nghĩa hàm. Hàm giúp tái sử dụng code và làm cho chương trình có cấu trúc rõ ràng hơn.`;
-    else if (/float/.test(k)) detail = `Dùng <code>float()</code> để chuyển chuỗi từ <code>input()</code> thành số thực (có phần thập phân).`;
-    else if (/int/.test(k)) detail = `Dùng <code>int()</code> để chuyển chuỗi từ <code>input()</code> thành số nguyên.`;
-    else if (/print/.test(k)) detail = `Dùng <code>print()</code> để hiển thị kết quả ra màn hình. Có thể dùng f-string: <code>print(f"Kết quả: {bien}")</code>`;
-    else if (/#/.test(k)) detail = `Thêm chú thích bằng ký tự <code>#</code> để giải thích code. Giúp người đọc hiểu mục đích của từng đoạn code.`;
-    else if (/and/.test(k)) detail = `Dùng <code>and</code> để kết hợp nhiều điều kiện — tất cả phải đúng thì kết quả mới đúng.`;
-    else if (/or/.test(k)) detail = `Dùng <code>or</code> để kết hợp điều kiện — chỉ cần một điều kiện đúng là kết quả đúng.`;
-    else if (/%/.test(k)) detail = `Dùng toán tử <code>%</code> (modulo) để lấy phần dư của phép chia. Ví dụ: <code>n % 2 == 0</code> kiểm tra số chẵn.`;
-    else if (/round/.test(k)) detail = `Dùng <code>round(số, n)</code> để làm tròn số thực đến n chữ số thập phân.`;
-
-    return detail;
+    // Chỉ hiển thị mô tả tiêu chí, không gợi ý code
+    return esc(desc);
   }
 
   let rubricRows = e.rb.map((r, i) => {
@@ -5293,7 +5218,7 @@ window.addEventListener('load', () => {
 //    → APIs & Services → Credentials → Create OAuth 2.0 Client ID
 //    → Application type: Web → Authorised origins: domain trường
 //
-const APP_VERSION = 'v4.9.27'; // tự động tăng mỗi lần cập nhật
+const APP_VERSION = 'v4.9.28'; // tự động tăng mỗi lần cập nhật
 // Cập nhật badge version từ APP_VERSION
 document.addEventListener('DOMContentLoaded', function() {
   const vb = document.getElementById('ver-badge');
