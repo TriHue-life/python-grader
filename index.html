@@ -142,6 +142,18 @@
   ::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:3px}
   .toast{position:fixed;bottom:20px;right:20px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:11px 16px;font-size:12.5px;color:var(--text);box-shadow:0 8px 32px rgba(0,0,0,.5);transform:translateY(70px);opacity:0;transition:all .3s cubic-bezier(.4,0,.2,1);z-index:999;max-width:280px}
   .toast.show{transform:translateY(0);opacity:1}
+  /* ── Anti-tab-switch overlay ── */
+  #antitab-overlay{display:none;position:fixed;inset:0;z-index:9999;background:rgba(13,17,23,.92);backdrop-filter:blur(6px);align-items:center;justify-content:center;flex-direction:column}
+  #antitab-overlay.show{display:flex}
+  #antitab-box{background:var(--surface);border:2px solid #f85149;border-radius:18px;padding:36px 40px;max-width:420px;width:calc(100vw - 40px);text-align:center;box-shadow:0 0 60px rgba(248,81,73,.35);animation:antitab-pop .3s cubic-bezier(.4,0,.2,1)}
+  @keyframes antitab-pop{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+  #antitab-icon{font-size:52px;margin-bottom:12px}
+  #antitab-title{font-size:20px;font-weight:800;color:#f85149;margin-bottom:8px}
+  #antitab-msg{font-size:13.5px;color:var(--text2);line-height:1.65;margin-bottom:22px}
+  #antitab-count{display:inline-block;background:rgba(248,81,73,.15);border:1px solid rgba(248,81,73,.4);border-radius:20px;padding:4px 14px;font-size:12px;font-weight:700;color:#f85149;margin-bottom:18px}
+  #antitab-btn{background:#f85149;color:#fff;border:none;border-radius:10px;padding:11px 28px;font-size:14px;font-weight:700;cursor:pointer;transition:background .15s}
+  #antitab-btn:hover{background:#ff6b6b}
+  #antitab-badge{position:fixed;top:10px;left:50%;transform:translateX(-50%);z-index:1000;background:rgba(248,81,73,.15);border:1px solid rgba(248,81,73,.5);border-radius:20px;padding:4px 14px;font-size:11.5px;font-weight:700;color:#f85149;display:none;pointer-events:none}
   .input-overlay{display:none;position:fixed;inset:0;background:rgba(13,17,23,.85);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
   .input-overlay.show{display:flex}
   .input-box{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px 28px;min-width:340px;max-width:480px}
@@ -665,7 +677,7 @@
   </div>
   <div style="display:flex;align-items:center;gap:10px">
     <button onclick="window.location.reload(true)" title="Cập nhật phiên bản mới" style="background:none;border:none;cursor:pointer;font-size:14px;padding:4px;opacity:0.6;color:var(--text2);" id="reload-btn">🔄</button>
-    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.25</span>
+    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.26</span>
     <!-- Google auth area (hidden — login via AI panel only) -->
     <div id="google-auth-area" style="display:none">
       <div id="g-signin-wrap"></div>
@@ -706,6 +718,19 @@
 </div>
 <!-- CDD Overlay + Popup (shared) -->
 <div id="cdd-overlay" onclick="cddClose()"></div>
+
+<!-- Anti-tab-switch overlay -->
+<div id="antitab-overlay">
+  <div id="antitab-box">
+    <div id="antitab-icon">⚠️</div>
+    <div id="antitab-title">Cảnh báo vi phạm!</div>
+    <div id="antitab-msg">Bạn đã rời khỏi trang thi.<br>Hành vi này đã được ghi nhận.</div>
+    <div id="antitab-count"></div>
+    <button id="antitab-btn" onclick="antitabDismiss()">Tiếp tục làm bài</button>
+  </div>
+</div>
+<!-- Badge cảnh báo nhỏ trên header -->
+<div id="antitab-badge">⚠️ Đã rời tab: <span id="antitab-badge-count">0</span> lần</div>
 <div id="cdd-popup">
   <div id="cdd-popup-title"></div>
   <div id="cdd-popup-list"></div>
@@ -5286,7 +5311,7 @@ window.addEventListener('load', () => {
 //    → APIs & Services → Credentials → Create OAuth 2.0 Client ID
 //    → Application type: Web → Authorised origins: domain trường
 //
-const APP_VERSION = 'v4.9.25'; // tự động tăng mỗi lần cập nhật
+const APP_VERSION = 'v4.9.26'; // tự động tăng mỗi lần cập nhật
 // Cập nhật badge version từ APP_VERSION
 document.addEventListener('DOMContentLoaded', function() {
   const vb = document.getElementById('ver-badge');
@@ -5817,6 +5842,147 @@ setTimeout(initGoogleSignIn, 1500);
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') cddClose();
 });
+</script>
+
+<script>
+// ══════════════════════════════════════════════════════════════════
+//  ANTI-TAB-SWITCH (chống chuyển tab trong giờ thi)
+// ══════════════════════════════════════════════════════════════════
+(function() {
+  'use strict';
+
+  // ── Config ──
+  const MAX_VIOLATIONS = 1;  // số lần cảnh báo trước khi chấm điểm (1 = cảnh báo lần 1, lần 2 chấm luôn)
+
+  // ── State ──
+  let violations = 0;        // số lần đã rời tab
+  let antitabEnabled = false; // chỉ bật khi có bài tập được chọn
+  let grading = false;        // đang trong quá trình chấm tự động
+
+  // ── DOM refs ──
+  const overlay   = document.getElementById('antitab-overlay');
+  const countEl   = document.getElementById('antitab-count');
+  const msgEl     = document.getElementById('antitab-msg');
+  const titleEl   = document.getElementById('antitab-title');
+  const iconEl    = document.getElementById('antitab-icon');
+  const btnEl     = document.getElementById('antitab-btn');
+  const badge     = document.getElementById('antitab-badge');
+  const badgeCnt  = document.getElementById('antitab-badge-count');
+
+  // ── Bật/tắt anti-tab ──
+  // Được gọi tự động khi có bài tập được chọn (desktop only)
+  function enable() {
+    if (antitabEnabled) return;
+    if (window.innerWidth < 1024) return; // chỉ desktop
+    antitabEnabled = true;
+    violations = 0;
+    badge.style.display = 'none';
+  }
+
+  function disable() {
+    antitabEnabled = false;
+    overlay.classList.remove('show');
+  }
+
+  // ── Xử lý khi rời tab ──
+  function handleVisibilityChange() {
+    if (!antitabEnabled) return;
+    if (document.hidden) {
+      violations++;
+      badgeCnt.textContent = violations;
+      badge.style.display = 'block';
+
+      if (violations > MAX_VIOLATIONS) {
+        // Lần 2+: chấm điểm luôn
+        triggerAutoGrade();
+      } else {
+        // Lần 1: chỉ cảnh báo
+        showWarning();
+      }
+    }
+  }
+
+  // ── Hiển cảnh báo lần 1 ──
+  function showWarning() {
+    iconEl.textContent = '⚠️';
+    titleEl.textContent = 'Cảnh báo vi phạm!';
+    titleEl.style.color = '#f85149';
+    msgEl.innerHTML = 'Bạn đã rời khỏi trang thi.<br>Hành vi này đã được ghi nhận.';
+    countEl.textContent = '⚠️ Lần vi phạm: ' + violations + ' / ' + (MAX_VIOLATIONS + 1) + ' — Lần sau sẽ chấm điểm ngay!';
+    btnEl.textContent = 'Tiếp tục làm bài';
+    btnEl.style.background = '#f85149';
+    btnEl.onclick = antitabDismiss;
+    overlay.classList.add('show');
+  }
+
+  // ── Chấm điểm tự động khi vi phạm lần 2 ──
+  function triggerAutoGrade() {
+    if (grading) return;
+    grading = true;
+    iconEl.textContent = '📊';
+    titleEl.textContent = 'Bài đã được nộp!';
+    titleEl.style.color = '#58a6ff';
+    msgEl.innerHTML = 'Bạn đã rời trang thi lần thứ <strong>' + violations + '</strong>.<br>Hệ thống tự động chấm điểm bài làm của bạn.';
+    countEl.textContent = '🔒 Bài đã bị khóa — Không thể sửa thêm';
+    btnEl.textContent = 'Xem kết quả';
+    btnEl.style.background = '#58a6ff';
+    btnEl.onclick = function() {
+      overlay.classList.remove('show');
+      // Khóa editor
+      lockEditor();
+      // Chấm điểm
+      if (typeof gradeCode === 'function') gradeCode();
+    };
+    overlay.classList.add('show');
+    // Khóa editor ngay
+    lockEditor();
+    // Disable anti-tab sau khi đã chấm
+    antitabEnabled = false;
+  }
+
+  // ── Khóa editor ──
+  function lockEditor() {
+    const ci = document.getElementById('code-input');
+    if (ci) {
+      ci.readOnly = true;
+      ci.style.opacity = '0.65';
+      ci.style.cursor = 'not-allowed';
+    }
+    // Khóa nút Run và Chấm điểm
+    document.querySelectorAll('.btn').forEach(b => {
+      if (b.textContent.includes('Chạy') || b.textContent.includes('Chấm')) {
+        b.disabled = true;
+        b.style.opacity = '0.5';
+      }
+    });
+  }
+
+  // ── Đóng cảnh báo (lần 1) ──
+  window.antitabDismiss = function() {
+    overlay.classList.remove('show');
+  };
+
+  // ── Bật anti-tab khi chọn bài tập ──
+  // Hook vào hàm onExChange_cdd hiện có
+  const _origOnEx = window.onExChange_cdd;
+  window.onExChange_cdd = function(id) {
+    if (_origOnEx) _origOnEx.apply(this, arguments);
+    if (id) {
+      // Bật sau 500ms để trang ổn định
+      setTimeout(enable, 500);
+    } else {
+      disable();
+    }
+  };
+
+  // ── Lắng nghe sự kiện ──
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+
+  // ── Expose API ──
+  window.antitabEnable  = enable;
+  window.antitabDisable = disable;
+
+})();
 </script>
 
 
