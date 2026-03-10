@@ -677,7 +677,7 @@
   </div>
   <div style="display:flex;align-items:center;gap:10px">
     <button onclick="window.location.reload(true)" title="Cập nhật phiên bản mới" style="background:none;border:none;cursor:pointer;font-size:14px;padding:4px;opacity:0.6;color:var(--text2);" id="reload-btn">🔄</button>
-    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.28</span>
+    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.29</span>
     <!-- Google auth area (hidden — login via AI panel only) -->
     <div id="google-auth-area" style="display:none">
       <div id="g-signin-wrap"></div>
@@ -4873,7 +4873,7 @@ function cddSelect(which, value) {
 
 function onExChange_cdd(id) {
   currentExId = id || '';
-  if (!id) { closeDesc(); return; }
+  if (!id) { closeDesc(); if (typeof antitabDisable === 'function') antitabDisable(); return; }
   const e = EXERCISES.find(x => x.id === id);
   if (!e) return;
 
@@ -4907,10 +4907,11 @@ function onExChange_cdd(id) {
     if (isLandscapeNow()) lsSwitch('grade');
     else mobilePanel('grade');
   }
-  // Refresh highlight for current code
+   // Refresh highlight for current code
   updateHighlight();
+  // Bật chế độ chống chuyển tab khi có bài tập
+  setTimeout(function() { if (typeof antitabEnable === 'function') antitabEnable(); }, 300);
 }
-
 // ── Render criteria tab (public rubric display) ───────────────────────────────
 function renderCriteria(e) {
   const container = document.getElementById('criteria-content');
@@ -5218,7 +5219,7 @@ window.addEventListener('load', () => {
 //    → APIs & Services → Credentials → Create OAuth 2.0 Client ID
 //    → Application type: Web → Authorised origins: domain trường
 //
-const APP_VERSION = 'v4.9.28'; // tự động tăng mỗi lần cập nhật
+const APP_VERSION = 'v4.9.29'; // tự động tăng mỗi lần cập nhật
 // Cập nhật badge version từ APP_VERSION
 document.addEventListener('DOMContentLoaded', function() {
   const vb = document.getElementById('ver-badge');
@@ -5869,23 +5870,9 @@ document.addEventListener('keydown', function(e) {
     overlay.classList.remove('show');
   };
 
-  // ── Bật anti-tab khi chọn bài tập ──
-  // Hook vào hàm onExChange_cdd hiện có
-  const _origOnEx = window.onExChange_cdd;
-  window.onExChange_cdd = function(id) {
-    if (_origOnEx) _origOnEx.apply(this, arguments);
-    if (id) {
-      // Bật sau 500ms để trang ổn định
-      setTimeout(enable, 500);
-    } else {
-      disable();
-    }
-  };
-
-  // ── Lắng nghe sự kiện ──
+    // ── Lắng nghe sự kiện ──
   document.addEventListener('visibilitychange', handleVisibilityChange);
-
-  // ── Expose API ──
+  // ── Expose API ── (onExChange_cdd sẽ gọi antitabEnable/Disable trực tiếp)
   window.antitabEnable  = enable;
   window.antitabDisable = disable;
 
