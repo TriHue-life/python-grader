@@ -677,7 +677,7 @@
   </div>
   <div style="display:flex;align-items:center;gap:10px">
     <button onclick="window.location.reload(true)" title="Cập nhật phiên bản mới" style="background:none;border:none;cursor:pointer;font-size:14px;padding:4px;opacity:0.6;color:var(--text2);" id="reload-btn">🔄</button>
-    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.29</span>
+    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.30</span>
     <!-- Google auth area (hidden — login via AI panel only) -->
     <div id="google-auth-area" style="display:none">
       <div id="g-signin-wrap"></div>
@@ -4148,17 +4148,17 @@ rb:[
 
 {id:'k11-17-2.3',g:'K11',ch:'Bài 17: Dữ liệu mảng một chiều',lv:'Mức 2',num:'2.3',
 title:'Kiểm tra có điểm dưới 5.0',
-desc:`<b>Đề bài:</b> Cho danh sách điểm <b>Diem = [8.5, 4.0, 7.0, 9.5, 3.5]</b>. Xác định xem trong danh sách này có bất kỳ điểm nào có giá trị nhỏ hơn 5.0 hay không. Xuất ra thông báo tương ứng.<b>Gợi ý:</b> Duyệt qua từng phần tử trong danh sách điểm. Với mỗi phần tử, so sánh giá trị của nó với 5.0. Nếu tìm thấy một điểm nhỏ hơn 5.0, có thể kết luận ngay.`,
+desc:`<b>Đề bài:</b> Cho danh sách điểm <b>Diem = [8.5, 9.0, 7.5, 6.0, 4.0]</b>. Xác định xem trong danh sách này có bất kỳ điểm nào có giá trị nhỏ hơn 5.0 hay không. Xuất ra thông báo tương ứng.<b>Gợi ý:</b> Duyệt qua từng phần tử trong danh sách điểm. Với mỗi phần tử, so sánh giá trị của nó với 5.0. Nếu tìm thấy một điểm nhỏ hơn 5.0, có thể kết luận ngay.`,
 rb:[
   {desc:'Khai báo Diem = [8.5, 9.0, 7.5, 6.0, 4.0]',kw:'Diem=',pts:2,
-   hint:'Diem = [8.5, 9.0, 7.5, 6.0, 4.0] — đặt đúng tên biến.'},
-  {desc:'Khởi tạo cờ co_rot = False',kw:'co_rot=False',pts:2,
-   hint:'co_rot = False trước vòng lặp để đánh dấu có điểm rớt không.'},
+   hint:''},
+  {desc:'Khởi tạo biến cờ (co_rot = True hoặc co_rot = False)',kw:'co_rot=True,co_rot=False',pts:2,mode:'any',
+   hint:''},
   {desc:'Dùng for d in Diem để duyệt',kw:'for d in',pts:1,
    hint:''},
   {desc:'Kiểm tra if d < 5.0',kw:'< 5.0',pts:3,
    hint:''},
-  {desc:'In "Cần học lại" hoặc "Đạt"',kw:'Cần học lại,Đạt',pts:2,mode:'any',
+  {desc:'In “Cần học lại” hoặc “Đạt”',kw:'Cần học lại,Đạt',pts:2,mode:'any',
    hint:''}
 ]},
 
@@ -5219,7 +5219,7 @@ window.addEventListener('load', () => {
 //    → APIs & Services → Credentials → Create OAuth 2.0 Client ID
 //    → Application type: Web → Authorised origins: domain trường
 //
-const APP_VERSION = 'v4.9.29'; // tự động tăng mỗi lần cập nhật
+const APP_VERSION = 'v4.9.30'; // tự động tăng mỗi lần cập nhật
 // Cập nhật badge version từ APP_VERSION
 document.addEventListener('DOMContentLoaded', function() {
   const vb = document.getElementById('ver-badge');
