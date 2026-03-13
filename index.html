@@ -677,7 +677,7 @@
   </div>
   <div style="display:flex;align-items:center;gap:10px">
     <button onclick="window.location.reload(true)" title="Cập nhật phiên bản mới" style="background:none;border:none;cursor:pointer;font-size:14px;padding:4px;opacity:0.6;color:var(--text2);" id="reload-btn">🔄</button>
-    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.30</span>
+    <span id="ver-badge" class="badge" style="font-size:13px;font-weight:700;color:#e0c8ff;letter-spacing:0.5px;padding:4px 10px;box-shadow:0 0 10px rgba(188,140,255,0.6);border-color:rgba(188,140,255,0.6);background:rgba(188,140,255,0.12)">v4.9.31</span>
     <!-- Google auth area (hidden — login via AI panel only) -->
     <div id="google-auth-area" style="display:none">
       <div id="g-signin-wrap"></div>
@@ -3381,10 +3381,10 @@ rb:[
    hint:'để nhận số thực.'},
   {desc:'Dùng and kết hợp 2 điều kiện',kw:'and',pts:3,
    hint:''},
-  {desc:'Kiểm tra x > 0',kw:'> 0',pts:2,
-   hint:'Điều kiện thứ nhất: x > 0 (khoảng mở, không bao gồm 0).'},
-  {desc:'Kiểm tra x < 100',kw:'< 100',pts:2,
-   hint:'Điều kiện thứ hai: x < 100 (khoảng mở, không bao gồm 100).'},
+  {desc:'Kiểm tra x >= 0',kw:'>= 0,>=0',pts:2,mode:'any',
+   hint:'Điều kiện thứ nhất: x >= 0 (bao gồm 0).'},
+  {desc:'Kiểm tra x <= 100',kw:'<= 100,<=100',pts:2,mode:'any',
+   hint:'Điều kiện thứ hai: x <= 100 (bao gồm 100).'},
   {desc:'In kết quả bằng print()',kw:'print',pts:1,
    hint:'In thông báo phù hợp trong mỗi nhánh.'}
 ]},
@@ -3415,8 +3415,10 @@ rb:[
    hint:'vì khối lượng có thể là số thực.'},
   {desc:'Kiểm tra điều kiện if khoi_luong < 5',kw:'if',pts:2,
    hint:'Kiểm tra khoi_luong < 5: để phân biệt 2 mức giá.'},
-  {desc:'Tính tong_tien = khoi_luong * đơn giá',kw:'tong_tien',pts:3,
-   hint:'tong_tien = khoi_luong * 12000 (dưới 5kg) hoặc khoi_luong * 10000 (từ 5kg).'},
+  {desc:'Tính tong_tien = khoi_luong * đơn giá',kw:'tong_tien',pts:2,
+   hint:'tong_tien = khoi_luong * 18000 (dưới 5kg) hoặc khoi_luong * 15000 (từ 5kg).'},
+  {desc:'Dùng đơn giá đúng: 18000 (dưới 5kg) và 15000 (từ 5kg)',kw:'18000,15000',pts:1,mode:'any',
+   hint:'Giá dưới 5kg: 18000đ/kg, từ 5kg: 15000đ/kg.'},
   {desc:'Có nhánh else cho trường hợp >= 5kg',kw:'else',pts:1,
    hint:'Cần else để tính giá cho trường hợp mua từ 5kg trở lên.'},
   {desc:'In kết quả tổng tiền bằng print()',kw:'print',pts:2,
@@ -4010,15 +4012,21 @@ rb:[
 title:'Tính tiền mua sách (giảm giá)',
 desc:`<b>Đề bài:</b> Cho số lượng sách <b>n</b> và giá mỗi cuốn <b>p</b>. Tính tổng tiền phải trả sau khi áp dụng chính sách giảm giá:<br>• Nếu mua từ <b>10</b> cuốn trở lên, giảm <b>20%</b> tổng giá trị.<br>• Nếu mua từ <b>5</b> đến dưới <b>10</b> cuốn, giảm <b>10%</b> tổng giá trị.<br>• Nếu mua dưới <b>5</b> cuốn, không giảm giá.<br>In ra tổng tiền cuối cùng.<br><b>Gợi ý:</b> Kiểm tra số lượng sách để xác định mức giảm giá phù hợp, sau đó tính toán tổng tiền.`,
 rb:[
-  {desc:'Nhập so_luong bằng input() và int()',kw:'input,int',pts:2,mode:'any',
-   hint:''},
-  {desc:'Tính thanh_tien = so_luong * 5000',kw:'5000',pts:3,
-   hint:'thanh_tien = so_luong * 5000 (giá gốc).'},
-  {desc:'Kiểm tra if so_luong >= 20 để giảm giá',kw:'>=20,>=20.0',pts:3,mode:'any',
-   hint:''},
+  {desc:'Nhập so_luong bằng input() và int()',kw:'input,int',pts:1,mode:'any',
+   hint:'so_luong = int(input(...))'},
+  {desc:'Nhập gia_moi_cuon (hoặc p) bằng input()',kw:'input',pts:1,
+   hint:'p = int(input(...)) hoặc float(input(...))'},
+  {desc:'Tính thanh_tien = so_luong * gia (giá gốc)',kw:'so_luong *,* so_luong',pts:2,mode:'any',
+   hint:'thanh_tien = so_luong * p'},
+  {desc:'Kiểm tra if so_luong >= 10 để giảm 20%',kw:'>=10,>= 10',pts:2,mode:'any',
+   hint:'if so_luong >= 10: giảm 20%'},
+  {desc:'Nhân 0.8 để giảm 20%',kw:'0.8',pts:2,
+   hint:'thanh_tien *= 0.8'},
+  {desc:'Kiểm tra elif so_luong >= 5 để giảm 10%',kw:'>=5,>= 5',pts:1,mode:'any',
+   hint:'elif so_luong >= 5: giảm 10%'},
   {desc:'Nhân 0.9 để giảm 10%',kw:'0.9',pts:1,
-   hint:'thanh_tien *= 0.9 hoặc thanh_tien = thanh_tien * 0.9'},
-  {desc:'In kết quả tiền phải trả bằng print()',kw:'print',pts:1,
+   hint:'thanh_tien *= 0.9'},
+  {desc:'In kết quả tiền phải trả bằng print()',kw:'print',pts:0,
    hint:''}
 ]},
 
@@ -4077,8 +4085,8 @@ title:'Khởi tạo mảng City',
 desc:`<b>Đề bài:</b> Yêu cầu tạo một cấu trúc dữ liệu có tên <b>City</b> để lưu trữ ba chuỗi ký tự là tên các thành phố: "Hà Nội", "Đà Nẵng", "TP.HCM". Sau đó, hiển thị toàn bộ nội dung của cấu trúc dữ liệu <b>City</b> này ra màn hình.<br><br><b>Gợi ý:</b> Để tạo cấu trúc dữ liệu chứa nhiều phần tử, bạn có thể khởi tạo nó với các giá trị đã cho. Sau đó, sử dụng một thao tác để xuất các phần tử này ra thiết bị hiển thị.`,
 rb:[
   {desc:'Khởi tạo City = [...] với 3 thành phố',kw:'City=',pts:3,
-   hint:'City = ["Hà Nội", "Đà Nẵng", "Sài Gòn"] — đặt tên biến đúng là City.'},
-  {desc:'Có "Hà Nội", "Đà Nẵng", "Sài Gòn" trong mảng',kw:'Hà Nội,Đà Nẵng,Sài Gòn',pts:3,mode:'any',
+   hint:'City = ["Hà Nội", "Đà Nẵng", "TP.HCM"] — đặt tên biến đúng là City.'},
+  {desc:'Có "Hà Nội", "Đà Nẵng", "TP.HCM" trong mảng',kw:'Hà Nội,Đà Nẵng,TP.HCM',pts:3,mode:'any',
    hint:'Đảm bảo đúng tên 3 thành phố trong mảng.'},
   {desc:'In City[1] (phần tử thứ 2)',kw:'City[1]',pts:3,
    hint:''},
@@ -4090,8 +4098,8 @@ rb:[
 title:'Thay đổi phần tử đầu tiên',
 desc:`<b>Đề bài:</b> Cho một dãy số <b>A = [10, 20, 30]</b>. Yêu cầu thay đổi giá trị của phần tử đầu tiên trong dãy thành <b>99</b>. Sau đó, hiển thị dãy số <b>A</b> sau khi đã được cập nhật.`,
 rb:[
-  {desc:'Khai báo A = [10, 20, 30, 40, 50]',kw:'A=[10',pts:2,
-   hint:'A = [10, 20, 30, 40, 50] — đặt đúng giá trị ban đầu.'},
+  {desc:'Khai báo A = [10, 20, 30]',kw:'A=[10',pts:2,
+   hint:'A = [10, 20, 30] — đặt đúng giá trị ban đầu.'},
   {desc:'Gán A[0] = 99 để thay đổi phần tử đầu',kw:'A[0]=99',pts:5,
    hint:'A[0] = 99 — chỉ số 0 là phần tử đầu tiên.'},
   {desc:'In mảng A sau khi thay đổi',kw:'print(A)',pts:2,
@@ -4134,8 +4142,8 @@ rb:[
 title:'In số chẵn trong mảng',
 desc:`<b>Đề bài:</b> Cho một dãy số nguyên <b>A = [1, 4, 7, 8, 3, 6]</b>. Yêu cầu hiển thị tất cả các số chẵn có trong dãy số này.<br><b>Gợi ý:</b> Duyệt qua từng phần tử trong dãy số. Với mỗi phần tử, kiểm tra xem nó có chia hết cho 2 hay không. Nếu có, hiển thị phần tử đó.`,
 rb:[
-  {desc:'Khai báo Numbers = [1, 2, 3, 4, 5, 6, 7, 8]',kw:'Numbers=',pts:2,
-   hint:'Numbers = [1, 2, 3, 4, 5, 6, 7, 8] — đặt đúng tên biến.'},
+  {desc:'Khai báo Numbers = [1, 4, 7, 8, 3, 6]',kw:'Numbers=',pts:2,
+   hint:'Numbers = [1, 4, 7, 8, 3, 6] — đặt đúng tên biến.'},
   {desc:'Dùng for x in Numbers để duyệt',kw:'for x in Numbers',pts:2,
    hint:''},
   {desc:'Kiểm tra % 2 == 0 để lọc số chẵn',kw:'% 2==0,%2==0',pts:3,mode:'any',
@@ -4232,16 +4240,16 @@ rb:[
 title:'Tìm số cô đơn',
 desc:`<b>Đề bài:</b> Cho một dãy số nguyên <b>A</b>. Ví dụ: <b>A = [2, 3, 2, 4, 3, 5, 4]</b>. Hãy tìm và liệt kê tất cả các phần tử chỉ xuất hiện đúng một lần trong dãy số đó (gọi là số "cô đơn").<br><br><b>Gợi ý:</b> Có thể đếm số lần xuất hiện của từng phần tử trong dãy. Sau đó, chọn ra những phần tử có số lần xuất hiện là 1.`,
 rb:[
-  {desc:'Khai báo A = [4, 1, 2, 1, 2]',kw:'A=[4',pts:2,
-   hint:'A = [4, 1, 2, 1, 2]'},
+  {desc:'Khai báo A = [2, 3, 2, 4, 3, 5, 4]',kw:'A=[',pts:2,
+   hint:'A = [2, 3, 2, 4, 3, 5, 4]'},
   {desc:'Dùng for x in A để duyệt mảng',kw:'for x in A',pts:2,
    hint:''},
   {desc:'Dùng A.count(x) == 1 để kiểm tra',kw:'count(x)==1',pts:4,
    hint:''},
   {desc:'In số cô đơn bằng print()',kw:'print',pts:1,
    hint:''},
-  {desc:'Dùng break sau khi tìm thấy',kw:'break',pts:1,
-   hint:'break để thoát vòng lặp sau khi in số cô đơn.'}
+  {desc:'Có chú thích # trong code',kw:'#',pts:1,
+   hint:'Thêm ít nhất 1 dòng chú thích.'}
 ]},
 
 {id:'k11-17-4.3',g:'K11',ch:'Bài 17: Dữ liệu mảng một chiều',lv:'Mức 4',num:'4.3',
@@ -4397,7 +4405,7 @@ rb:[
    hint:'A = [1, 2, 3, 4, 5]'},
   {desc:'Khởi tạo A_dao_nguoc = []',kw:'A_dao_nguoc=[],A_daonguoc=[]',pts:2,mode:'any',
    hint:'A_dao_nguoc = [] để chứa danh sách đảo ngược.'},
-  {desc:'Dùng for i in range(len(A)-1, -1, -1)',kw:'range(len(A)-1,range(len(a)-1',pts:4,mode:'any',
+  {desc:'Dùng for i in range(len(A)-1, -1, -1)',kw:'range(len(A)-1, -1, -1),range(len(A)-1,-1,-1)',pts:4,mode:'any',
    hint:'. Ví dụ:.'},
   {desc:'Dùng A_dao_nguoc.append(A[i])',kw:'append(A[i])',pts:2,
    hint:'để thêm phần tử từ cuối vào danh sách mới.'},
@@ -4425,7 +4433,7 @@ rb:[
 title:'Kiểm tra danh sách đối xứng (Palindrome)',
 desc:`<b>Đề bài:</b> Cho một danh sách <b>A</b> gồm các phần tử. Hãy xác định xem danh sách <b>A</b> có phải là danh sách đối xứng (Palindrome) hay không. Một danh sách được gọi là đối xứng nếu các phần tử của nó khi đọc từ đầu đến cuối và từ cuối về đầu là như nhau. Ví dụ: danh sách <b>[1, 2, 3, 2, 1]</b> là đối xứng.<br><b>Gợi ý:</b> Bạn có thể so sánh phần tử đầu tiên với phần tử cuối cùng, phần tử thứ hai với phần tử gần cuối, và cứ thế tiếp tục cho đến khi gặp nhau ở giữa danh sách.`,
 rb:[
-  {desc:'Khai báo A = [1, 2, 3, 2, 1]',kw:'A=[1, 2, 3',pts:1,
+  {desc:'Khai báo A = [1, 2, 3, 2, 1]',kw:'A=[1, 2, 3, 2, 1],A=[1,2,3,2,1]',pts:1,
    hint:'A = [1, 2, 3, 2, 1]'},
   {desc:'Khởi tạo cờ la_doi_xung = True',kw:'la_doi_xung=True,doi_xung=True,palindrome=True',pts:2,mode:'any',
    hint:'la_doi_xung = True trước vòng lặp.'},
@@ -5219,7 +5227,7 @@ window.addEventListener('load', () => {
 //    → APIs & Services → Credentials → Create OAuth 2.0 Client ID
 //    → Application type: Web → Authorised origins: domain trường
 //
-const APP_VERSION = 'v4.9.30'; // tự động tăng mỗi lần cập nhật
+const APP_VERSION = 'v4.9.31'; // tự động tăng mỗi lần cập nhật
 // Cập nhật badge version từ APP_VERSION
 document.addEventListener('DOMContentLoaded', function() {
   const vb = document.getElementById('ver-badge');
